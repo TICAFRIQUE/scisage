@@ -122,3 +122,9 @@ Route::controller(PageController::class)->group(function () {
     route::get('candidature', 'candidature')->name('page.candidature');
     route::post('candidature', 'candidatureStore')->name('page.candidature.store');
 });
+
+
+route::get('/welcome', function () {
+    return view('web');
+}); 
+
