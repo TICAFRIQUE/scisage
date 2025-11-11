@@ -16,9 +16,14 @@
     </div>
 @endif
 
-
-
-
+<!-- Success Alert -->
+@if ($Msg = Session::get('success'))
+    <div class="alert alert-success alert-dismissible bg-success text-white alert-label-icon fade show material-shadow"
+        role="alert">
+        <i class="ri-checkbox-circle-line label-icon"></i><strong>{{ $Msg }}</strong>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 
 
 {{-- 
@@ -67,3 +72,15 @@
     <i class="ri-refresh-line me-3 align-middle fs-16 text-body"></i><strong>Dark</strong> - Top border alert
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div> --}}
+
+
+<script>
+    // faire disparaitre les alertes après 5 secondes
+    setTimeout(function() {
+        var alertElements = document.querySelectorAll('.alert');
+        alertElements.forEach(function(alert) {
+            var bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 5000);
+</script>

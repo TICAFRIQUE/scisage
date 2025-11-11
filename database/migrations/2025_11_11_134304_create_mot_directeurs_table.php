@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('mot_directeurs', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle')->nullable();
-            $table->string('slug')->nullable();
-            $table->longText('description')->nullable();
-            $table->string('icone')->nullable();
-            $table->boolean('statut')->default(1);
             $table->timestamps();
         });
     }
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('mot_directeurs');
     }
 };

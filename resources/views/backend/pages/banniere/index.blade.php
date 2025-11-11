@@ -1,7 +1,5 @@
 @extends('backend.layouts.master')
-@section('title')
-    Module
-@endsection
+
 @section('css')
     <!--datatable css-->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
@@ -16,7 +14,7 @@
             Liste
         @endslot
         @slot('title')
-            Entreprise
+            Bannieres
         @endslot
     @endcomponent
 
@@ -25,9 +23,9 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h5 class="card-title mb-0">Liste des elements</h5>
-                    <a href="{{ route('entreprise.create') }}" type="button" class="btn btn-primary ">Créer
-                        un element</a>
+                    <h5 class="card-title mb-0">Liste des bannieres</h5>
+                    <a href="{{ route('bannieres.create') }}" type="button" class="btn btn-primary ">Créer
+                        une banniere</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -36,14 +34,12 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Banniere</th>
-                                    <th>a propos</th>
-                                    <th>Libelle a propos</th>
-                                    <th>Description</th>
+                                    <th>Statut</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($entreprises as $key => $item)
+                                @foreach ($bannieres as $key => $item)
                                     <tr id="row_{{ $item['id'] }}">
                                         <td> {{ ++$key }} </td>
                                         <td>
@@ -52,15 +48,11 @@
                                                     class="img-thumbnail" width="50">
                                             @endif
                                         </td>
-
                                         <td>
-                                            @if ($item->hasMedia('image_apropos'))
-                                                <img src="{{ $item->getFirstMediaUrl('image_apropos') }}" alt=""
-                                                    class="img-thumbnail" width="50">
-                                            @endif
+                                            <span
+                                                class="badge {{ $item->is_active == 1 ? 'bg-success' : 'bg-danger' }}">{{ $item->is_active == 1 ? 'Actif' : 'Inactif' }}</span>
                                         </td>
-                                        <td>{{ $item['libelle_apropos'] }}</td>
-                                        <td> {!! $item['description_apropos'] !!} </td>
+
                                         <td>
                                             <div class="dropdown d-inline-block">
                                                 <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
@@ -72,7 +64,8 @@
                                                                 class="ri-eye-fill align-bottom me-2 text-muted"></i>
                                                             voir</a>
                                                     </li>
-                                                    <li><a href="{{route('entreprise.edit' , $item->id)}}" type="button" class="dropdown-item edit-item-btn"><i
+                                                    <li><a href="{{ route('bannieres.edit', $item->id) }}" type="button"
+                                                            class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Modifier</a></li>
                                                     <li>
@@ -115,6 +108,6 @@
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 
     <script>
-        window.routeName = "entreprise"
+        window.routeName = "bannieres";
     </script>
 @endsection

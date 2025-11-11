@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('portfolios', function (Blueprint $table) {
+        Schema::create('statistiques', function (Blueprint $table) {
             $table->id();
             $table->string('libelle')->nullable();
-            $table->string('slug')->nullable();
-            $table->longText('description')->nullable();
-            $table->string('video_facebook')->nullable();
-            $table->string('video_youtube')->nullable();
-            $table->boolean('statut')->default(1);
+            $table->string('icone')->nullable();
+            $table->string('chiffre')->nullable();
+            $table->string('description')->nullable();
+            $table->integer('position')->default(1);
+            $table->boolean('is_active')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('portfolios');
+        Schema::dropIfExists('statistiques');
     }
 };

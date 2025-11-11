@@ -6,11 +6,14 @@ use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\frontend\PageController;
 use App\Http\Controllers\backend\ModuleController;
 use App\Http\Controllers\backend\ServiceController;
+use App\Http\Controllers\backend\BanniereController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ParametreController;
 use App\Http\Controllers\backend\PortfolioController;
+use App\Http\Controllers\backend\EngagementController;
 use App\Http\Controllers\backend\EntrepriseController;
 use App\Http\Controllers\backend\PermissionController;
+use App\Http\Controllers\backend\StatistiqueController;
 
 
 
@@ -78,53 +81,46 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
         route::post('update/{id}', 'update')->name('module.update');
         route::delete('delete/{id}', 'delete')->name('module.delete');
     });
-    //entreprise
-    Route::prefix('entreprise')->controller(EntrepriseController::class)->group(function () {
-        route::get('', 'index')->name('entreprise.index');
-        route::get('create', 'create')->name('entreprise.create');
-        route::post('store', 'store')->name('entreprise.store');
-        route::get('edit/{id}', 'edit')->name('entreprise.edit');
-        route::put('update/{id}', 'update')->name('entreprise.update');
-        route::delete('delete/{id}', 'delete')->name('entreprise.delete');
+
+    //banniere
+    Route::controller(BanniereController::class)->prefix('bannieres')->group(function () {
+        route::get('', 'index')->name('bannieres.index');
+        route::get('create', 'create')->name('bannieres.create');
+        route::post('store', 'store')->name('bannieres.store');
+        route::get('edit/{id}', 'edit')->name('bannieres.edit');
+        route::put('update/{id}', 'update')->name('bannieres.update');
+        route::delete('delete/{id}', 'destroy')->name('bannieres.delete');
     });
 
-    //service
-    Route::prefix('services')->controller(ServiceController::class)->group(function () {
-        route::get('', 'index')->name('service.index');
-        route::get('create', 'create')->name('service.create');
-        route::post('store', 'store')->name('service.store');
-        route::get('show/{id}', 'show')->name('service.show');
-        route::get('edit/{id}', 'edit')->name('service.edit');
-        route::put('update/{id}', 'update')->name('service.update');
-        route::delete('delete/{id}', 'delete')->name('service.delete');
+    //statistique
+    Route::controller(StatistiqueController::class)->prefix('statistiques')->group(function () {
+        route::get('', 'index')->name('statistiques.index');
+        route::get('create', 'create')->name('statistiques.create');
+        route::post('store', 'store')->name('statistiques.store');
+        route::get('edit/{id}', 'edit')->name('statistiques.edit');
+        route::put('update/{id}', 'update')->name('statistiques.update');
+        route::delete('delete/{id}', 'destroy')->name('statistiques.delete');
+    });
+
+    //engagement
+    Route::controller(EngagementController::class)->prefix('engagements')->group(function () {
+        route::get('', 'index')->name('engagements.index');
+        route::get('create', 'create')->name('engagements.create');
+        route::post('store', 'store')->name('engagements.store');
+        route::get('edit/{id}', 'edit')->name('engagements.edit');
+        route::put('update/{id}', 'update')->name('engagements.update');
+        route::delete('delete/{id}', 'destroy')->name('engagements.delete');
     });
 });
 
-//portfolio 
-Route::prefix('portfolio')->name('portfolios.')->controller(PortfolioController::class)->group(function () {
-    route::get('', 'index')->name('index');
-    route::get('create', 'create')->name('create');
-    route::post('store', 'store')->name('store');
-    route::get('show/{id}', 'show')->name('show');
-    route::get('edit/{id}', 'edit')->name('edit');
-    route::put('update/{id}', 'update')->name('update');
-    route::delete('delete/{id}', 'delete')->name('delete');
-    Route::get('portfolios/{portfolio}/media/{media}', 'deleteMedia')->name('media.delete');
-});
 
 
 //---------------------ROUTE FRONTEND-----------------------------------//
 Route::controller(PageController::class)->group(function () {
     route::get('', 'accueil')->name('page.accueil');
-    route::get('portfolios', 'portfolio')->name('page.portfolio');
-    route::post('contact', 'contact')->name('page.contact');  // soumettre un formulaire de contact
-    // candidature
-    route::get('candidature', 'candidature')->name('page.candidature');
-    route::post('candidature', 'candidatureStore')->name('page.candidature.store');
 });
 
 
 route::get('/welcome', function () {
     return view('web');
-}); 
-
+});

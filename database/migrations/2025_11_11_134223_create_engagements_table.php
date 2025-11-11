@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entreprises', function (Blueprint $table) {
+        Schema::create('engagements', function (Blueprint $table) {
             $table->id();
-            $table->text('libelle_apropos') ; //
-            $table->text('description_apropos')->nullable();
+            $table->string('libelle')->nullable();
+            $table->text('description')->nullable();
+            $table->string('icone')->nullable();
+            $table->integer('position')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entreprises');
+        Schema::dropIfExists('engagements');
     }
 };

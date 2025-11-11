@@ -1,4 +1,7 @@
 <!-- start page title -->
+@section('title')
+    {{ $title ?? $li_1 }}
+@endsection
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
@@ -20,6 +23,8 @@
             </div>
         </div>
     </div>
+
+    @include('backend.components.alertMessage')
 </div>
 <script>
     // go to back
