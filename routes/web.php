@@ -1,11 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\backend\FaqController;
 use App\Http\Controllers\backend\RoleController;
 use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\frontend\PageController;
+use App\Http\Controllers\backend\EquipeController;
 use App\Http\Controllers\backend\ModuleController;
+use App\Http\Controllers\backend\ProjetController;
+use App\Http\Controllers\backend\AproposController;
 use App\Http\Controllers\backend\ServiceController;
+use App\Http\Controllers\backend\ActiviteController;
 use App\Http\Controllers\backend\BanniereController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ParametreController;
@@ -111,6 +116,61 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
         route::put('update/{id}', 'update')->name('engagements.update');
         route::delete('delete/{id}', 'destroy')->name('engagements.delete');
     });
+
+    // apropos
+    Route::controller(AproposController::class)->prefix('apropos')->group(function () {
+        route::get('', 'index')->name('apropos.index');
+        route::get('create', 'create')->name('apropos.create');
+        route::post('store', 'store')->name('apropos.store');
+        route::get('edit/{id}', 'edit')->name('apropos.edit');
+        route::put('update/{id}', 'update')->name('apropos.update');
+        route::delete('delete/{id}', 'destroy')->name('apropos.delete');
+    });
+
+    //equipes
+    Route::controller(EquipeController::class)->prefix('equipes')->group(function () {
+        route::get('', 'index')->name('equipes.index');
+        route::get('create', 'create')->name('equipes.create');
+        route::post('store', 'store')->name('equipes.store');
+        route::get('edit/{id}', 'edit')->name('equipes.edit');
+        route::put('update/{id}', 'update')->name('equipes.update');
+        route::delete('delete/{id}', 'destroy')->name('equipes.delete');
+    });
+
+
+    //Activites
+    Route::controller(ActiviteController::class)->prefix('activites')->group(function () {
+        route::get('', 'index')->name('activites.index');
+        route::get('create', 'create')->name('activites.create');
+        route::post('store', 'store')->name('activites.store');
+        route::get('edit/{id}', 'edit')->name('activites.edit');
+        route::put('update/{id}', 'update')->name('activites.update');
+        route::delete('delete/{id}', 'destroy')->name('activites.delete');
+    });
+
+    //projets
+    Route::controller(ProjetController::class)->prefix('projets')->group(function () {
+        route::get('', 'index')->name('projets.index');
+        route::get('create', 'create')->name('projets.create');
+        route::post('store', 'store')->name('projets.store');
+        route::get('edit/{id}', 'edit')->name('projets.edit');
+        route::put('update/{id}', 'update')->name('projets.update');
+        route::delete('delete/{id}', 'destroy')->name('projets.delete');
+    });
+
+    //FAQ
+    Route::controller(FaqController::class)->prefix('faqs')->group(function () {
+        route::get('', 'index')->name('faqs.index');
+        route::get('create', 'create')->name('faqs.create');
+        route::post('store', 'store')->name('faqs.store');
+        route::get('edit/{id}', 'edit')->name('faqs.edit');
+        route::put('update/{id}', 'update')->name('faqs.update');
+        route::delete('delete/{id}', 'destroy')->name('faqs.delete');
+    });
+
+
+
+
 });
 
 

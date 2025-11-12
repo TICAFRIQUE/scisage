@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('apropos', function (Blueprint $table) {
             $table->id();
+            $table->longText('description')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

@@ -111,6 +111,52 @@
                 {{-- @endcan --}}
 
 
+                {{-- @can('voir-apropos') --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::is('apropos.*') ? 'active' : '' }} "
+                        href="{{ route('apropos.index') }}">
+                        <i class="ri-bar-chart-line"></i> <span>APROPOS</span>
+                    </a>
+                </li>
+                {{-- @endcan --}}
+
+
+                {{-- @can('voir-equipe') --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::is('equipes.*') ? 'active' : '' }} "
+                        href="{{ route('equipes.index') }}">
+                        <i class="ri-bar-chart-line"></i> <span>EQUIPES</span>
+                    </a>
+                </li>
+                {{-- @endcan --}}
+
+                {{-- @can('voir-activite') --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::is('activites.*') ? 'active' : '' }} "
+                        href="{{ route('activites.index') }}">
+                        <i class="ri-bar-chart-line"></i> <span>ACTIVITES</span>
+                    </a>
+                </li>
+                {{-- @endcan --}}
+
+                {{-- @can('voir-projet') --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::is('projets.*') ? 'active' : '' }} "
+                        href="{{ route('projets.index') }}">
+                        <i class="ri-bar-chart-line"></i> <span>PROJETS</span>
+                    </a>
+                </li>
+                {{-- @endcan --}}
+
+                {{-- @can('voir-faq') --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::is('faqs.*') ? 'active' : '' }} "
+                        href="{{ route('faqs.index') }}">
+                        <i class="ri-bar-chart-line"></i> <span>FAQ</span>
+                    </a>
+                </li>
+                {{-- @endcan --}}
+
 
 
                 @auth

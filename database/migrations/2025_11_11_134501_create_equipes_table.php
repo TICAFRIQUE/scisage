@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('equipes', function (Blueprint $table) {
             $table->id();
+            $table->string('nom')->nullable();
+            $table->string('prenoms')->nullable();
+            $table->string('fonction')->nullable();
+            $table->longText('description')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

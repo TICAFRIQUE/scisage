@@ -82,5 +82,5 @@
             var bsAlert = new bootstrap.Alert(alert);
             bsAlert.close();
         });
-    }, 5000);
+    }, 15000);
 </script>
