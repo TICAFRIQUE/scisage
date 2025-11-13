@@ -9,14 +9,11 @@ use App\Http\Controllers\backend\EquipeController;
 use App\Http\Controllers\backend\ModuleController;
 use App\Http\Controllers\backend\ProjetController;
 use App\Http\Controllers\backend\AproposController;
-use App\Http\Controllers\backend\ServiceController;
 use App\Http\Controllers\backend\ActiviteController;
 use App\Http\Controllers\backend\BanniereController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ParametreController;
-use App\Http\Controllers\backend\PortfolioController;
 use App\Http\Controllers\backend\EngagementController;
-use App\Http\Controllers\backend\EntrepriseController;
 use App\Http\Controllers\backend\PermissionController;
 use App\Http\Controllers\backend\StatistiqueController;
 

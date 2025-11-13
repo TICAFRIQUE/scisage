@@ -61,14 +61,10 @@ class AppServiceProvider extends ServiceProvider
         if (Schema::hasTable('parametres')) {
             $data_parametre = Parametre::with('media')->first();
         }
-        //recuperer les services
-        if (Schema::hasTable('services')) {
-            $services = Service::active()->get();
-        }
+       
 
         view()->share([
             'parametre' => $data_parametre ?? null,
-            'services' => $services ?? null,
         ]);
     }
 }
