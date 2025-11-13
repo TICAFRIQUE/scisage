@@ -351,6 +351,12 @@
 
 
                     <!-- Formulaire simplifié -->
+                    {{-- <section id="faq" class="faq-section">
+                        <div class="container">
+                           
+                        </div>
+                    </section> --}}
+
                     <div class="hero-form" data-aos="fade-up" data-aos-delay="800">
                         <div class="form-progress-container">
                             <div class="form-progress">
@@ -381,7 +387,9 @@
                                             <i class="fas fa-home"></i>
                                         </div>
                                         <h4>Souscrire à nos maisons de rêves</h4>
-                                        <p>Découvrez notre sélection de maisons modernes prêtes à vous accueillir</p>
+                                        <p>Découvrez notre sélection de maisons modernes prêtes à vous
+                                            accueillir
+                                        </p>
                                     </div>
                                     <div class="project-option" data-value="construire">
                                         <div class="option-icon">

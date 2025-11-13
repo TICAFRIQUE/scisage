@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Projet extends Model implements HasMedia
 {
     //
-    use InteractsWithMedia, Sluggable;
+    use InteractsWithMedia, Sluggable , HasFactory;
     public $incrementing = false;
     protected $fillable = [
         'etape',

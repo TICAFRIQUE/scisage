@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Throwable;
 use App\Models\Service;
+use App\Models\Activite;
 use App\Models\Parametre;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Schema;
@@ -61,9 +62,25 @@ class AppServiceProvider extends ServiceProvider
         if (Schema::hasTable('parametres')) {
             $data_parametre = Parametre::with('media')->first();
         }
-       
+
+
+        //recuperer les donnees a partarger au frontend dans menu
+        // view()->composer('[frontend.layouts.app ]', function ($view) {
+        //     if (Schema::hasTable('activites')) {
+        //         $activites = Activite::with('media')->active()->get();
+        //     }
+        //     $view->with([
+        //         'activites' => $activites ?? null,
+        //     ]);
+        // });
+
+        //recuperer les activites pour le frontend
+        if (Schema::hasTable('activites')) {
+            $activites = Activite::with('media')->active()->get();
+        }
 
         view()->share([
+            'activites' => $activites ?? null,
             'parametre' => $data_parametre ?? null,
         ]);
     }

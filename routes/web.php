@@ -13,6 +13,7 @@ use App\Http\Controllers\backend\ActiviteController;
 use App\Http\Controllers\backend\BanniereController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ParametreController;
+use App\Http\Controllers\backend\PortfolioController;
 use App\Http\Controllers\backend\EngagementController;
 use App\Http\Controllers\backend\PermissionController;
 use App\Http\Controllers\backend\StatistiqueController;
@@ -165,9 +166,15 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
         route::delete('delete/{id}', 'destroy')->name('faqs.delete');
     });
 
-
-
-
+    //portfolio
+    Route::controller(PortfolioController::class)->prefix('portfolios')->group(function () {
+        route::get('', 'index')->name('portfolios.index');
+        route::get('create', 'create')->name('portfolios.create');
+        route::post('store', 'store')->name('portfolios.store');
+        route::get('edit/{id}', 'edit')->name('portfolios.edit');
+        route::put('update/{id}', 'update')->name('portfolios.update');
+        route::delete('delete/{id}', 'destroy')->name('portfolios.delete');
+    });
 });
 
 
@@ -175,6 +182,13 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
 //---------------------ROUTE FRONTEND-----------------------------------//
 Route::controller(PageController::class)->group(function () {
     route::get('', 'accueil')->name('page.accueil');
+    route::get('apropos', 'apropos')->name('page.apropos');
+    route::get('activite/{slug}', 'activites')->name('page.activites');
+    route::get('portfolio', 'allPortfolios')->name('page.portfolios.all');
+    route::get('portfolio/{categorie}', 'portfolios')->name('page.portfolios'); // list of portfolios by categorie
+   
+
+
 });
 
 

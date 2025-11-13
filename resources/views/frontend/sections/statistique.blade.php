@@ -177,27 +177,17 @@
   <section class="statistics-section">
       <div class="container">
           <div class="statistics-container" data-aos="fade-up">
-              <div class="stat-item" data-aos="zoom-in" data-aos-delay="100">
+            
+
+              @foreach ($statistiques as $item)
+                   <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
                   <div class="stat-icon">
-                      <i class="fas fa-home"></i>
+                      <i class="{{ $item->icone }}"></i>
                   </div>
-                  <div class="stat-number" data-target="43">0</div>
-                  <div class="stat-label">Maisons construites</div>
+                  <div class="stat-number" data-target="{{ $item->chiffre }}">0</div>
+                  <div class="stat-label">{{ $item->libelle }} </div>
               </div>
-              <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
-                  <div class="stat-icon">
-                      <i class="fas fa-map"></i>
-                  </div>
-                  <div class="stat-number" data-target="8">0</div>
-                  <div class="stat-label">Hectares de constructions</div>
-              </div>
-              <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
-                  <div class="stat-icon">
-                      <i class="fas fa-calendar-alt"></i>
-                  </div>
-                  <div class="stat-number" data-target="2014">0</div>
-                  <div class="stat-label">Entreprise depuis</div>
-              </div>
+              @endforeach
           </div>
       </div>
   </section>

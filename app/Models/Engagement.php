@@ -37,4 +37,10 @@ class Engagement extends Model implements HasMedia
     {
         return $query->where('is_active', true);
     }
+
+    //SCOPE ORDERED
+    public function scopeOrdre($query)
+    {
+        return $query->orderBy('position', 'asc');
+    }
 }

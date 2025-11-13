@@ -157,6 +157,14 @@
                 </li>
                 {{-- @endcan --}}
 
+                {{-- @can('voir-portfolio') --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::is('portfolios.*') ? 'active' : '' }} "
+                        href="{{ route('portfolios.index') }}">
+                        <i class="ri-bar-chart-line"></i> <span>PORTFOLIO</span>
+                    </a>
+                </li>
+                {{-- @endcan --}}
 
 
                 @auth

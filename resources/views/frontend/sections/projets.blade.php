@@ -6,7 +6,7 @@
 
     .chronogram-container {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
         gap: 4rem;
         margin-top: 4rem;
     }
@@ -16,15 +16,16 @@
     }
 
     .chronogram-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 700;
         text-align: center;
         margin-bottom: 3rem;
-        color: var(--dark-brown);
+        color: var(--white);
         padding: 1.5rem;
         background: var(--gradient-gold);
         border-radius: 15px;
-        color: var(--white);
+        box-shadow: var(--shadow-light);
+        text-transform: capitalize;
     }
 
     .timeline {
@@ -56,6 +57,7 @@
     .timeline-item:hover {
         transform: translateX(10px);
         box-shadow: var(--shadow-medium);
+        background: var(--white);
     }
 
     .timeline-item::before {
@@ -86,83 +88,263 @@
         font-size: 1.2rem;
         font-weight: 700;
         color: var(--dark-brown);
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
     }
 
     .timeline-description {
         color: var(--dark-gray);
         line-height: 1.6;
+        font-size: 1rem;
+    }
+
+    /* ================== BOUTON DÉMARRER PROJET ================== */
+    .read-more-section {
+        text-align: center;
+        margin-top: 5rem;
+        padding-top: 3rem;
+        border-top: 2px solid var(--light-gray);
+    }
+
+    .btn-read-more {
+        background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+        color: var(--dark-brown);
+        text-decoration: none;
+        padding: 1.2rem 3rem;
+        border-radius: 35px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        transform: translateY(0);
+    }
+
+    .btn-read-more::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--secondary-gold), var(--primary-gold));
+        transition: left 0.3s ease;
+        z-index: -1;
+    }
+
+    .btn-read-more:hover {
+        color: var(--dark-brown);
+        text-decoration: none;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-read-more:hover::before {
+        left: 0;
+    }
+
+    .btn-read-more:hover .fas.fa-arrow-right {
+        transform: translateX(5px);
+    }
+
+    .btn-read-more .fas {
+        transition: transform 0.3s ease;
+    }
+
+    .btn-read-more:active {
+        transform: translateY(-1px);
+    }
+
+    .btn-text {
+        margin: 0 0.5rem;
+    }
+
+    /* Effet de pulsation subtil */
+    .btn-read-more::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease;
+    }
+
+    .btn-read-more:hover::after {
+        width: 300px;
+        height: 300px;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+        .chronogram-container {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .chronogram-title {
+            font-size: 1.6rem;
+            padding: 1.2rem;
+        }
+
+        .read-more-section {
+            margin-top: 4rem;
+            padding-top: 2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .chronogram-section {
+            padding: 80px 0;
+        }
+
+        .chronogram-container {
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .chronogram-title {
+            font-size: 1.4rem;
+            padding: 1rem;
+        }
+
+        .timeline {
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(5px);
+        }
+
+        .timeline-item::before {
+            left: -2rem;
+            width: 16px;
+            height: 16px;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+        }
+
+        .timeline-description {
+            font-size: 0.95rem;
+        }
+
+        .read-more-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+        }
+
+        .btn-read-more {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 350px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .chronogram-container {
+            grid-template-columns: 1fr;
+        }
+
+        .chronogram-title {
+            font-size: 1.2rem;
+        }
+
+        .timeline-item {
+            padding: 1.2rem;
+        }
+
+        .timeline-title {
+            font-size: 1rem;
+        }
+
+        .timeline-description {
+            font-size: 0.9rem;
+        }
+
+        .read-more-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+        }
+
+        .btn-read-more {
+            padding: 0.9rem 2rem;
+            font-size: 0.95rem;
+            max-width: 300px;
+        }
+
+        .btn-text {
+            font-size: 0.9rem;
+        }
     }
 </style>
 
 <section id="projets" class="chronogram-section">
     <div class="container">
         <div class="section-subtitle" data-aos="fade-up">Notre processus</div>
-        <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Votre projet en 4 étapes</h2>
+        <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">
+            Votre projet en étapes détaillées
+        </h2>
 
         <div class="chronogram-container">
-            <!-- Colonne gauche : Souscrire -->
-            <div class="chronogram-column" data-aos="fade-right" data-aos-delay="200">
-                <h3 class="chronogram-title">Souscrire à nos maisons de rêves</h3>
-                <div class="timeline">
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
-                        <div class="timeline-step">Étape 1</div>
-                        <h4 class="timeline-title">Visiter et faire son choix</h4>
-                        <p class="timeline-description">Découvrez notre catalogue de maisons disponibles et
-                            visitez celles qui vous intéressent. Nos conseillers vous accompagnent pour trouver
-                            la maison parfaite.</p>
-                    </div>
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
-                        <div class="timeline-step">Étape 2</div>
-                        <h4 class="timeline-title">Faire sa réservation</h4>
-                        <p class="timeline-description">Réservez votre maison coup de cœur avec un acompte.
-                            Nous vous accompagnons dans toutes les démarches administratives et financières.</p>
-                    </div>
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="500">
-                        <div class="timeline-step">Étape 3</div>
-                        <h4 class="timeline-title">Suivre l'évolution des travaux</h4>
-                        <p class="timeline-description">Restez informé de l'avancement de votre maison grâce à
-                            notre suivi personnalisé et nos rapports d'étape réguliers.</p>
-                    </div>
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="600">
-                        <div class="timeline-step">Étape 4</div>
-                        <h4 class="timeline-title">Profiter de votre espace</h4>
-                        <p class="timeline-description">Recevez vos clés et emménagez dans votre nouvelle
-                            maison. Notre service après-vente reste à votre disposition.</p>
-                    </div>
-                </div>
-            </div>
+            @foreach ($activites as $activite)
+                <div class="chronogram-column" data-aos="fade-up" data-aos-delay="{{ 200 + $loop->index * 100 }}">
+                    <h3 class="chronogram-title">{{ $activite->libelle }}</h3>
 
-            <!-- Colonne droite : Faire construire -->
-            <div class="chronogram-column" data-aos="fade-left" data-aos-delay="200">
-                <h3 class="chronogram-title">Faire construire votre maison de rêve</h3>
-                <div class="timeline">
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
-                        <div class="timeline-step">Étape 1</div>
-                        <h4 class="timeline-title">Étude et validation du projet</h4>
-                        <p class="timeline-description">Rencontrez nos architectes pour définir vos besoins,
-                            votre budget et valider la faisabilité de votre projet sur votre terrain.</p>
-                    </div>
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
-                        <div class="timeline-step">Étape 2</div>
-                        <h4 class="timeline-title">Élaboration du plan d'exécution</h4>
-                        <p class="timeline-description">Conception détaillée des plans, choix des matériaux et
-                            finitions. Validation du planning et signature du contrat de construction.</p>
-                    </div>
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="500">
-                        <div class="timeline-step">Étape 3</div>
-                        <h4 class="timeline-title">Suivre l'évolution des travaux</h4>
-                        <p class="timeline-description">Construction de votre maison avec un suivi
-                            hebdomadaire. Vous êtes informé de chaque étape importante du chantier.</p>
-                    </div>
-                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="600">
-                        <div class="timeline-step">Étape 4</div>
-                        <h4 class="timeline-title">Profiter de votre espace</h4>
-                        <p class="timeline-description">Réception de votre maison personnalisée et remise des
-                            clés. Garantie décennale et service après-vente inclus.</p>
-                    </div>
+                    @if ($activite->projets && $activite->projets->count() > 0)
+                        <div class="timeline">
+                            @foreach ($activite->projets as $projet)
+                                <div class="timeline-item" data-aos="fade-up"
+                                    data-aos-delay="{{ 300 + $loop->index * 100 }}">
+                                    <div class="timeline-step">
+                                        @if ($projet->etape)
+                                            Étape {{ $projet->etape }}
+                                        @else
+                                            Étape {{ $loop->iteration }}
+                                        @endif
+                                    </div>
+                                    <h4 class="timeline-title">{{ $projet->libelle }}</h4>
+                                    <p class="timeline-description">{{ $projet->description }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-step">Information</div>
+                                <h4 class="timeline-title">{{ $activite->libelle }}</h4>
+                                <p class="timeline-description">
+                                    {{ $activite->description ?? 'Plus d\'informations disponibles bientôt.' }}
+                                </p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
-            </div>
+            @endforeach
+        </div>
+
+        <!-- Call to Action Section -->
+        <div class="read-more-section" data-aos="fade-up" data-aos-delay="400">
+            <a href="#form-projet" class="btn-read-more">
+                <i class="fas fa-rocket me-2"></i>
+                <span class="btn-text">Démarrer votre projet</span>
+                <i class="fas fa-arrow-right ms-2"></i>
+            </a>
         </div>
     </div>
 </section>

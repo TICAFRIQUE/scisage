@@ -13,14 +13,17 @@ class Portfolio extends Model implements HasMedia
     //
      use InteractsWithMedia, Sluggable;
 
+     public $incrementing = false;
     //
     protected $fillable = [
-        'libelle',
+        'libelle', // title of the portfolio item
         'slug',
-        'description',
-        'statut',
-        'video_facebook', //lien video facebook
-        'video_youtube', //lien video youtube
+        'categorie', // realisations, projets, conceptions
+        'type', // ex: villa, appartement, bureau, etc.
+        'localisation', // location of the portfolio item
+        'caracteristique', // ex: 3 chambres, 2 salles de bain, etc.
+        'prix', // price of the portfolio item
+        'is_active' // status of the portfolio item
     ];
 
 
@@ -47,6 +50,6 @@ class Portfolio extends Model implements HasMedia
     //SCOPE ACTIVE
     public function scopeActive($query)
     {
-        return $query->where('statut', true);
+        return $query->where('is_active', true);
     }
 }
