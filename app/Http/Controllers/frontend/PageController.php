@@ -1,4 +1,5 @@
 <?php
+// filepath: c:\laragon\www\sci_sage\web\app\Http\Controllers\frontend\PageController.php
 
 namespace App\Http\Controllers\frontend;
 
@@ -18,7 +19,6 @@ use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
 {
-    //
     public function accueil()
     {
         try {
@@ -39,7 +39,7 @@ class PageController extends Controller
 
             //faqs
             $faqs = Faq::active()->ordre()->get();
-            // dd($engagements->toArray());
+            
             return view('frontend.index', compact('banniere', 'activites', 'statistiques', 'apropos', 'engagements', 'faqs'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
@@ -69,51 +69,73 @@ class PageController extends Controller
         }
     }
 
-    public function portfolios($categorie = null)
+    public function portfolios(Request $request)
     {
         try {
-            $query = Portfolio::with('media')->active();
+            // Récupérer la catégorie depuis les paramètres GET
+            $categorie = $request->get('categorie', 'tous');
             
-            // Si une catégorie est spécifiée, filtrer par cette catégorie
-            if ($categorie && $categorie !== 'tous') {
+            // Construire la requête avec eager loading optimisé
+            $query = Portfolio::with(['media' => function($query) {
+                $query->orderBy('order_column', 'asc');
+            }])->active();
+            
+            // Filtrer par catégorie si spécifiée et différente de 'tous'
+            if ($categorie !== 'tous') {
                 $query->where('categorie', $categorie);
             }
             
-            // Paginer les résultats (12 par page)
-            $portfolios = $query->orderBy('created_at', 'desc')->paginate(12);
+            // Paginer les résultats (12 par page) avec conservation des paramètres
+            $portfolios = $query->orderBy('created_at', 'desc')
+                              ->paginate(12)
+                              ->withQueryString(); // Préserve les paramètres GET
             
-            // Récupérer toutes les catégories disponibles pour les filtres
-            $categories = Portfolio::active()
+            // Récupérer toutes les catégories disponibles avec compteurs
+            $categoriesWithCount = Portfolio::active()
                 ->select('categorie')
-                ->distinct()
-                ->pluck('categorie')
+                ->selectRaw('count(*) as count')
+                ->groupBy('categorie')
+                ->get()
+                ->pluck('count', 'categorie')
                 ->toArray();
             
-            return view('frontend.pages.portfolios', compact('portfolios', 'categorie', 'categories'));
+            // Ajouter le total pour "tous"
+            $totalCount = Portfolio::active()->count();
+            $categoriesWithCount = ['tous' => $totalCount] + $categoriesWithCount;
+            
+            return view('frontend.pages.portfolios', compact('portfolios', 'categorie', 'categoriesWithCount'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
         }
     }
 
-    // Méthode alternative si vous voulez afficher tous les portfolios sans catégorie
-    public function allPortfolios()
+    // API pour le filtrage AJAX (optionnel pour plus de fluidité)
+    public function portfoliosAjax(Request $request)
     {
         try {
-            // Récupérer tous les portfolios avec pagination
-            $portfolios = Portfolio::with('media')->active()->orderBy('created_at', 'desc')->paginate(12);
+            $categorie = $request->get('categorie', 'tous');
             
-            // Récupérer toutes les catégories disponibles pour les filtres
-            $categories = Portfolio::active()
-                ->select('categorie')
-                ->distinct()
-                ->pluck('categorie')
-                ->toArray();
+            $query = Portfolio::with(['media' => function($query) {
+                $query->orderBy('order_column', 'asc');
+            }])->active();
             
-            $categorie = 'tous'; // Catégorie par défaut
+            if ($categorie !== 'tous') {
+                $query->where('categorie', $categorie);
+            }
             
-            return view('frontend.pages.portfolios', compact('portfolios', 'categorie', 'categories'));
+            $portfolios = $query->orderBy('created_at', 'desc')->paginate(12);
+            
+            return response()->json([
+                'success' => true,
+                'html' => view('frontend.partials.portfolio-grid', compact('portfolios'))->render(),
+                'pagination' => $portfolios->links('frontend.partials.portfolio-pagination')->render(),
+                'total' => $portfolios->total()
+            ]);
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors du chargement des portfolios'
+            ], 500);
         }
     }
 }
