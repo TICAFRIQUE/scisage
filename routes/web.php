@@ -185,16 +185,13 @@ Route::controller(PageController::class)->group(function () {
     route::get('apropos', 'apropos')->name('page.apropos');
     route::get('activite/{slug}', 'activites')->name('page.activites');
     // Remplacez votre route actuelle par :
-Route::get('/portfolio', [PageController::class, 'portfolios'])->name('page.portfolios');
+    Route::get('/portfolio', [PageController::class, 'portfolios'])->name('page.portfolios');
 
-// Supprimez cette route si elle existe :
-// Route::get('/portfolio/{categorie}', [PageController::class, 'portfolios'])->name('page.portfolios');
+    // Supprimez cette route si elle existe :
+    // Route::get('/portfolio/{categorie}', [PageController::class, 'portfolios'])->name('page.portfolios');
 
-// Optionnel : Route pour AJAX
-Route::get('/portfolio/ajax', [PageController::class, 'portfoliosAjax'])->name('page.portfolios.ajax');
-   
-
-
+    // Optionnel : Route pour AJAX
+    Route::get('/portfolio/ajax', [PageController::class, 'portfoliosAjax'])->name('page.portfolios.ajax');
 });
 
 

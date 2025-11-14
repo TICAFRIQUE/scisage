@@ -3,6 +3,8 @@
 
 namespace App\Http\Controllers\frontend;
 
+use App\Models\Faq;
+use App\Models\Equipe;
 use App\Models\Apropos;
 use App\Models\Service;
 use App\Models\Activite;
@@ -14,7 +16,6 @@ use App\Models\Entreprise;
 use App\Models\Statistique;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Faq;
 use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
@@ -50,7 +51,11 @@ class PageController extends Controller
     {
         try {
             $apropos = Apropos::with('media')->active()->first();
-            return view('frontend.pages.apropos', compact('apropos'));
+              
+            // Récupérer l'équipe
+            $equipes = Equipe::with('media')->active()->get();
+            
+            return view('frontend.pages.apropos', compact('apropos', 'equipes'  ));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
         }

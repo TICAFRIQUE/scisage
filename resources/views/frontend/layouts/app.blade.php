@@ -916,7 +916,7 @@
                             <a class="nav-link" href="#accueil">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#presentation">Présentation</a>
+                            <a class="nav-link" href="{{route('page.apropos')}}">Présentation</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="portfolioDropdown" role="button"
@@ -938,19 +938,19 @@
                                 Portfolio
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="portfolioDropdown">
-                                <li><a class="dropdown-item" href="{{ route('page.portfolios', 'realisations') }}">
+                                <li><a class="dropdown-item" href="{{ route('page.portfolios', ['categorie' => 'realisations']) }}">
                                         <i class="fas fa-home me-2"></i>Réalisations
                                     </a></li>
-                                <li><a class="dropdown-item" href="{{ route('page.portfolios', 'conceptions') }}">
+                                <li><a class="dropdown-item" href="{{ route('page.portfolios', ['categorie' => 'conceptions']) }}">
                                         <i class="fas fa-drafting-compass me-2"></i>Conceptions
                                     </a></li>
-                                <li><a class="dropdown-item" href="{{ route('page.portfolios', 'projets') }}">
+                                <li><a class="dropdown-item" href="{{ route('page.portfolios', ['categorie' => 'projets']) }}">
                                         <i class="fas fa-building me-2"></i>Projets
                                     </a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#portfolio-all">
+                                <li><a class="dropdown-item" href="{{ route('page.portfolios' ,  ['categorie' => 'tous']) }}">
                                         <i class="fas fa-th-large me-2"></i>Tout voir
                                     </a></li>
                             </ul>
