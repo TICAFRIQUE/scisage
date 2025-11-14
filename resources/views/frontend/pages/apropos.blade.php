@@ -1,710 +1,920 @@
-
 @extends('frontend.layouts.app')
 
 @section('title', 'À propos - SCI SAGES')
 
-@section('content')
-
-<style>
-    /* ================== HERO SECTION À PROPOS ================== */
-    .about-hero {
-        background: linear-gradient(135deg, rgba(60, 36, 21, 0.85), rgba(139, 69, 19, 0.7)), 
-                    url('{{ asset('images/about-hero-bg.jpg') }}');
-        background-size: cover;
-        background-position: center;
-        height: 60vh;
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .about-hero::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(45deg, 
-            rgba(60, 36, 21, 0.9) 0%, 
-            rgba(139, 69, 19, 0.7) 50%, 
-            rgba(212, 175, 55, 0.1) 100%);
-        z-index: 1;
-    }
-
-    .about-hero-content {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-        color: var(--white);
-    }
-
-    .about-hero h1 {
-        font-size: 3.5rem;
-        font-weight: 800;
-        margin-bottom: 1.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        color: var(--white);
-    }
-
-    .about-hero .hero-icon {
-        font-size: 4rem;
-        color: var(--primary-gold);
-        margin-bottom: 1.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        animation: floating 3s ease-in-out infinite;
-    }
-
-    .about-hero-description {
-        font-size: 1.2rem;
-        line-height: 1.6;
-        max-width: 800px;
-        margin: 0 auto;
-        color: rgba(255, 255, 255, 0.95);
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        font-weight: 300;
-    }
-
-    /* ================== BREADCRUMB ================== */
-    .breadcrumb-section {
-        background: var(--light-gray);
-        padding: 1.5rem 0;
-        border-bottom: 3px solid var(--primary-gold);
-    }
-
-    .breadcrumb-custom {
-        background: transparent;
-        padding: 0;
-        margin: 0;
-        font-size: 1rem;
-    }
-
-    .breadcrumb-custom .breadcrumb-item {
-        color: var(--dark-gray);
-        font-weight: 500;
-    }
-
-    .breadcrumb-custom .breadcrumb-item + .breadcrumb-item::before {
-        content: '›';
-        color: var(--primary-gold);
-        font-weight: 700;
-        font-size: 1.2rem;
-    }
-
-    .breadcrumb-custom .breadcrumb-item a {
-        color: var(--dark-brown);
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .breadcrumb-custom .breadcrumb-item a:hover {
-        color: var(--primary-gold);
-    }
-
-    .breadcrumb-custom .breadcrumb-item.active {
-        color: var(--primary-gold);
-        font-weight: 600;
-    }
-
-    /* ================== SECTION À PROPOS ================== */
-    .about-content-section {
-        padding: 100px 0;
-        background: var(--white);
-        position: relative;
-    }
-
-    .about-content-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 100px;
-        background: linear-gradient(180deg, var(--light-gray) 0%, transparent 100%);
-        z-index: 1;
-    }
-
-    .about-content {
-        position: relative;
-        z-index: 2;
-    }
-
-    .about-image {
-        position: relative;
-        border-radius: 25px;
-        overflow: hidden;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        transform: perspective(1000px) rotateY(-5deg);
-        transition: all 0.4s ease;
-    }
-
-    .about-image:hover {
-        transform: perspective(1000px) rotateY(0deg) translateY(-10px);
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
-    }
-
-    .about-image img {
-        width: 100%;
-        height: auto;
-        min-height: 400px;
-        object-fit: cover;
-        transition: transform 0.4s ease;
-    }
-
-    .about-image:hover img {
-        transform: scale(1.05);
-    }
-
-    .about-image-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, 
-            rgba(212, 175, 55, 0.1) 0%, 
-            transparent 50%, 
-            rgba(60, 36, 21, 0.1) 100%);
-        pointer-events: none;
-    }
-
-    .about-text {
-        padding-left: 3rem;
-    }
-
-    .about-text h2 {
-        font-size: 2.8rem;
-        font-weight: 800;
-        color: var(--dark-brown);
-        margin-bottom: 1.5rem;
-        position: relative;
-    }
-
-    .about-text h2::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 0;
-        width: 100px;
-        height: 4px;
-        background: var(--gradient-gold);
-        border-radius: 2px;
-    }
-
-    .about-text .section-subtitle {
-        color: var(--primary-gold);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-size: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .about-description {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: var(--dark-gray);
-        margin-bottom: 2rem;
-        text-align: justify;
-    }
-
-    .about-description p {
-        margin-bottom: 1.5rem;
-    }
-
-    .about-stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 2rem;
-        margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 2px solid var(--light-gray);
-    }
-
-    .about-stat {
-        text-align: center;
-    }
-
-    .about-stat-number {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: var(--primary-gold);
-        display: block;
-        margin-bottom: 0.5rem;
-    }
-
-    .about-stat-label {
-        font-size: 0.9rem;
-        color: var(--dark-gray);
-        text-transform: uppercase;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-
-    /* ================== SECTION ÉQUIPE ================== */
-    .team-section {
-        background: var(--light-gray);
-        padding: 100px 0;
-        position: relative;
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-
-    .section-title {
-        font-size: 2.8rem;
-        font-weight: 800;
-        color: var(--dark-brown);
-        margin-bottom: 1rem;
-    }
-
-    .section-subtitle {
-        color: var(--primary-gold);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-size: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .section-description {
-        font-size: 1.1rem;
-        color: var(--dark-gray);
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.6;
-    }
-
-    .team-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2.5rem;
-        margin-top: 3rem;
-    }
-
-    .team-card {
-        background: var(--white);
-        border-radius: 25px;
-        overflow: hidden;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-        transition: all 0.4s ease;
-        position: relative;
-        transform: translateY(0);
-    }
-
-    .team-card:hover {
-        transform: translateY(-15px);
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
-    }
-
-    .team-image {
-        position: relative;
-        height: 300px;
-        overflow: hidden;
-    }
-
-    .team-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.4s ease;
-    }
-
-    .team-card:hover .team-image img {
-        transform: scale(1.1);
-    }
-
-    .team-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, 
-            rgba(60, 36, 21, 0.8) 0%, 
-            rgba(212, 175, 55, 0.6) 100%);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .team-card:hover .team-overlay {
-        opacity: 1;
-    }
-
-    .team-social {
-        display: flex;
-        gap: 1rem;
-    }
-
-    .social-link {
-        width: 45px;
-        height: 45px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--dark-brown);
-        text-decoration: none;
-        transition: all 0.3s ease;
-        transform: translateY(20px);
-        opacity: 0;
-    }
-
-    .team-card:hover .social-link {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
-    .team-card:hover .social-link:nth-child(1) { transition-delay: 0.1s; }
-    .team-card:hover .social-link:nth-child(2) { transition-delay: 0.2s; }
-    .team-card:hover .social-link:nth-child(3) { transition-delay: 0.3s; }
-
-    .social-link:hover {
-        background: var(--primary-gold);
-        transform: translateY(-5px) scale(1.1);
-    }
-
-    .team-info {
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .team-name {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--dark-brown);
-        margin-bottom: 0.5rem;
-    }
-
-    .team-position {
-        font-size: 1rem;
-        color: var(--primary-gold);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 1rem;
-    }
-
-    .team-description {
-        font-size: 0.95rem;
-        color: var(--dark-gray);
-        line-height: 1.6;
-        text-align: center;
-    }
-
-    /* ================== ANIMATIONS ================== */
-    @keyframes floating {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-15px); }
-    }
-
-    .fade-in-up {
-        opacity: 0;
-        transform: translateY(50px);
-        transition: all 0.8s ease;
-    }
-
-    .fade-in-up.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .fade-in-left {
-        opacity: 0;
-        transform: translateX(-50px);
-        transition: all 0.8s ease;
-    }
-
-    .fade-in-left.visible {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .fade-in-right {
-        opacity: 0;
-        transform: translateX(50px);
-        transition: all 0.8s ease;
-    }
-
-    .fade-in-right.visible {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* ================== RESPONSIVE ================== */
-    @media (max-width: 991px) {
-        .about-hero {
+@push('styles')
+    <style>
+        /* ================== HERO BANNER À PROPOS ================== */
+        .apropos-hero {
+            background: linear-gradient(135deg, rgba(60, 36, 21, 0.85), rgba(139, 69, 19, 0.7)),
+                url('{{ asset('images/apropos-hero-bg.jpg') }}');
+            background-size: cover;
+            background-position: center;
             height: 50vh;
+            display: flex;
+            align-items: center;
+            position: relative;
         }
 
-        .about-hero h1 {
-            font-size: 2.8rem;
+        .apropos-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--white);
         }
 
-        .about-hero .hero-icon {
+        .apropos-hero h1 {
             font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: var(--white);
         }
 
-        .about-text {
-            padding-left: 0;
-            margin-top: 3rem;
+        .apropos-hero .hero-icon {
+            font-size: 3.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .about-text h2 {
-            font-size: 2.2rem;
+        .apropos-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        .team-grid {
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        /* ================== BREADCRUMB ================== */
+        .breadcrumb-section {
+            background: var(--light-gray);
+            padding: 1rem 0;
+            border-bottom: 2px solid var(--primary-gold);
+        }
+
+        .breadcrumb-custom {
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-custom .breadcrumb-item {
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .breadcrumb-custom .breadcrumb-item+.breadcrumb-item::before {
+            content: '›';
+            color: var(--primary-gold);
+            font-weight: 700;
+        }
+
+        .breadcrumb-custom .breadcrumb-item a {
+            color: var(--dark-brown);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumb-custom .breadcrumb-item a:hover {
+            color: var(--primary-gold);
+        }
+
+        .breadcrumb-custom .breadcrumb-item.active {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        /* ================== SECTION À PROPOS ================== */
+        .apropos-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .apropos-container {
+            /* display: grid; */
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            /* margin-bottom: 4rem; */
+        }
+
+        .apropos-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark-brown);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .apropos-content .subtitle {
+            color: var(--primary-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .apropos-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .apropos-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .apropos-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .apropos-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* ================== SECTION VALEURS ================== */
+        .valeurs-section {
+            background: var(--light-gray);
+            padding: 60px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-subtitle {
+            color: var(--primary-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark-brown);
+            margin: 0;
+        }
+
+        .valeurs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
-        .section-title {
-            font-size: 2.2rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .about-hero {
-            height: 45vh;
-        }
-
-        .about-hero h1 {
-            font-size: 2.2rem;
+        .valeur-card {
+            background: var(--white);
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary-gold);
         }
 
-        .about-hero-description {
-            font-size: 1.1rem;
-            padding: 0 1rem;
+        .valeur-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
-        .about-content-section {
-            padding: 80px 0;
+        .valeur-icon {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1.5rem;
         }
 
-        .team-section {
-            padding: 80px 0;
+        .valeur-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 1rem;
         }
 
-        .about-text h2 {
-            font-size: 1.9rem;
-        }
-
-        .about-description {
+        .valeur-card p {
+            color: var(--dark-gray);
+            line-height: 1.6;
             font-size: 1rem;
         }
 
-        .about-stats {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
+        /* ================== SECTION ÉQUIPE ================== */
+        .equipe-section {
+            padding: 80px 0;
+            background: var(--white);
         }
 
-        .section-title {
-            font-size: 1.9rem;
+        .equipe-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* 3 colonnes fixes */
+            gap: 2.5rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            /* Limiter la largeur pour un meilleur rendu */
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .team-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+        .membre-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            width: 100%;
+            /* Assurer que les cartes prennent toute la largeur disponible */
         }
 
-        .team-image {
-            height: 250px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .about-hero h1 {
-            font-size: 1.9rem;
+        .membre-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
         }
 
-        .about-hero .hero-icon {
-            font-size: 2.5rem;
+        .membre-image {
+            position: relative;
+            height: 280px;
+            /* Réduire légèrement la hauteur pour un meilleur équilibre */
+            overflow: hidden;
         }
 
-        .about-text h2 {
-            font-size: 1.6rem;
+        .membre-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
         }
 
-        .section-title {
-            font-size: 1.6rem;
+        .membre-card:hover .membre-image img {
+            transform: scale(1.1);
         }
 
-        .team-info {
+        .membre-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(60, 36, 21, 0.9));
+            padding: 2rem 1.5rem 1.5rem;
+            color: var(--white);
+            transform: translateY(50%);
+            transition: transform 0.3s ease;
+        }
+
+        .membre-card:hover .membre-overlay {
+            transform: translateY(0);
+        }
+
+        .membre-content {
+            padding: 1.8rem 1.5rem;
+            /* Réduire légèrement le padding */
+            text-align: center;
+        }
+
+        .membre-nom {
+            font-size: 1.3rem;
+            /* Légèrement plus petit */
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .membre-poste {
+            color: var(--primary-gold);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .membre-description {
+            color: var(--dark-gray);
+            line-height: 1.5;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+            height: 60px;
+            /* Hauteur fixe pour uniformiser */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .membre-contact {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-info {
+            background: var(--light-gray);
+            padding: 0.3rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--dark-brown);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info:hover {
+            background: var(--primary-gold);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* ================== STATISTIQUES ================== */
+        .stats-section {
+            background: var(--gradient-gold);
+            padding: 60px 0;
+            color: var(--dark-brown);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
             padding: 1.5rem;
         }
 
-        .team-name {
-            font-size: 1.2rem;
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--dark-brown);
         }
 
-        .about-stats {
-            grid-template-columns: 1fr;
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-brown);
+            opacity: 0.8;
         }
-    }
-</style>
 
-<!-- Hero Section -->
-<section class="about-hero">
-    <div class="container">
-        <div class="about-hero-content">
-            <div class="hero-icon">
-                <i class="fas fa-users"></i>
-            </div>
-            <h1>À propos de SCI SAGES</h1>
-            <div class="about-hero-description">
-                Découvrez notre histoire, nos valeurs et l'équipe passionnée qui donne vie à vos projets immobiliers de rêve.
-            </div>
-        </div>
-    </div>
-</section>
+        /* ================== RESPONSIVE ================== */
+        @media (max-width: 991px) {
+            .apropos-hero h1 {
+                font-size: 2.5rem;
+            }
 
-<!-- Breadcrumb -->
-<section class="breadcrumb-section">
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item">
-                    <a href="{{ route('page.accueil') }}">
-                        <i class="fas fa-home me-2"></i>Accueil
-                    </a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    À propos
-                </li>
-            </ol>
-        </nav>
-    </div>
-</section>
+            .apropos-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
 
-<!-- Section Contenu À propos -->
-<section class="about-content-section">
-    <div class="container">
-        <div class="about-content">
-            @if($apropos)
-                <div class="row align-items-center">
-                    <div class="col-lg-6 fade-in-left">
-                        <div class="about-image">
-                            @if($apropos->getFirstMediaUrl('image'))
-                                <img src="{{ $apropos->getFirstMediaUrl('image') }}" alt="À propos de SCI SAGES" loading="lazy">
-                            @else
-                                <img src="https://via.placeholder.com/600x400/cccccc/000000?text=Image+Non+Disponible" alt="À propos de SCI SAGES" loading="lazy">
-                            @endif
-                            <div class="about-image-overlay"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 fade-in-right">
-                        <div class="about-text">
-                            <div class="section-subtitle">Notre Histoire</div>
-                            <h2>SCI SAGES</h2>
-                            <div class="about-description">
-                                {!! nl2br(e($apropos->description)) !!}
-                            </div>
-                            
-                            <!-- Statistiques -->
-                            <div class="about-stats">
-                                <div class="about-stat fade-in-up">
-                                    <span class="about-stat-number" data-target="150">0</span>
-                                    <span class="about-stat-label">Projets Réalisés</span>
-                                </div>
-                                <div class="about-stat fade-in-up">
-                                    <span class="about-stat-number" data-target="10">0</span>
-                                    <span class="about-stat-label">Années d'Expérience</span>
-                                </div>
-                                <div class="about-stat fade-in-up">
-                                    <span class="about-stat-number" data-target="500">0</span>
-                                    <span class="about-stat-label">Clients Satisfaits</span>
-                                </div>
-                                <div class="about-stat fade-in-up">
-                                    <span class="about-stat-number" data-target="25">0</span>
-                                    <span class="about-stat-label">Collaborateurs</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            .apropos-content h2 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            /* ================== SECTION ÉQUIPE ================== */
+            .equipe-section {
+                padding: 80px 0;
+                background: var(--white);
+            }
+
+            .equipe-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                /* 3 colonnes fixes */
+                gap: 2.5rem;
+                margin-top: 3rem;
+                max-width: 1200px;
+                /* Limiter la largeur pour un meilleur rendu */
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .membre-card {
+                background: var(--white);
+                border-radius: 20px;
+                overflow: hidden;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                position: relative;
+                width: 100%;
+                /* Assurer que les cartes prennent toute la largeur disponible */
+            }
+
+            .membre-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            }
+
+            .membre-image {
+                position: relative;
+                height: 280px;
+                /* Réduire légèrement la hauteur pour un meilleur équilibre */
+                overflow: hidden;
+            }
+
+            .membre-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+
+            .membre-card:hover .membre-image img {
+                transform: scale(1.1);
+            }
+
+            .membre-overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(transparent, rgba(60, 36, 21, 0.9));
+                padding: 2rem 1.5rem 1.5rem;
+                color: var(--white);
+                transform: translateY(50%);
+                transition: transform 0.3s ease;
+            }
+
+            .membre-card:hover .membre-overlay {
+                transform: translateY(0);
+            }
+
+            .membre-content {
+                padding: 1.8rem 1.5rem;
+                /* Réduire légèrement le padding */
+                text-align: center;
+            }
+
+            .membre-nom {
+                font-size: 1.3rem;
+                /* Légèrement plus petit */
+                font-weight: 700;
+                color: var(--dark-brown);
+                margin-bottom: 0.5rem;
+                line-height: 1.2;
+            }
+
+            .membre-poste {
+                color: var(--primary-gold);
+                font-weight: 600;
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .membre-description {
+                color: var(--dark-gray);
+                line-height: 1.5;
+                font-size: 0.9rem;
+                margin-bottom: 1.2rem;
+                height: 60px;
+                /* Hauteur fixe pour uniformiser */
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+            }
+
+            .membre-contact {
+                display: flex;
+                justify-content: center;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+
+            .contact-info {
+                background: var(--light-gray);
+                padding: 0.3rem 0.7rem;
+                border-radius: 12px;
+                font-size: 0.75rem;
+                color: var(--dark-brown);
+                display: flex;
+                align-items: center;
+                gap: 0.3rem;
+                transition: all 0.3s ease;
+            }
+
+            .contact-info:hover {
+                background: var(--primary-gold);
+                color: var(--white);
+                transform: translateY(-2px);
+            }
+
+            /* ================== RESPONSIVE ================== */
+            @media (max-width: 1200px) {
+                .equipe-grid {
+                    max-width: 1000px;
+                    gap: 2rem;
+                }
+
+                .membre-image {
+                    height: 260px;
+                }
+            }
+
+            @media (max-width: 991px) {
+                .equipe-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    /* 2 colonnes sur tablettes */
+                    gap: 2rem;
+                    max-width: 700px;
+                }
+
+                .membre-image {
+                    height: 280px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .equipe-grid {
+                    grid-template-columns: 1fr;
+                    /* 1 colonne sur mobile */
+                    gap: 1.5rem;
+                    max-width: 400px;
+                }
+
+                .membre-content {
+                    padding: 2rem;
+                }
+
+                .membre-nom {
+                    font-size: 1.4rem;
+                }
+
+                .membre-description {
+                    height: auto;
+                    /* Hauteur automatique sur mobile */
+                    -webkit-line-clamp: none;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .membre-content {
+                    padding: 1.5rem;
+                }
+
+                .contact-info {
+                    font-size: 0.8rem;
+                    padding: 0.4rem 0.8rem;
+                }
+            }
+
+                {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .apropos-hero {
+                height: 40vh;
+            }
+
+            .apropos-hero h1 {
+                font-size: 2rem;
+            }
+
+            .apropos-hero .hero-icon {
+                font-size: 2.5rem;
+            }
+
+            .apropos-description {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+
+            .apropos-section {
+                padding: 60px 0;
+            }
+
+            .apropos-container {
+                gap: 2rem;
+            }
+
+            .apropos-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .apropos-content p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .valeurs-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .valeur-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .equipe-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .apropos-hero h1 {
+                font-size: 1.7rem;
+            }
+
+            .valeur-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .membre-content {
+                padding: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+@endpush
+
+@section('content')
+    <!-- Hero Banner -->
+    <section class="apropos-hero">
+        <div class="container">
+            <div class="apropos-hero-content">
+                <div class="hero-icon">
+                    <i class="fas fa-users"></i>
                 </div>
-            @else
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 text-center">
-                        <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
-                        <h3>Contenu à venir</h3>
-                        <p class="text-muted">Les informations à propos seront bientôt disponibles.</p>
-                    </div>
+                <h1>À Propos de SCI SAGES</h1>
+                <div class="apropos-description">
+                    Découvrez notre histoire, nos valeurs et l'équipe passionnée qui œuvre chaque jour
+                    pour concrétiser vos projets immobiliers avec excellence et innovation.
                 </div>
-            @endif
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Section Équipe -->
-{{-- <section class="team-section">
-    <div class="container">
-        <div class="section-header fade-in-up">
-            <div class="section-subtitle">Notre Équipe</div>
-            <h2 class="section-title">Des Professionnels à Votre Service</h2>
-            <p class="section-description">
-                Rencontrez notre équipe de professionnels passionnés et expérimentés, 
-                dédiés à la réussite de vos projets immobiliers.
-            </p>
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-custom">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('page.accueil') }}">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        À propos
+                    </li>
+                </ol>
+            </nav>
         </div>
+    </section>
 
-        @if($equipes && $equipes->count() > 0)
-            <div class="team-grid">
-                @foreach($equipes as $index => $membre)
-                    <div class="team-card fade-in-up" style="animation-delay: {{ $index * 0.1 }}s">
-                        <div class="team-image">
-                            @if($membre->getFirstMediaUrl('photo'))
-                                <img src="{{ $membre->getFirstMediaUrl('photo') }}" alt="{{ $membre->prenoms }} {{ $membre->nom }}" loading="lazy">
-                            @else
-                                <img src="https://via.placeholder.com/300x300/cccccc/000000?text={{ urlencode($membre->prenoms . ' ' . $membre->nom) }}" alt="{{ $membre->prenoms }} {{ $membre->nom }}" loading="lazy">
-                            @endif
-                            
-                            <div class="team-overlay">
-                                <div class="team-social">
-                                    <a href="#" class="social-link" title="LinkedIn">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                    <a href="#" class="social-link" title="Twitter">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                    <a href="#" class="social-link" title="Email">
-                                        <i class="fas fa-envelope"></i>
-                                    </a>
-                                </div>
-                            </div>
+    <!-- Section À Propos -->
+    @if ($apropos)
+        <section class="apropos-section">
+            <div class="container">
+                <div class="apropos-container">
+                    <div class="apropos-content">
+                        <div class="subtitle text-center">MOT DU DIRECTEUR</div>
+                        <h2>Excellence et Innovation Immobilière</h2>
+                        <div class="description">
+                            {!! $apropos->description ??
+                                'SCI SAGES est votre partenaire de confiance dans le domaine de l\'immobilier. Fort de notre expérience et de notre expertise, nous accompagnons nos clients dans la réalisation de leurs projets les plus ambitieux.' !!}
                         </div>
-                        
-                        <div class="team-info">
-                            <h3 class="team-name">{{ $membre->prenoms }} {{ $membre->nom }}</h3>
-                            <p class="team-position">{{ $membre->fonction }}</p>
-                            @if($membre->description)
-                                <p class="team-description">{{ $membre->description }}</p>
-                            @endif
+                    </div>
+                    {{-- <div class="apropos-image">
+                @if ($apropos->getFirstMediaUrl('image'))
+                    <img src="{{ $apropos->getFirstMediaUrl('image') }}" alt="{{ $apropos->libelle }}" loading="lazy">
+                @else
+                    <img src="https://via.placeholder.com/600x400/cccccc/666666?text=Image+A+Propos" alt="À propos" loading="lazy">
+                @endif
+            </div> --}}
+                </div>
+            </div>
+        </section>
+    @endif
+
+    <!-- Section Valeurs -->
+    <section class="valeurs-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-subtitle">Nos Piliers</div>
+                <h2 class="section-title">Nos Valeurs</h2>
+            </div>
+
+            <div class="valeurs-grid">
+                @foreach ($engagements as $item)
+                    <div class="valeur-card">
+                        <div class="valeur-icon">
+                            <i class="{{ $item->icone ?? '' }}"></i>
                         </div>
+                        <h3>{{ $item->libelle ?? '' }}</h3>
+                        <p>{{ $item->description ?? '' }}</p>
                     </div>
                 @endforeach
             </div>
-        @else
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <i class="fas fa-users fa-3x text-muted mb-3"></i>
-                    <h3>Équipe à venir</h3>
-                    <p class="text-muted">Les profils de notre équipe seront bientôt disponibles.</p>
-                </div>
+        </div>
+    </section>
+
+    <!-- Section Statistiques -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+
+                @foreach ($statistiques as $item)
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="{{ $item->chiffre ?? 0 }}">0</div>
+                        <div class="stat-label">{{ $item->libelle ?? '' }}</div>
+                    </div>
+                @endforeach
             </div>
-        @endif
-    </div>
-</section> --}}
+        </div>
+    </section>
 
-<script>
+    <!-- Section Équipe -->
+    <section class="equipe-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-subtitle">Notre Force</div>
+                <h2 class="section-title">Notre Équipe</h2>
+            </div>
 
-</script>
+            <div class="equipe-grid">
+                @forelse($equipes as $membre)
+                    <div class="membre-card">
+                        <div class="membre-image">
+                            @if ($membre->getFirstMediaUrl('image'))
+                                <img src="{{ $membre->getFirstMediaUrl('image') }}"
+                                    alt="{{ $membre->nom }} {{ $membre->prenom }}" loading="lazy">
+                            @else
+                                <img src="https://via.placeholder.com/300x300/cccccc/666666?text={{ strtoupper(substr($membre->prenom, 0, 1)) }}{{ strtoupper(substr($membre->nom, 0, 1)) }}"
+                                    alt="{{ $membre->nom }} {{ $membre->prenom }}" loading="lazy">
+                            @endif
+
+                            @if ($membre->description)
+                                <div class="membre-overlay">
+                                    <p>{{ $membre->description }}</p>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="membre-content">
+                            <h3 class="membre-nom">{{ $membre->prenom }} {{ $membre->nom }}</h3>
+                            <div class="membre-poste">{{ $membre->poste ?? 'Membre de l\'équipe' }}</div>
+
+                            @if ($membre->description)
+                                <div class="membre-description">{{ Str::limit($membre->description, 80) }}</div>
+                            @endif
+
+                            <div class="membre-contact">
+                                @if ($membre->email)
+                                    <div class="contact-info">
+                                        <i class="fas fa-envelope"></i>
+                                        {{ $membre->email }}
+                                    </div>
+                                @endif
+
+                                @if ($membre->telephone)
+                                    <div class="contact-info">
+                                        <i class="fas fa-phone"></i>
+                                        {{ $membre->telephone }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                        <h4>Équipe en cours de constitution</h4>
+                        <p class="text-muted">Les informations sur notre équipe seront bientôt disponibles.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </section>
+    @include('frontend.components.boutton_form_projet')
+
+
+    <script>
+        // Animation des compteurs
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateCounters = () => {
+                const counters = document.querySelectorAll('.stat-number');
+
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    const duration = 2000; // 2 secondes
+                    const step = target / (duration / 16); // 60fps
+                    let current = 0;
+
+                    const updateCounter = () => {
+                        current += step;
+                        if (current < target) {
+                            counter.textContent = Math.floor(current);
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target;
+                        }
+                    };
+
+                    updateCounter();
+                });
+            };
+
+            // Intersection Observer pour déclencher l'animation au scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+
+            // Animation des cartes équipe au scroll
+            const observerCards = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                        observerCards.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            // Appliquer l'animation aux cartes équipe
+            document.querySelectorAll('.membre-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = 'all 0.6s ease';
+                observerCards.observe(card);
+            });
+
+            // Smooth scrolling pour les ancres
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 @endsection

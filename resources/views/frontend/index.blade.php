@@ -12,11 +12,19 @@
     <!-- Section Présentation -->
     @include('frontend.sections.presentation')
 
+    <!-- Section engagements -->
+    {{-- @include('frontend.sections.engagement') --}}
+
     <!-- Section Chronogramme -->
     @include('frontend.sections.projets')
+
+    <!-- Section button demarrer votre projet -->
+    @include('frontend.components.boutton_form_projet')
 
     <!-- Section FAQ -->
     @include('frontend.sections.faq')
 
     @include('frontend.sections.form_projet2')
+
+    @include('frontend.sections.contact')
 @endsection

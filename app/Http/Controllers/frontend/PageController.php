@@ -40,7 +40,7 @@ class PageController extends Controller
 
             //faqs
             $faqs = Faq::active()->ordre()->get();
-            
+
             return view('frontend.index', compact('banniere', 'activites', 'statistiques', 'apropos', 'engagements', 'faqs'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
@@ -51,16 +51,22 @@ class PageController extends Controller
     {
         try {
             $apropos = Apropos::with('media')->active()->first();
-              
             // Récupérer l'équipe
             $equipes = Equipe::with('media')->active()->get();
-            
-            return view('frontend.pages.apropos', compact('apropos', 'equipes'  ));
+            //statistique
+            $statistiques = Statistique::active()->ordre()->get();
+            //engagements
+            $engagements = Engagement::with('media')->active()->ordre()->get();
+
+
+            // dd($apropos->toArray(), $equipes);
+
+            return view('frontend.pages.apropos', compact('apropos', 'equipes', 'statistiques', 'engagements'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
         }
     }
-    
+
     public function activites($slug)
     {
         try {
@@ -79,22 +85,22 @@ class PageController extends Controller
         try {
             // Récupérer la catégorie depuis les paramètres GET
             $categorie = $request->get('categorie', 'tous');
-            
+
             // Construire la requête avec eager loading optimisé
-            $query = Portfolio::with(['media' => function($query) {
+            $query = Portfolio::with(['media' => function ($query) {
                 $query->orderBy('order_column', 'asc');
             }])->active();
-            
+
             // Filtrer par catégorie si spécifiée et différente de 'tous'
             if ($categorie !== 'tous') {
                 $query->where('categorie', $categorie);
             }
-            
+
             // Paginer les résultats (12 par page) avec conservation des paramètres
             $portfolios = $query->orderBy('created_at', 'desc')
-                              ->paginate(12)
-                              ->withQueryString(); // Préserve les paramètres GET
-            
+                ->paginate(12)
+                ->withQueryString(); // Préserve les paramètres GET
+
             // Récupérer toutes les catégories disponibles avec compteurs
             $categoriesWithCount = Portfolio::active()
                 ->select('categorie')
@@ -103,11 +109,11 @@ class PageController extends Controller
                 ->get()
                 ->pluck('count', 'categorie')
                 ->toArray();
-            
+
             // Ajouter le total pour "tous"
             $totalCount = Portfolio::active()->count();
             $categoriesWithCount = ['tous' => $totalCount] + $categoriesWithCount;
-            
+
             return view('frontend.pages.portfolios', compact('portfolios', 'categorie', 'categoriesWithCount'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
@@ -119,17 +125,17 @@ class PageController extends Controller
     {
         try {
             $categorie = $request->get('categorie', 'tous');
-            
-            $query = Portfolio::with(['media' => function($query) {
+
+            $query = Portfolio::with(['media' => function ($query) {
                 $query->orderBy('order_column', 'asc');
             }])->active();
-            
+
             if ($categorie !== 'tous') {
                 $query->where('categorie', $categorie);
             }
-            
+
             $portfolios = $query->orderBy('created_at', 'desc')->paginate(12);
-            
+
             return response()->json([
                 'success' => true,
                 'html' => view('frontend.partials.portfolio-grid', compact('portfolios'))->render(),
