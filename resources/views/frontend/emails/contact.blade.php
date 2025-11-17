@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nouvelle demande de contact - DC Agency</title>
+    <title>Nouveau message - Sci Sages</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -25,7 +25,7 @@
         }
 
         .email-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3C2415 0%, #8B4513 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -131,14 +131,14 @@
     <div class="email-container">
         <!-- Header -->
         <div class="email-header">
-            <h1>🎉 Nouvelle Demande de Contact</h1>
-            <p>DC Agency - L'art d'accueillir, l'excellence d'organiser</p>
+            <h1>Nouveau message de contact</h1>
+            <p> SCI SAGES , promoteur immobilier </p>
         </div>
 
         <!-- Body -->
         <div class="email-body">
             <p>Bonjour,</p>
-            <p>Vous avez reçu une nouvelle demande de contact via votre site web. Voici les détails :</p>
+            <p>Vous avez reçu un nouveau message de contact via votre site web. Voici les détails :</p>
 
             <!-- Informations client -->
             <div class="client-info">
@@ -154,16 +154,16 @@
                     <span class="info-label">📞 Contact :</span>
                     <span class="info-value">{{ $data['contact'] }}</span>
                 </div>
-                @if (isset($data['evenement']) && !empty($data['evenement']))
+                @if (isset($data['sujet']) && !empty($data['sujet']))
                     <div class="info-row">
-                        <span class="info-label">🎊 Type d'événement :</span>
-                        <span class="info-value highlight">{{ $data['evenement'] }}</span>
+                        <span class="info-label">🎊 Sujet :</span>
+                        <span class="info-value highlight">{{ $data['sujet'] }}</span>
                     </div>
                 @endif
-                <div class="info-row">
+                {{-- <div class="info-row">
                     <span class="info-label">📅 Date de demande :</span>
                     <span class="info-value">{{ now()->format('d/m/Y à H:i') }}</span>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Message -->
@@ -174,13 +174,13 @@
                 </div>
             @endif
 
-            <div class="urgent-badge">⚡ Action requise - Répondre sous 24h</div>
+            {{-- <div class="urgent-badge">⚡ Action requise - Répondre sous 24h</div> --}}
         </div>
 
         <!-- Footer -->
         <div class="email-footer">
             <p class="footer-text">
-                Cet email a été généré automatiquement depuis votre site web DC Agency.<br>
+                Cet email a été généré automatiquement depuis votre site web SCI SAGES.<br>
                 Pensez à répondre rapidement pour maintenir votre excellent service client !
             </p>
         </div>

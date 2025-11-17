@@ -10,6 +10,7 @@ use App\Models\Service;
 use App\Models\Activite;
 use App\Models\Banniere;
 use App\Mail\ContactMail;
+use App\Models\Actualite;
 use App\Models\Portfolio;
 use App\Models\Engagement;
 use App\Models\Entreprise;
@@ -96,9 +97,9 @@ class PageController extends Controller
                 $query->where('categorie', $categorie);
             }
 
-            // Paginer les résultats (12 par page) avec conservation des paramètres
+            // Paginer les résultats (9 par page) avec conservation des paramètres
             $portfolios = $query->orderBy('created_at', 'desc')
-                ->paginate(12)
+                ->paginate(9)
                 ->withQueryString(); // Préserve les paramètres GET
 
             // Récupérer toutes les catégories disponibles avec compteurs
@@ -149,4 +150,76 @@ class PageController extends Controller
             ], 500);
         }
     }
+
+
+    //actualites page
+    public function actualites()
+    {
+        try {
+            $actualites = Actualite::with('media')->active()->orderBy('created_at', 'desc')->paginate(9)->withQueryString();
+            return view('frontend.pages.actualites', compact('actualites'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
+        }
+    }
+
+    //detail actualite
+    public function actualiteDetails($slug)
+    {
+
+        try {
+            $actualite = Actualite::with('media')->active()->where('slug', $slug)->first();
+            if (!$actualite) {
+                return redirect()->route('page.actualites')->with('error', 'Actualité non trouvée.');
+            }
+            return view('frontend.pages.actualite-details', compact('actualite'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
+        }
+    }
+
+
+    //Envoyer un contact 
+  
+
+
+     public function envoyerContact(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'contact' => 'required|string|max:255',
+            'message' => 'required|string',
+            'sujet' => 'nullable|string|max:255',
+        ]);
+
+
+        try {
+            $data = [
+                'nom' => $request->nom,
+                'email' => $request->email,
+                'contact' => $request->contact,
+                'sujet' => $request->sujet,
+                'message' => $request->message,
+            ];
+
+            Mail::to('contact@scisage.com')->queue(new ContactMail($data));
+            // Mail::to('contact@dcagency.com')
+            //     ->later(now()->addSeconds(10), new ContactMail($data));
+
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Email envoyé avec succès'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de l\'envoi de l\'email: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    
 }

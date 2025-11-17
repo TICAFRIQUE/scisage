@@ -24,7 +24,7 @@
     <!-- Section FAQ -->
     @include('frontend.sections.faq')
 
-    @include('frontend.sections.form_projet2')
+    @include('frontend.sections.form_projet')
 
     @include('frontend.sections.contact')
 @endsection

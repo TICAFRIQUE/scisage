@@ -167,6 +167,16 @@
                 {{-- @endcan --}}
 
 
+                         {{-- @can('voir-actualite') --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::is('actualites.*') ? 'active' : '' }} "
+                        href="{{ route('actualites.index') }}">
+                        <i class="ri-bar-chart-line"></i> <span>ACTUALITES</span>
+                    </a>
+                </li>
+                {{-- @endcan --}}
+
+
                 @auth
                     @if (
                         (Auth::check() && Auth::user()->role == 'superadmin') ||

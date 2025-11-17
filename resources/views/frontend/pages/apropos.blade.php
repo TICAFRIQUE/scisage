@@ -34,7 +34,10 @@
         .apropos-hero .hero-icon {
             font-size: 3.5rem;
             color: var(--primary-gold);
-            margin-bottom: 1rem;
+            /* margin-bottom: 1rem; */
+            margin: 3rem 0 1rem 0;
+            /* Ajouter une marge en haut */
+
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
@@ -682,10 +685,10 @@
                     <i class="fas fa-users"></i>
                 </div>
                 <h1>À Propos de SCI SAGES</h1>
-                <div class="apropos-description">
+                {{-- <div class="apropos-description">
                     Découvrez notre histoire, nos valeurs et l'équipe passionnée qui œuvre chaque jour
                     pour concrétiser vos projets immobiliers avec excellence et innovation.
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

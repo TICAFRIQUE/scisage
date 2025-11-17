@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-        @stack('styles')
+    @stack('styles')
 
     <style>
         :root {
@@ -55,7 +55,7 @@
             padding: 0;
         }
 
-         /* ================== CORRECTIONS RESPONSIVE MOBILE ================== */
+        /* ================== CORRECTIONS RESPONSIVE MOBILE ================== */
         /* Forcer le viewport à respecter la largeur mobile */
         html {
             overflow-x: hidden;
@@ -177,7 +177,8 @@
         .navbar {
             background: rgba(60, 36, 21, 0.95);
             backdrop-filter: blur(15px);
-            padding: 0.5rem 1rem; /* Réduire le padding du menu */
+            padding: 0.5rem 1rem;
+            /* Réduire le padding du menu */
             transition: all 0.4s ease;
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
         }
@@ -336,7 +337,7 @@
 
 
         /* ================== CONTACT SECTION ================== */
-         .btn-primary-custom {
+        .btn-primary-custom {
             background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
             border: none;
             color: var(--dark-brown);
@@ -394,7 +395,7 @@
             transform: translateX(3px);
         }
 
-       
+
         /* ================== FOOTER ================== */
         .footer {
             background: var(--dark-brown);
@@ -477,53 +478,66 @@
         /* ================== RESPONSIVE ================== */
         @media (max-width: 768px) {
             .hero-section h1 {
-                font-size: 2rem; /* Réduire la taille du texte */
+                font-size: 2rem;
+                /* Réduire la taille du texte */
             }
 
             .navbar-brand img {
-                width: 50px; /* Réduire la taille du logo */
+                width: 50px;
+                /* Réduire la taille du logo */
             }
 
             .navbar-nav .nav-link {
-                font-size: 0.85rem; /* Réduire la taille des liens */
-                margin: 0.5rem 0; /* Espacement vertical */
+                font-size: 0.85rem;
+                /* Réduire la taille des liens */
+                margin: 0.5rem 0;
+                /* Espacement vertical */
             }
 
             .section-title {
-                font-size: 1.8rem; /* Réduire les titres */
+                font-size: 1.8rem;
+                /* Réduire les titres */
             }
 
             .footer-logo {
-                font-size: 2rem; /* Réduire la taille du logo dans le footer */
+                font-size: 2rem;
+                /* Réduire la taille du logo dans le footer */
             }
 
             .footer-description {
-                font-size: 1rem; /* Réduire la taille du texte */
+                font-size: 1rem;
+                /* Réduire la taille du texte */
             }
 
             .footer-links a {
-                font-size: 0.9rem; /* Réduire la taille des liens */
+                font-size: 0.9rem;
+                /* Réduire la taille des liens */
             }
 
             .contact-item {
-                flex-direction: column; /* Aligner les éléments verticalement */
+                flex-direction: column;
+                /* Aligner les éléments verticalement */
                 text-align: center;
             }
 
             .contact-icon {
-                margin: 0 auto 1rem auto; /* Centrer l'icône */
+                margin: 0 auto 1rem auto;
+                /* Centrer l'icône */
             }
         }
 
         /* Fix for grids on small screens */
         @media (max-width: 576px) {
+
             .values-grid,
             .portfolio-grid {
-                grid-template-columns: 1fr; /* Une seule colonne sur les petits écrans */
+                grid-template-columns: 1fr;
+                /* Une seule colonne sur les petits écrans */
             }
 
             .portfolio-card {
-                margin-bottom: 1rem; /* Ajouter un espacement entre les cartes */
+                margin-bottom: 1rem;
+                /* Ajouter un espacement entre les cartes */
             }
         }
 
@@ -727,38 +741,39 @@
             .navbar {
                 padding: 0.5rem 1rem;
             }
-            
+
             .navbar-brand img {
                 width: 50px;
                 height: auto;
             }
-            
+
             .navbar-toggler {
                 border: none;
                 padding: 0.25rem 0.5rem;
                 font-size: 1.1rem;
                 color: var(--white);
             }
-            
+
             .navbar-toggler:focus {
                 box-shadow: none;
             }
-            
+
             .navbar-collapse {
                 margin-top: 1rem;
             }
-            
+
             .navbar-nav .nav-link {
                 padding: 0.8rem 1rem;
                 margin: 0;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 text-align: center;
             }
-            
+
             .navbar-nav .nav-link::before {
-                display: none; /* Supprimer l'underline sur mobile */
+                display: none;
+                /* Supprimer l'underline sur mobile */
             }
-            
+
             /* DROPDOWN MENU MOBILE - CORRECTION */
             .navbar-nav .dropdown-menu {
                 position: static !important;
@@ -773,20 +788,20 @@
                 transform: none !important;
                 backdrop-filter: none !important;
                 min-width: auto !important;
-                
+
                 /* Masquer par défaut */
                 display: none !important;
                 opacity: 0 !important;
                 visibility: hidden !important;
             }
-            
+
             /* Quand le dropdown est ouvert */
             .navbar-nav .dropdown-menu.show {
                 display: block !important;
                 opacity: 1 !important;
                 visibility: visible !important;
             }
-            
+
             .navbar-nav .dropdown-item {
                 padding: 1rem 1.5rem;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -799,37 +814,37 @@
                 display: block;
                 width: 100%;
             }
-            
+
             .navbar-nav .dropdown-item:hover {
                 background: rgba(212, 175, 55, 0.2) !important;
                 color: var(--primary-gold) !important;
                 transform: none !important;
             }
-            
+
             .navbar-nav .dropdown-item:last-child {
                 border-bottom: none;
             }
-            
+
             .navbar-nav .dropdown-item i {
                 color: var(--primary-gold);
                 width: 20px;
                 margin-right: 10px;
                 text-align: center;
             }
-            
+
             .navbar-nav .dropdown-item:hover i {
                 color: var(--dark-brown);
             }
-            
+
             .dropdown-divider {
                 display: none;
             }
-            
+
             /* Style pour la flèche du dropdown sur mobile */
             .navbar-nav .dropdown-toggle::after {
                 transition: transform 0.3s ease;
             }
-            
+
             .navbar-nav .dropdown-toggle[aria-expanded="true"]::after {
                 transform: rotate(180deg);
             }
@@ -840,52 +855,52 @@
                 padding: 0.8rem 1rem;
                 font-size: 0.9rem;
             }
-            
+
             .navbar-nav .dropdown-item i {
                 margin-right: 8px;
             }
         }
 
         /* ================== LIENS ACTIFS ================== */
-.navbar-nav .nav-link.active {
-    color: var(--primary-gold) !important;
-    font-weight: 600;
-}
+        .navbar-nav .nav-link.active {
+            color: var(--primary-gold) !important;
+            font-weight: 600;
+        }
 
-.navbar-nav .nav-link.active::before {
-    width: 100% !important;
-    background: var(--secondary-gold);
-}
+        .navbar-nav .nav-link.active::before {
+            width: 100% !important;
+            background: var(--secondary-gold);
+        }
 
-/* Pour les dropdowns actifs */
-.navbar-nav .dropdown-toggle.active {
-    color: var(--primary-gold) !important;
-    font-weight: 600;
-}
+        /* Pour les dropdowns actifs */
+        .navbar-nav .dropdown-toggle.active {
+            color: var(--primary-gold) !important;
+            font-weight: 600;
+        }
 
-.navbar-nav .dropdown-toggle.active::before {
-    width: 100% !important;
-    background: var(--secondary-gold);
-}
+        .navbar-nav .dropdown-toggle.active::before {
+            width: 100% !important;
+            background: var(--secondary-gold);
+        }
 
-.navbar-nav .dropdown-item.active {
-    background: var(--gradient-gold) !important;
-    color: var(--dark-brown) !important;
-    transform: translateX(5px);
-}
+        .navbar-nav .dropdown-item.active {
+            background: var(--gradient-gold) !important;
+            color: var(--dark-brown) !important;
+            transform: translateX(5px);
+        }
 
-/* Mobile responsive pour les liens actifs */
-@media (max-width: 991px) {
-    .navbar-nav .nav-link.active {
-        background: rgba(212, 175, 55, 0.2);
-        border-left: 3px solid var(--primary-gold);
-    }
-    
-    .navbar-nav .dropdown-item.active {
-        background: rgba(212, 175, 55, 0.3) !important;
-        border-left: 3px solid var(--secondary-gold);
-    }
-}
+        /* Mobile responsive pour les liens actifs */
+        @media (max-width: 991px) {
+            .navbar-nav .nav-link.active {
+                background: rgba(212, 175, 55, 0.2);
+                border-left: 3px solid var(--primary-gold);
+            }
+
+            .navbar-nav .dropdown-item.active {
+                background: rgba(212, 175, 55, 0.3) !important;
+                border-left: 3px solid var(--secondary-gold);
+            }
+        }
     </style>
 </head>
 
@@ -895,7 +910,7 @@
         <div class="loader-content">
             <div class="loader-logo">
                 <img src="{{ $parametre?->getFirstMediaUrl('logo_header') ?? URL::asset('images/logo.png') }}"
-                        alt="SCI SAGES" width="100">
+                    alt="SCI SAGES" width="100">
             </div>
             <div class="loader-tagline">Votre maison de rêve vous attend</div>
             <div class="loader-spinner"></div>
@@ -912,73 +927,100 @@
                     <img src="{{ $parametre?->getFirstMediaUrl('logo_header') ?? URL::asset('images/logo.png') }}"
                         alt="SCI SAGES" width="70">
                 </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
+
+                        <!-- ACCUEIL (scroll + active auto) -->
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('page.accueil') ? 'active' : '' }}" 
-                               href="{{ route('page.accueil') }}">Accueil</a>
+                             <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/#accueil') }}"
+                                data-section="accueil">Accueil</a>
                         </li>
+
+                        <!-- PRESENTATION (page séparée) -->
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('page.apropos') ? 'active' : '' }}" 
-                               href="{{ route('page.apropos') }}">Présentation</a>
+                            <a class="nav-link {{ request()->routeIs('page.apropos') ? 'active' : '' }}"
+                                href="{{ route('page.apropos') }}">
+                                Présentation
+                            </a>
                         </li>
+
+                        <!-- ACTIVITES -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ request()->routeIs('page.activites*') ? 'active' : '' }}" 
-                               href="#" id="activitesDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle {{ request()->routeIs('page.activites*') ? 'active' : '' }}"
+                                href="#" id="activitesDropdown" role="button" data-bs-toggle="dropdown">
                                 Activités
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="activitesDropdown">
                                 @foreach ($activites as $activite)
-                                    <li><a class="dropdown-item {{ request()->routeIs('page.activites') && request()->route('slug') == $activite->slug ? 'active' : '' }}" 
-                                           href="{{ route('page.activites', $activite->slug) }}">
+                                    <li>
+                                        <a class="dropdown-item 
+                                      {{ request()->routeIs('page.activites') && request()->route('slug') == $activite->slug ? 'active' : '' }}"
+                                            href="{{ route('page.activites', $activite->slug) }}">
                                             <i class="{{ $activite->icone }} me-2"></i>{{ $activite->libelle }}
-                                        </a></li>
+                                        </a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </li>
 
+                        <!-- PORTFOLIO -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ request()->routeIs('page.portfolios*') ? 'active' : '' }}" 
-                               href="#" id="portfolioDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle {{ request()->routeIs('page.portfolios*') ? 'active' : '' }}"
+                                href="#" id="portfolioDropdown" role="button" data-bs-toggle="dropdown">
                                 Portfolio
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="portfolioDropdown">
-                                <li><a class="dropdown-item {{ request()->routeIs('page.portfolios') && request()->get('categorie') == 'realisations' ? 'active' : '' }}" 
-                                       href="{{ route('page.portfolios', ['categorie' => 'realisations']) }}">
-                                    <i class="fas fa-home me-2"></i>Réalisations
-                                </a></li>
-                                <li><a class="dropdown-item {{ request()->routeIs('page.portfolios') && request()->get('categorie') == 'conceptions' ? 'active' : '' }}" 
-                                       href="{{ route('page.portfolios', ['categorie' => 'conceptions']) }}">
-                                    <i class="fas fa-drafting-compass me-2"></i>Conceptions
-                                </a></li>
-                                <li><a class="dropdown-item {{ request()->routeIs('page.portfolios') && request()->get('categorie') == 'projets' ? 'active' : '' }}" 
-                                       href="{{ route('page.portfolios', ['categorie' => 'projets']) }}">
-                                    <i class="fas fa-building me-2"></i>Projets
-                                </a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item {{ request()->routeIs('page.portfolios') && request()->get('categorie') == 'tous' ? 'active' : '' }}" 
-                                       href="{{ route('page.portfolios', ['categorie' => 'tous']) }}">
-                                    <i class="fas fa-th-large me-2"></i>Tout voir
-                                </a></li>
+                                <li><a class="dropdown-item {{ request()->get('categorie') == 'realisations' ? 'active' : '' }}"
+                                        href="{{ route('page.portfolios', ['categorie' => 'realisations']) }}">
+                                        <i class="fas fa-home me-2"></i>Réalisations
+                                    </a></li>
+
+                                <li><a class="dropdown-item {{ request()->get('categorie') == 'conceptions' ? 'active' : '' }}"
+                                        href="{{ route('page.portfolios', ['categorie' => 'conceptions']) }}">
+                                        <i class="fas fa-drafting-compass me-2"></i>Conceptions
+                                    </a></li>
+
+                                <li><a class="dropdown-item {{ request()->get('categorie') == 'projets' ? 'active' : '' }}"
+                                        href="{{ route('page.portfolios', ['categorie' => 'projets']) }}">
+                                        <i class="fas fa-building me-2"></i>Projets
+                                    </a></li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li><a class="dropdown-item {{ request()->get('categorie') == 'tous' ? 'active' : '' }}"
+                                        href="{{ route('page.portfolios', ['categorie' => 'tous']) }}">
+                                        <i class="fas fa-th-large me-2"></i>Tout voir
+                                    </a></li>
                             </ul>
                         </li>
+
+                        <!-- ACTUALITES -->
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('page.actualites*') ? 'active' : '' }}" 
-                               href="#actualites">Actualités</a>
+                            <a class="nav-link {{ request()->routeIs('page.actualites*') ? 'active' : '' }}"
+                                href="{{ route('page.actualites') }}">
+                                Actualités
+                            </a>
                         </li>
+
+                        <!-- CONTACT (scroll + active auto) -->
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('page.contact*') || request()->is('*contact*') ? 'active' : '' }}" 
-                               href="{{ url('/#contact') }}">Contact</a>
+                            <a class="nav-link" href="/#contact" data-section="contact">
+                                Contact
+                            </a>
                         </li>
+
                     </ul>
                 </div>
             </div>
         </nav>
+
 
 
 
@@ -987,7 +1029,7 @@
 
 
         <!-- Section Contact -->
-       
+
 
 
         @include('frontend.components.boutton_flottant')
@@ -1015,7 +1057,7 @@
                                 @foreach ($activites as $item)
                                     <li><a href="#projets">{{ $item->libelle }}</a></li>
                                 @endforeach
-                             
+
                                 <li><a href="#contact">Conseil immobilier</a></li>
                             </ul>
                         </div>
@@ -1049,7 +1091,9 @@
 
                 <div class="footer-bottom">
                     <p>&copy; 2025 SCI SAGES. Tous droits réservés. | <a href="#" style="color: #ccc;">Mentions
-                            légales</a> | <a href="#" style="color: #ccc;">Politique de confidentialité</a></p>
+                            légales</a> | <a href="#" style="color: #ccc;">Politique de confidentialité</a> |
+                        Développé par <a href="https://www.ticafrique.com/" target="_blank"
+                            style="color: #ccc;">TICAFRIQUE.COM</a>.</p>
                 </div>
             </div>
         </footer>
@@ -1126,7 +1170,7 @@
             });
         });
 
-       
+
 
         // Form submissions
         document.getElementById('heroForm').addEventListener('submit', function(e) {
@@ -1170,7 +1214,32 @@
         //     });
         // });
 
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
 
+        function activateLink() {
+            let scrollY = window.scrollY + 150;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute("id");
+
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove("active");
+                        if (link.dataset.section === sectionId) {
+                            link.classList.add("active");
+                        }
+                    });
+                }
+            });
+        }
+
+        if (window.location.pathname === "/") {
+            window.addEventListener("scroll", activateLink);
+            activateLink();
+        }
     </script>
 </body>
 

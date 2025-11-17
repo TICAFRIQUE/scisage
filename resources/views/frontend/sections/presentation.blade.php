@@ -45,7 +45,7 @@
 
         .presentation-image img {
             width: 100%;
-            height: 500px;
+            height: 800px;
             object-fit: cover;
         }
 
@@ -402,14 +402,14 @@
 
         /* ================== BOUTON LIRE LA SUITE ================== */
         .read-more-section {
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
 
         .btn-read-more {
             background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
             color: var(--dark-brown);
             text-decoration: none;
-            padding: 1rem 2.5rem;
+            padding: rem 2.5rem;
             border-radius: 30px;
             font-weight: 600;
             font-size: 0.95rem;
@@ -497,10 +497,10 @@
         <div class="presentation-content" data-aos="fade-up" data-aos-delay="200">
             <div class="presentation-text">
                 <div class="text-content">
-                    {!! Str::limit($apropos?->description, 980) !!}
+                    {!! Str::limit($apropos?->description, 1082) !!}
                 </div>
 
-                @if (strlen($apropos?->description ?? '') > 980)
+                @if (strlen($apropos?->description ?? '') > 1083)
                     <div class="read-more-section">
                         <a href="{{ route('page.apropos') }}" class="btn-read-more">
                             <i class="fas fa-book-open me-2"></i>

@@ -15,7 +15,7 @@ class PortfolioController extends Controller
     {
         //
         try {
-            $portfolios = Portfolio::all();
+            $portfolios = Portfolio::orderBy('created_at', 'desc')->get();
             return view('backend.pages.portfolio.index', compact('portfolios'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());

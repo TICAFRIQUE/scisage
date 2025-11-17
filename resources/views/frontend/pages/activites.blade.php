@@ -47,7 +47,7 @@
         .activity-hero .hero-icon {
             font-size: 4rem;
             color: var(--primary-gold);
-            margin-bottom: 1rem;
+            margin: 3rem 0 1rem 0;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
@@ -397,9 +397,9 @@
                     </div>
                 @endif
                 <h1>{{ $activite->libelle }}</h1>
-                <div class="activity-description">
+                {{-- <div class="activity-description">
                     {{ $activite->description }}
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

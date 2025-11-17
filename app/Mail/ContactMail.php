@@ -29,7 +29,7 @@ class ContactMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nouveau message de contact',
+            subject: 'Nouveau message depuis le site web',
         );
     }
 

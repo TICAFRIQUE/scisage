@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class Actualite extends Model implements HasMedia
 {
     //
-    use InteractsWithMedia;
+    use InteractsWithMedia, Sluggable;
     protected $fillable = [
         'libelle',
         'slug',
@@ -19,16 +20,28 @@ class Actualite extends Model implements HasMedia
         'is_active',
     ];
 
-//ID GENERATED CODE HERE
+    //ID GENERATED CODE HERE
     public static function boot()
     {
         parent::boot();
-        static::creating(function ($model) {
-            $model->id = IdGenerator::generate(['table' => 'actualites', 'field' => 'id', 'length' => 6, 'prefix' => 'ACT']);
+        self::creating(function ($model) {
+            $model->id = IdGenerator::generate(['table' => 'actualites', 'length' => 10, 'prefix' =>
+            mt_rand()]);
         });
     }
 
-//SCOPE FOR ACTIVE RECORDS
+    //SLUG FUNCTION
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'libelle'
+            ]
+        ];
+    }
+
+    //SCOPE FOR ACTIVE RECORDS
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

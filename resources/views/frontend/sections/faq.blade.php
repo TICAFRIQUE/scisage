@@ -25,8 +25,8 @@
 
         .faq-question {
             padding: 2rem;
-            background: var(--gradient-gold);
-            color: var(--white);
+            background: white;
+            color: var(--gradient-brown);
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -38,6 +38,7 @@
 
         .faq-question:hover {
             background: var(--gradient-brown);
+            color: var(--white);
         }
 
         .faq-answer {

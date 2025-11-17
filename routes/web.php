@@ -203,6 +203,12 @@ Route::controller(PageController::class)->group(function () {
 
     // Optionnel : Route pour AJAX
     Route::get('/portfolio/ajax', [PageController::class, 'portfoliosAjax'])->name('page.portfolios.ajax');
+
+    route::get('actualite', 'actualites')->name('page.actualites');
+    route::get('actualite/{slug}', 'actualiteDetails')->name('page.actualites.details');
+
+    //contact
+    route::post('contact/send', 'envoyerContact')->name('page.contact.send');
 });
 
 

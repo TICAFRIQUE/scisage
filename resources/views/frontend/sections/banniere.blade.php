@@ -148,7 +148,7 @@
         }
 
         .btn-hero-cta:hover {
-            color: var(--primary-gold);
+            color: linear-gradient(135deg, #3C2415 0%, #8B4513 100%);
             text-decoration: none;
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
@@ -296,9 +296,9 @@
             </div>
 
             <!-- Texte central -->
-            <h3 class="hero-central-text" data-aos="zoom-in" data-aos-delay="600">
+            {{-- <h3 class="hero-central-text" data-aos="zoom-in" data-aos-delay="600">
                 Démarrez votre projet avec SCI SAGES dès aujourd'hui
-            </h3>
+            </h3> --}}
 
             <!-- Bouton Call to Action -->
             <div class="hero-cta-section">
