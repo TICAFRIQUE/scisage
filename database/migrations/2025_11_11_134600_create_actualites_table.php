@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('actualites', function (Blueprint $table) {
             $table->id();
+            $table->text('libelle')->nullable();
+            $table->text('slug')->nullable();
+            $table->longText('description')->nullable();
+            $table->integer('position')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

@@ -11,6 +11,7 @@ use App\Http\Controllers\backend\ProjetController;
 use App\Http\Controllers\backend\AproposController;
 use App\Http\Controllers\backend\ActiviteController;
 use App\Http\Controllers\backend\BanniereController;
+use App\Http\Controllers\backend\ActualiteController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ParametreController;
 use App\Http\Controllers\backend\PortfolioController;
@@ -174,6 +175,16 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
         route::get('edit/{id}', 'edit')->name('portfolios.edit');
         route::put('update/{id}', 'update')->name('portfolios.update');
         route::delete('delete/{id}', 'destroy')->name('portfolios.delete');
+    });
+
+    //actualites
+    Route::controller(ActualiteController::class)->prefix('actualites')->group(function () {
+        route::get('', 'index')->name('actualites.index');
+        route::get('create', 'create')->name('actualites.create');
+        route::post('store', 'store')->name('actualites.store');
+        route::get('edit/{id}', 'edit')->name('actualites.edit');
+        route::put('update/{id}', 'update')->name('actualites.update');
+        route::delete('delete/{id}', 'destroy')->name('actualites.delete');
     });
 });
 
