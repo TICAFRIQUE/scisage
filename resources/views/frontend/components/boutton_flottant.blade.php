@@ -232,7 +232,7 @@
 
 <!-- Boutons flottants -->
 <div class="floating-buttons">
-    <a href="https://wa.me/+225{{$parametre->contact1}}?text=Bonjour,%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20services%20immobiliers."
+    <a href="https://wa.me/+225{{$parametre?->contact1}}?text=Bonjour,%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20services%20immobiliers."
         target="_blank" class="floating-btn whatsapp-btn" data-tooltip="Contactez-nous sur WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
