@@ -289,7 +289,7 @@
                     <a href="{{ route('page.activites', $item->slug) }}" class="text-decoration-none">
                         <div class="hero-option" data-aos="fade-right" data-aos-delay="200">
                             <h3><i class="{{ $item->icone }}"></i> {{ $item->libelle }}</h3>
-                            <p>{{ $item->description }}</p>
+                            {{-- <p>{{ $item->description }}</p> --}}
                         </div>
                     </a>
                 @endforeach

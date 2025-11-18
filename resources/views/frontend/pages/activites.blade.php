@@ -432,6 +432,9 @@
             <h2 class="section-title" data-aos="fade-up" data-aos-delay="10">
                 {{ $activite->libelle }}
             </h2>
+            <p class="section-description text-center" data-aos="fade-up" data-aos-delay="200">
+                {{ $activite->description }}
+            </p>
 
             @if ($activite->projets && $activite->projets->count() > 0)
                 <div class="projects-timeline">
