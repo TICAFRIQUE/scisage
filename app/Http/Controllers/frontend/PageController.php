@@ -28,8 +28,8 @@ class PageController extends Controller
             $banniere = Banniere::active()->with('media')->first();
 
             //activites 
-            $activites = Activite::with('media')->with('projets' , function($query){
-                $query->orderBy('etape' , 'asc');
+            $activites = Activite::with('media')->with('projets', function ($query) {
+                $query->orderBy('etape', 'asc');
             })->active()->get();
 
             //statistique
@@ -73,7 +73,9 @@ class PageController extends Controller
     public function activites($slug)
     {
         try {
-            $activite = Activite::with('media')->with('projets.media')->active()->where('slug', $slug)->first();
+            $activite = Activite::with('media')->with('projets', function ($query) {
+                $query->orderBy('etape', 'asc');
+            })->active()->where('slug', $slug)->first();
             if (!$activite) {
                 return redirect()->route('page.accueil')->with('error', 'Activité non trouvée.');
             }
@@ -182,10 +184,10 @@ class PageController extends Controller
 
 
     //Envoyer un contact 
-  
 
 
-     public function envoyerContact(Request $request)
+
+    public function envoyerContact(Request $request)
     {
         $request->validate([
             'nom' => 'required|string|max:255',
@@ -221,7 +223,4 @@ class PageController extends Controller
             ], 500);
         }
     }
-
-
-    
 }

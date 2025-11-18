@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Models\Projet;
 use App\Models\Activite;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -69,7 +70,7 @@ class ProjetController extends Controller
             //create une nouvelle etape de projet
             $projet = Projet::create([
                 'etape' => $request->etape,
-                'libelle' => $request->libelle,
+                'libelle' => Str::lower($request->libelle),
                 'description' => $request->description,
                 'activite_id' => $request->activite_id,
                 'is_active' => $request->is_active,
@@ -143,7 +144,7 @@ class ProjetController extends Controller
             //update projet
             $projet->update([
                 'etape' => $request->etape,
-                'libelle' => $request->libelle,
+                'libelle' => Str::lower($request->libelle),
                 'description' => $request->description,
                 'activite_id' => $request->activite_id,
                 'is_active' => $request->is_active,
