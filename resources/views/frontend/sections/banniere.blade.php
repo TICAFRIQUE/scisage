@@ -67,7 +67,7 @@
 
         .hero-option:hover {
             transform: translateY(-10px);
-            background: rgba(212, 175, 55, 0.9);
+            background:white;
             /* Background doré au hover */
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }
@@ -79,7 +79,7 @@
         }
 
         .hero-option h3 {
-            color: var(--secondary-gold);
+            color:white;
             font-weight: 700;
             margin-bottom: 1rem;
             font-size: 1.3rem;
