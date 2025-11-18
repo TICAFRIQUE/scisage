@@ -319,7 +319,7 @@
                                             Étape {{ $loop->iteration }}
                                         @endif
                                     </div>
-                                    <h4 class="timeline-title text-lowercase">{{ $projet->libelle }}</h4>
+                                    <h4 class="timeline-title text-capitalize">{{ $projet->libelle }}</h4>
                                     <p class="timeline-description">{{ $projet->description }}</p>
                                 </div>
                             @endforeach
