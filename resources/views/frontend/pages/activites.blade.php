@@ -448,7 +448,7 @@
                                         Étape {{ $index + 1 }}
                                     @endif
                                 </div>
-                                <h3 class="timeline-title">{{ $projet->libelle }}</h3>
+                                <h3 class="timeline-title text-uppercase">{{ $projet->libelle }}</h3>
                                 <p class="timeline-description">{{ $projet->description }}</p>
                             </div>
                             {{-- <div class="timeline-number">
