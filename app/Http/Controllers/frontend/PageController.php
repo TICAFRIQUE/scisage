@@ -28,7 +28,9 @@ class PageController extends Controller
             $banniere = Banniere::active()->with('media')->first();
 
             //activites 
-            $activites = Activite::with('media')->with('projets')->active()->orderBy('etape' , 'asc')->get();
+            $activites = Activite::with('media')->with('projets' , function($query){
+                $query->orderBy('etape' , 'asc');
+            })->active()->get();
 
             //statistique
             $statistiques = Statistique::active()->ordre()->get();
