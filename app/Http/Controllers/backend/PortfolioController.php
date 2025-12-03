@@ -47,10 +47,10 @@ class PortfolioController extends Controller
             $request->validate([
                 'image_principale' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
                 'categorie' => 'required|string',
-                'libelle' => 'required|string',
-                'type' => 'required|string',
-                'caracteristique' => 'required|string',
-                'localisation' => 'required|string',
+                'libelle' => 'nullable|string',
+                'type' => 'nullable|string',
+                'caracteristique' => 'nullable|string',
+                'localisation' => 'nullable|string',
                 'is_active' => 'required|boolean',
                 'prix' => 'nullable|numeric|min:0',
             ]);
@@ -120,7 +120,7 @@ class PortfolioController extends Controller
 
             //validation
             $request->validate([
-                'libelle' => 'required|string|max:255',
+                'libelle' => 'nullable|string|max:255',
                 'categorie' => 'required|string|in:realisations,projets,conceptions',
                 'type' => 'nullable|string|max:255',
                 'caracteristique' => 'nullable|string',
