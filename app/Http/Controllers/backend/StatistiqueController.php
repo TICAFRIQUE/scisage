@@ -36,7 +36,7 @@ class StatistiqueController extends Controller
             $request->validate([
                 'libelle' => 'required|string|max:255',
                 'icone' => 'required|string|max:255',
-                'chiffre' => 'required|integer',
+                'chiffre' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'position' => 'nullable|integer',
                 'is_active' => 'required|boolean',
@@ -94,7 +94,7 @@ class StatistiqueController extends Controller
             $request->validate([
                 'libelle' => 'required|string|max:255',
                 'icone' => 'required|string|max:255',
-                'chiffre' => 'required|integer',
+                'chiffre' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'position' => 'nullable|integer',
                 'is_active' => 'required|boolean',

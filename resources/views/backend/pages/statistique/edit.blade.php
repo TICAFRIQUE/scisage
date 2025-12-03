@@ -43,7 +43,7 @@
                                         <div class="mb-3">
                                             <label for="chiffre" class="form-label">Chiffre/Valeur <span
                                                     class="text-danger">*</span></label>
-                                            <input type="number" name="chiffre" id="chiffre" class="form-control"
+                                            <input type="text" name="chiffre" id="chiffre" class="form-control"
                                                 required value="{{ old('chiffre', $statistique->chiffre) }}"
                                                 placeholder="Ex: 43" min="0">
                                             @error('chiffre')

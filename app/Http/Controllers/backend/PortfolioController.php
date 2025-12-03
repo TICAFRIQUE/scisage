@@ -195,7 +195,7 @@ class PortfolioController extends Controller
             $portfolio->clearMediaCollection('galerie');
             //supprimer le portfolio
             $portfolio->delete();
-            return response()->json(['success' => true, 'message' => 'Portfolio supprimé avec succès.' , 'status' => 200]);
+            return response()->json(['success' => true, 'message' => 'Portfolio supprimé avec succès.', 'status' => 200]);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }

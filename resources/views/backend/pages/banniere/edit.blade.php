@@ -53,7 +53,7 @@
                                 Nouvelle image <small class="text-muted">(optionnelle - laissez vide pour conserver l'image
                                     actuelle)</small>
                             </label>
-                            <input class="form-control" type="file" id="image" name="image" accept="image/*">
+                            <input class="form-control" type="file" id="image" name="banniere" accept="image/*">
                             <div class="form-text">Formats acceptés: JPG, PNG, WebP. Taille recommandée: 1920x1080px</div>
                             @error('image')
                                 <div class="text-danger">{{ $message }}</div>

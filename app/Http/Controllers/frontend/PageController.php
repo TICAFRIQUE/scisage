@@ -25,7 +25,7 @@ class PageController extends Controller
     {
         try {
             // banniere
-            $banniere = Banniere::active()->with('media')->first();
+            $banniere = Banniere::active()->with('media')->get();
 
             //activites 
             $activites = Activite::with('media')->with('projets', function ($query) {

@@ -1,21 +1,117 @@
 @push('styles')
     <style>
         .hero-section {
-            background: linear-gradient(rgba(60, 36, 21, 0), rgba(139, 69, 19, 0.075)),
-                url('{{ $banniere?->getFirstMediaUrl('banniere') ?? asset('images/default-banner.jpg') }}');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             color: var(--white);
             padding: 200px 0 150px;
             text-align: center;
             position: relative;
             overflow: hidden;
+            height: 100vh;
+            min-height: 600px;
+        }
+
+        /* Slider Container */
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Slide Individual */
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background: linear-gradient(rgba(60, 36, 21, 0.2), rgba(139, 69, 19, 0.3)); */
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
-            z-index: 2;
+            z-index: 3;
+        }
+
+        /* Navigation Arrows */
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(212, 175, 55, 0.8);
+            border: none;
+            color: var(--dark-brown);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 4;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-nav:hover {
+            background: var(--primary-gold);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-prev {
+            left: 30px;
+        }
+
+        .slider-next {
+            right: 30px;
+        }
+
+        /* Dots Indicator */
+        .slider-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 4;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .slider-dot.active {
+            background: var(--primary-gold);
+            border-color: white;
+            transform: scale(1.2);
         }
 
         .hero-section h1 {
@@ -67,7 +163,7 @@
 
         .hero-option:hover {
             transform: translateY(-10px);
-            background:white;
+            background: white;
             /* Background doré au hover */
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }
@@ -79,7 +175,7 @@
         }
 
         .hero-option h3 {
-            color:white;
+            color: white;
             font-weight: 700;
             margin-bottom: 1rem;
             font-size: 1.3rem;
@@ -211,6 +307,20 @@
                 padding: 1.2rem 3rem;
                 font-size: 1.1rem;
             }
+
+            .slider-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .slider-prev {
+                left: 15px;
+            }
+
+            .slider-next {
+                right: 15px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -246,6 +356,30 @@
                 width: 90%;
                 max-width: 350px;
             }
+
+            .slider-nav {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+
+            .slider-prev {
+                left: 10px;
+            }
+
+            .slider-next {
+                right: 10px;
+            }
+
+            .slider-dots {
+                bottom: 20px;
+                gap: 10px;
+            }
+
+            .slider-dot {
+                width: 10px;
+                height: 10px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -276,11 +410,59 @@
                 font-size: 0.95rem;
                 letter-spacing: 1px;
             }
+
+            .slider-nav {
+                display: none;
+                /* Cache les flèches sur mobile */
+            }
         }
     </style>
 @endpush
 
 <section id="accueil" class="hero-section">
+    <!-- Slider Background -->
+    <div class="hero-slider">
+        @if ($banniere && $banniere->count() > 0)
+            @foreach ($banniere as $index => $slide)
+                @php
+                    $imageUrl = asset('images/default-banner.jpg'); // Image par défaut
+
+                    // Récupérer l'image depuis la relation media
+if ($slide->media && $slide->media->count() > 0) {
+    $media = $slide->media->where('collection_name', 'banniere')->first() ?? $slide->media->first();
+                        if ($media) {
+                            $imageUrl = $media->getFullUrl();
+                        }
+                    }
+                @endphp
+                <div class="hero-slide {{ $index === 0 ? 'active' : '' }}"
+                    style="background-image: url('{{ $imageUrl }}');">
+                </div>
+            @endforeach
+        @else
+            <div class="hero-slide active" style="background-image: url('{{ asset('images/default-banner.jpg') }}');">
+            </div>
+        @endif
+    </div>
+
+    <!-- Navigation Arrows -->
+    @if ($banniere && $banniere->count() > 1)
+        <button class="slider-nav slider-prev" onclick="changeSlide(-1)">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-nav slider-next" onclick="changeSlide(1)">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Dots Indicator -->
+        <div class="slider-dots">
+            @foreach ($banniere as $index => $slide)
+                <div class="slider-dot {{ $index === 0 ? 'active' : '' }}" onclick="goToSlide({{ $index }})">
+                </div>
+            @endforeach
+        </div>
+    @endif
+
     <div class="container">
         <div class="hero-content" data-aos="fade-up">
             <!-- Encadrés côte à côte -->
@@ -314,12 +496,188 @@
 
 @push('scripts')
     <script>
+        // Variables pour le slider
+        let currentSlide = 0;
+        let slides = [];
+        let dots = [];
+        let slideInterval;
+        let isTransitioning = false;
+
+        // Initialisation du slider
+        document.addEventListener('DOMContentLoaded', function() {
+            slides = document.querySelectorAll('.hero-slide');
+            dots = document.querySelectorAll('.slider-dot');
+
+            if (slides.length > 1) {
+                startAutoSlider();
+
+                // Pause auto-slider au hover
+                const heroSection = document.querySelector('.hero-section');
+                heroSection.addEventListener('mouseenter', stopAutoSlider);
+                heroSection.addEventListener('mouseleave', startAutoSlider);
+            }
+        });
+
+        // Fonction pour changer de slide avec effet fade
+        function changeSlide(direction) {
+            if (isTransitioning || slides.length <= 1) return;
+
+            isTransitioning = true;
+            stopAutoSlider();
+
+            // Calculer le nouveau slide
+            const oldSlide = currentSlide;
+            currentSlide += direction;
+
+            if (currentSlide >= slides.length) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = slides.length - 1;
+            }
+
+            const newSlide = slides[currentSlide];
+            const currentSlideEl = slides[oldSlide];
+
+            // Commencer le fade in de la nouvelle slide immédiatement
+            newSlide.style.opacity = '0';
+            newSlide.classList.add('active');
+            
+            // Animer vers la nouvelle slide avec un léger délai
+            setTimeout(() => {
+                newSlide.style.opacity = '1';
+                
+                // Commencer le fade out de l'ancienne slide après un court délai
+                setTimeout(() => {
+                    currentSlideEl.style.opacity = '0.3';
+                    
+                    setTimeout(() => {
+                        currentSlideEl.classList.remove('active');
+                        currentSlideEl.style.opacity = '0';
+                        
+                        // Mettre à jour les points
+                        if (dots.length > 0) {
+                            dots[oldSlide].classList.remove('active');
+                            dots[currentSlide].classList.add('active');
+                        }
+                        
+                        setTimeout(() => {
+                            isTransitioning = false;
+                            startAutoSlider();
+                        }, 100);
+                    }, 200);
+                }, 100);
+            }, 50);
+        }
+
+        // Fonction pour aller directement à un slide
+        function goToSlide(index) {
+            if (isTransitioning || index === currentSlide || slides.length <= 1) return;
+
+            isTransitioning = true;
+            stopAutoSlider();
+
+            const oldSlide = currentSlide;
+            currentSlide = index;
+
+            const newSlide = slides[currentSlide];
+            const currentSlideEl = slides[oldSlide];
+
+            // Commencer le fade in de la nouvelle slide immédiatement
+            newSlide.style.opacity = '0';
+            newSlide.classList.add('active');
+            
+            // Animer vers la nouvelle slide avec un léger délai
+            setTimeout(() => {
+                newSlide.style.opacity = '1';
+                
+                // Commencer le fade out de l'ancienne slide après un court délai
+                setTimeout(() => {
+                    currentSlideEl.style.opacity = '0.3';
+                    
+                    setTimeout(() => {
+                        currentSlideEl.classList.remove('active');
+                        currentSlideEl.style.opacity = '0';
+                        
+                        // Mettre à jour les points
+                        if (dots.length > 0) {
+                            dots[oldSlide].classList.remove('active');
+                            dots[currentSlide].classList.add('active');
+                        }
+                        
+                        setTimeout(() => {
+                            isTransitioning = false;
+                            startAutoSlider();
+                        }, 100);
+                    }, 200);
+                }, 100);
+            }, 50);
+        }
+
+        // Démarrer l'auto-slider
+        function startAutoSlider() {
+            if (slides.length <= 1) return;
+
+            slideInterval = setInterval(() => {
+                changeSlide(1);
+            }, 4000); // Change toutes les 4 secondes
+        }
+
+        // Arrêter l'auto-slider
+        function stopAutoSlider() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+            }
+        }
+
+        // Gestion du swipe sur mobile
+        let startX = 0;
+        let startY = 0;
+
+        document.querySelector('.hero-section').addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+
+        document.querySelector('.hero-section').addEventListener('touchend', function(e) {
+            if (!startX || !startY) return;
+
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+
+            // Vérifier que c'est un swipe horizontal
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    // Swipe vers la gauche - slide suivant
+                    changeSlide(1);
+                } else {
+                    // Swipe vers la droite - slide précédent
+                    changeSlide(-1);
+                }
+            }
+
+            startX = 0;
+            startY = 0;
+        });
+
         // Animation des chiffres des statistiques
         function animateStats() {
             const statNumbers = document.querySelectorAll('.stat-number');
 
             statNumbers.forEach(stat => {
-                const target = parseInt(stat.getAttribute('data-target'));
+                const dataTarget = stat.getAttribute('data-target');
+                
+                // Extraire le préfixe, le chiffre et le suffixe
+                const prefixMatch = dataTarget.match(/^([^0-9]*)/);
+                const numberMatch = dataTarget.match(/([0-9]+)/);
+                const suffixMatch = dataTarget.match(/([^0-9]*)$/);
+                
+                const prefix = prefixMatch ? prefixMatch[1] : '';
+                const target = numberMatch ? parseInt(numberMatch[1]) : 0;
+                const suffix = suffixMatch && suffixMatch[1] !== prefix ? suffixMatch[1] : '';
+                
                 const increment = target / 100;
                 let current = 0;
 
@@ -331,7 +689,8 @@
                         current = target;
                         clearInterval(timer);
                     }
-                    stat.textContent = Math.floor(current);
+                    // Afficher avec préfixe et suffixe
+                    stat.textContent = prefix + Math.floor(current) + suffix;
                 }, 20);
             });
         }

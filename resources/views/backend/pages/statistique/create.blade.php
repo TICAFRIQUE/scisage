@@ -39,7 +39,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="chiffre" class="form-label">Chiffre/Valeur <span class="text-danger">*</span></label>
-                                            <input type="number" name="chiffre" id="chiffre" class="form-control" required
+                                            <input type="text" name="chiffre" id="chiffre" class="form-control" required
                                                 value="{{ old('chiffre') }}" placeholder="Ex: 43" min="0">
                                             @error('chiffre')
                                                 <div class="text-danger">{{ $message }}</div>

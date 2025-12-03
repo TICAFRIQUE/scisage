@@ -1000,13 +1000,19 @@
                                         </div>
                                     </div>
                                     <div class="portfolio-content">
-                                        <div class="portfolio-type">{{ ucfirst($portfolio->type) }}</div>
+                                        @if($portfolio->type)
+                                            <div class="portfolio-type">{{ ucfirst($portfolio->type) }}</div>
+                                        @endif
                                         <h3 class="portfolio-title">{{ $portfolio->libelle }}</h3>
-                                        <div class="portfolio-location">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                            {{ $portfolio->localisation }}
-                                        </div>
-                                        <div class="portfolio-features">{{ $portfolio->caracteristique }}</div>
+                                        @if($portfolio->localisation)
+                                            <div class="portfolio-location">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                {{ $portfolio->localisation }}
+                                            </div>
+                                        @endif
+                                        @if($portfolio->caracteristique)
+                                            <div class="portfolio-features">{{ $portfolio->caracteristique }}</div>
+                                        @endif
                                     </div>
 
                                     <!-- Data pour lightbox et modal -->
@@ -1018,7 +1024,11 @@
                                         "categorie": "{{ addslashes($portfolio->categorie) }}",
                                         "localisation": "{{ addslashes($portfolio->localisation) }}",
                                         "caracteristique": "{{ addslashes($portfolio->caracteristique) }}",
+                                        @if($portfolio->prix)
                                         "prix": "{{ number_format($portfolio->prix, 0, ',', ' ') }} FCFA",
+                                        @else
+                                        "prix": "",
+                                        @endif
                                         "images": [
                                             @php
                                                 $images = [];
@@ -1302,10 +1312,39 @@
                 document.getElementById('modalImage').src = currentPortfolioData.images[0] ||
                     'https://via.placeholder.com/800x300/cccccc/000000?text=Image+Non+Disponible';
                 document.getElementById('modalTitle').textContent = currentPortfolioData.title;
-                document.getElementById('modalType').textContent = currentPortfolioData.type;
-                document.getElementById('modalCategorie').textContent = currentPortfolioData.categorie;
-                document.getElementById('modalLocation').textContent = currentPortfolioData.localisation;
-                document.getElementById('modalDescription').textContent = currentPortfolioData.caracteristique;
+                
+                // Afficher ou masquer les éléments selon leur existence
+                const typeElement = document.querySelector('.modal-detail-item:nth-child(1)');
+                if (currentPortfolioData.type && currentPortfolioData.type.trim() !== '') {
+                    document.getElementById('modalType').textContent = currentPortfolioData.type;
+                    typeElement.style.display = 'flex';
+                } else {
+                    typeElement.style.display = 'none';
+                }
+
+                const categorieElement = document.querySelector('.modal-detail-item:nth-child(2)');
+                if (currentPortfolioData.categorie && currentPortfolioData.categorie.trim() !== '') {
+                    document.getElementById('modalCategorie').textContent = currentPortfolioData.categorie;
+                    categorieElement.style.display = 'flex';
+                } else {
+                    categorieElement.style.display = 'none';
+                }
+
+                const locationElement = document.querySelector('.modal-detail-item:nth-child(3)');
+                if (currentPortfolioData.localisation && currentPortfolioData.localisation.trim() !== '') {
+                    document.getElementById('modalLocation').textContent = currentPortfolioData.localisation;
+                    locationElement.style.display = 'flex';
+                } else {
+                    locationElement.style.display = 'none';
+                }
+
+                const descriptionElement = document.getElementById('modalDescription');
+                if (currentPortfolioData.caracteristique && currentPortfolioData.caracteristique.trim() !== '') {
+                    descriptionElement.textContent = currentPortfolioData.caracteristique;
+                    descriptionElement.style.display = 'block';
+                } else {
+                    descriptionElement.style.display = 'none';
+                }
 
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';

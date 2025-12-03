@@ -179,15 +179,13 @@
 <section class="statistics-section">
     <div class="container">
         <div class="statistics-container" data-aos="fade-up">
-
-
             @foreach ($statistiques as $item)
                 <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
                     <div class="stat-icon">
                         <i class="{{ $item->icone }}"></i>
                     </div>
-                    <div class="stat-number" data-target="{{ $item->chiffre }}">0</div>
                     <div class="stat-label">{{ $item->libelle }} </div>
+                    <div class="stat-number" data-target="{{ $item->chiffre }}">0</div>
                 </div>
             @endforeach
         </div>

@@ -4,7 +4,7 @@
             background: linear-gradient(135deg,
                     rgba(60, 36, 21, 0.425),
                     rgba(139, 69, 19, 0.692)),
-                url('{{ $banniere?->getFirstMediaUrl('banniere') ?? asset('images/default-banner.jpg') }}');
+                url('{{ $banniere && $banniere->count() > 0 ? ($banniere->first()->media && $banniere->first()->media->count() > 0 ? ($banniere->first()->media->where('collection_name', 'banniere')->first() ?? $banniere->first()->media->first())->getFullUrl() : asset('images/default-banner.jpg')) : asset('images/default-banner.jpg') }}');
 
             background-size: cover;
             background-position: center;

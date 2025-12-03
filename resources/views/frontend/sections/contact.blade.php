@@ -260,7 +260,7 @@
                          </div>
                          <div class="contact-details">
                              <h5>Téléphone</h5>
-                             <p>{{ $parametre?->contact1 }} <br>{{ $parametre?->contact2 }}</p>
+                             <p>{{ $parametre?->contact1 }} <br>{{ $parametre?->contact2 }} <br>{{ $parametre?->contact3 }}</p>
                          </div>
                      </div>
                      <div class="contact-item">

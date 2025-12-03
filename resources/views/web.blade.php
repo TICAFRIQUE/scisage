@@ -1638,7 +1638,17 @@
             const statNumbers = document.querySelectorAll('.stat-number');
 
             statNumbers.forEach(stat => {
-                const target = parseInt(stat.getAttribute('data-target'));
+                const dataTarget = stat.getAttribute('data-target');
+                
+                // Extraire le préfixe, le chiffre et le suffixe
+                const prefixMatch = dataTarget.match(/^([^0-9]*)/);
+                const numberMatch = dataTarget.match(/([0-9]+)/);
+                const suffixMatch = dataTarget.match(/([^0-9]*)$/);
+                
+                const prefix = prefixMatch ? prefixMatch[1] : '';
+                const target = numberMatch ? parseInt(numberMatch[1]) : 0;
+                const suffix = suffixMatch && suffixMatch[1] !== prefix ? suffixMatch[1] : '';
+                
                 const increment = target / 100;
                 let current = 0;
 
@@ -1650,7 +1660,8 @@
                         current = target;
                         clearInterval(timer);
                     }
-                    stat.textContent = Math.floor(current);
+                    // Afficher avec préfixe et suffixe
+                    stat.textContent = prefix + Math.floor(current) + suffix;
                 }, 20);
             });
         }

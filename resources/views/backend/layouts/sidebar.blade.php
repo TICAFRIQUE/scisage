@@ -105,7 +105,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('engagements.*') ? 'active' : '' }} "
                         href="{{ route('engagements.index') }}">
-                        <i class="ri-bar-chart-line"></i> <span>ENGAGEMENTS</span>
+                        <i class="ri-heart-line"></i> <span>ENGAGEMENTS</span>
                     </a>
                 </li>
                 {{-- @endcan --}}
@@ -115,7 +115,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('apropos.*') ? 'active' : '' }} "
                         href="{{ route('apropos.index') }}">
-                        <i class="ri-bar-chart-line"></i> <span>APROPOS</span>
+                        <i class="ri-information-line"></i> <span>APROPOS</span>
                     </a>
                 </li>
                 {{-- @endcan --}}
@@ -125,7 +125,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('equipes.*') ? 'active' : '' }} "
                         href="{{ route('equipes.index') }}">
-                        <i class="ri-bar-chart-line"></i> <span>EQUIPES</span>
+                        <i class="ri-team-line"></i> <span>EQUIPES</span>
                     </a>
                 </li>
                 {{-- @endcan --}}
@@ -134,7 +134,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('activites.*') ? 'active' : '' }} "
                         href="{{ route('activites.index') }}">
-                        <i class="ri-bar-chart-line"></i> <span>ACTIVITES</span>
+                        <i class="ri-calendar-event-line"></i> <span>ACTIVITES</span>
                     </a>
                 </li>
                 {{-- @endcan --}}
@@ -143,7 +143,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('projets.*') ? 'active' : '' }} "
                         href="{{ route('projets.index') }}">
-                        <i class="ri-bar-chart-line"></i> <span>PROJETS</span>
+                        <i class="ri-folder-line"></i> <span>PROJETS</span>
                     </a>
                 </li>
                 {{-- @endcan --}}
@@ -152,7 +152,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('faqs.*') ? 'active' : '' }} "
                         href="{{ route('faqs.index') }}">
-                        <i class="ri-bar-chart-line"></i> <span>FAQ</span>
+                        <i class="ri-question-answer-line"></i> <span>FAQ</span>
                     </a>
                 </li>
                 {{-- @endcan --}}
@@ -161,7 +161,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('portfolios.*') ? 'active' : '' }} "
                         href="{{ route('portfolios.index') }}">
-                        <i class="ri-bar-chart-line"></i> <span>PORTFOLIO</span>
+                        <i class="ri-briefcase-line"></i> <span>PORTFOLIO</span>
                     </a>
                 </li>
                 {{-- @endcan --}}
@@ -171,7 +171,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('actualites.*') ? 'active' : '' }} "
                         href="{{ route('actualites.index') }}">
-                        <i class="ri-bar-chart-line"></i> <span>ACTUALITES</span>
+                        <i class="ri-newspaper-line"></i> <span>ACTUALITES</span>
                     </a>
                 </li>
                 {{-- @endcan --}}
