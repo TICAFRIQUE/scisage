@@ -28,9 +28,11 @@
                             <div class="col-md-8">
                                 <!-- Libellé -->
                                 <div class="mb-3">
-                                    <label for="libelle" class="form-label">Libellé/Titre <span class="text-danger">*</span></label>
+                                    <label for="libelle" class="form-label">Libellé/Titre <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" name="libelle" class="form-control" id="libelle"
-                                        placeholder="Ex: Villa moderne de 250m²" value="{{ old('libelle', $portfolio->libelle) }}" required>
+                                        placeholder="Ex: Villa moderne de 250m²"
+                                        value="{{ old('libelle', $portfolio->libelle) }}" required>
                                     @error('libelle')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -41,14 +43,21 @@
                                     <!-- Catégorie -->
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="categorie" class="form-label">Catégorie <span class="text-danger">*</span></label>
+                                            <label for="categorie" class="form-label">Catégorie <span
+                                                    class="text-danger">*</span></label>
                                             <select name="categorie" id="categorie" class="form-select" required>
                                                 <option value="" disabled>Choisir une catégorie</option>
-                                                @php
-                                                    $categories = ['realisations', 'projets', 'conceptions'];
-                                                @endphp
+                                                {{-- @php
+                                                    $categories = [
+                                                        'realisations',
+                                                        'projets',
+                                                        'conceptions',
+                                                        'maison de rêve',
+                                                    ];
+                                                @endphp --}}
                                                 @foreach ($categories as $categorie)
-                                                    <option value="{{ $categorie }}" {{ old('categorie', $portfolio->categorie) == $categorie ? 'selected' : '' }}>
+                                                    <option value="{{ $categorie }}"
+                                                        {{ old('categorie', $portfolio->categorie) == $categorie ? 'selected' : '' }}>
                                                         {{ ucfirst($categorie) }}
                                                     </option>
                                                 @endforeach
@@ -65,7 +74,8 @@
                                         <div class="mb-3">
                                             <label for="type" class="form-label">Type</label>
                                             <input type="text" name="type" class="form-control" id="type"
-                                                placeholder="Ex: Villa, Appartement, Bureau" value="{{ old('type', $portfolio->type) }}">
+                                                placeholder="Ex: Villa, Appartement, Bureau"
+                                                value="{{ old('type', $portfolio->type) }}">
                                             @error('type')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -77,7 +87,8 @@
                                         <div class="mb-3">
                                             <label for="prix" class="form-label">Prix (FCFA)</label>
                                             <input type="number" name="prix" class="form-control" id="prix"
-                                                placeholder="Ex: 75000000" value="{{ old('prix', $portfolio->prix) }}" min="0">
+                                                placeholder="Ex: 75000000" value="{{ old('prix', $portfolio->prix) }}"
+                                                min="0">
                                             @error('prix')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -89,7 +100,8 @@
                                 <div class="mb-3">
                                     <label for="localisation" class="form-label">Localisation</label>
                                     <input type="text" name="localisation" class="form-control" id="localisation"
-                                        placeholder="Ex: Cocody, Abidjan" value="{{ old('localisation', $portfolio->localisation) }}">
+                                        placeholder="Ex: Cocody, Abidjan"
+                                        value="{{ old('localisation', $portfolio->localisation) }}">
                                     @error('localisation')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -112,9 +124,31 @@
                                     <div class="card-body">
                                         <label for="statut" class="form-label">Statut</label>
                                         <select name="is_active" id="statut" class="form-select">
-                                            <option value="1" {{ old('is_active', $portfolio->is_active) ? 'selected' : '' }}>Actif</option>
-                                            <option value="0" {{ !old('is_active', $portfolio->is_active) ? 'selected' : '' }}>Inactif</option>
+                                            <option value="1"
+                                                {{ old('is_active', $portfolio->is_active) ? 'selected' : '' }}>Actif
+                                            </option>
+                                            <option value="0"
+                                                {{ !old('is_active', $portfolio->is_active) ? 'selected' : '' }}>Inactif
+                                            </option>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <!-- Catalogue -->
+                                <div class="card border mb-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title mb-3">
+                                            <i class="ri-shopping-bag-line me-2"></i>Options de vente
+                                        </h6>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="is_catalogue" name="is_catalogue" value="1" {{ old('is_catalogue', $portfolio->is_catalogue) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="is_catalogue">
+                                                Disponible dans le catalogue
+                                            </label>
+                                        </div>
+                                        <div class="form-text mt-2">
+                                            <i class="ri-information-line me-1"></i>Si coché, ce portfolio sera disponible pour achat direct par les clients
+                                        </div>
                                     </div>
                                 </div>
 
@@ -143,25 +177,31 @@
                                             </div>
                                         @endif
 
-                                        <input class="form-control mb-3" type="file" id="image_principale" name="image_principale" 
-                                            accept="image/*">
-                                        <div class="form-text">{{ $imagePrincipaleUrl ? 'Changer l\'image principale' : 'Ajouter une image principale' }} - Max 1MB (JPG, PNG, WebP)</div>
-                                        
+                                        <input class="form-control mb-3" type="file" id="image_principale"
+                                            name="image_principale" accept="image/*">
+                                        <div class="form-text">
+                                            {{ $imagePrincipaleUrl ? 'Changer l\'image principale' : 'Ajouter une image principale' }}
+                                            - Max 1MB (JPG, PNG, WebP)</div>
+
                                         <div class="mt-3 position-relative" style="display: inline-block;">
-                                            <img id="previewImagePrincipale" src="#" alt="Aperçu nouvelle image principale"
+                                            <img id="previewImagePrincipale" src="#"
+                                                alt="Aperçu nouvelle image principale"
                                                 style="max-width: 100%; max-height: 200px; display: none; border-radius: 8px; border: 2px solid #ddd;" />
-                                            <button type="button" id="removeImagePrincipaleBtn" class="btn btn-danger btn-sm"
+                                            <button type="button" id="removeImagePrincipaleBtn"
+                                                class="btn btn-danger btn-sm"
                                                 style="position: absolute; top: 10px; right: 10px; display: none;">
                                                 <i class="ri-delete-bin-line"></i>
                                             </button>
-                                            <div id="newImagePrincipaleLabel" class="position-absolute top-0 start-0 p-1" style="display: none;">
+                                            <div id="newImagePrincipaleLabel" class="position-absolute top-0 start-0 p-1"
+                                                style="display: none;">
                                                 <span class="badge bg-primary">Nouvelle</span>
                                             </div>
                                         </div>
                                         @error('image_principale')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
-                                        <div id="image_principale-error" class="text-danger" style="display: none;"></div>
+                                        <div id="image_principale-error" class="text-danger" style="display: none;">
+                                        </div>
                                     </div>
                                 </div>
 
@@ -170,7 +210,8 @@
                                     <div class="card-header">
                                         <h6 class="card-title mb-0">
                                             <i class="ri-gallery-line me-2"></i>Galerie d'images
-                                            <span class="badge bg-info ms-2" id="imageCount">{{ $portfolio->getMedia('galerie')->count() }}</span>
+                                            <span class="badge bg-info ms-2"
+                                                id="imageCount">{{ $portfolio->getMedia('galerie')->count() }}</span>
                                         </h6>
                                     </div>
                                     <div class="card-body">
@@ -180,14 +221,19 @@
                                                 <label class="form-label">Images actuelles</label>
                                                 <div class="row g-2" id="currentGallery">
                                                     @foreach ($portfolio->getMedia('galerie') as $media)
-                                                        <div class="col-6 col-md-4 mb-2 position-relative" data-media-id="{{ $media->id }}">
-                                                            <img src="{{ $media->getUrl() }}" alt="Image galerie" 
-                                                                class="img-thumbnail w-100" style="height: 100px; object-fit: cover;">
-                                                            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 delete-existing-image" 
-                                                                    data-media-id="{{ $media->id }}" title="Supprimer cette image">
+                                                        <div class="col-6 col-md-4 mb-2 position-relative"
+                                                            data-media-id="{{ $media->id }}">
+                                                            <img src="{{ $media->getUrl() }}" alt="Image galerie"
+                                                                class="img-thumbnail w-100"
+                                                                style="height: 100px; object-fit: cover;">
+                                                            <button type="button"
+                                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 delete-existing-image"
+                                                                data-media-id="{{ $media->id }}"
+                                                                title="Supprimer cette image">
                                                                 <i class="ri-close-line"></i>
                                                             </button>
-                                                            <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center py-1">
+                                                            <div
+                                                                class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center py-1">
                                                                 <small>Existante</small>
                                                             </div>
                                                         </div>
@@ -197,13 +243,13 @@
                                         @endif
 
                                         <!-- Ajout de nouvelles images -->
-                                        <input class="form-control mb-3" type="file" id="galerie" name="galerie[]" 
+                                        <input class="form-control mb-3" type="file" id="galerie" name="galerie[]"
                                             accept="image/*" multiple>
                                         <div class="form-text">Ajouter de nouvelles images - Max 1MB par image</div>
-                                        
+
                                         <!-- Aperçu nouvelles images -->
                                         <div id="galeriePreview" class="mt-3 row g-2"></div>
-                                        
+
                                         @error('galerie')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -225,9 +271,12 @@
                                                 <i class="ri-information-line me-2"></i>Informations
                                             </h6>
                                             <small class="text-muted d-block">ID: #{{ $portfolio->id }}</small>
-                                            <small class="text-muted d-block">Créé: {{ $portfolio->created_at->format('d/m/Y à H:i') }}</small>
-                                            <small class="text-muted d-block">Modifié: {{ $portfolio->updated_at->format('d/m/Y à H:i') }}</small>
-                                            <small class="text-muted d-block">Images galerie: {{ $portfolio->getMedia('galerie')->count() }}</small>
+                                            <small class="text-muted d-block">Créé:
+                                                {{ $portfolio->created_at->format('d/m/Y à H:i') }}</small>
+                                            <small class="text-muted d-block">Modifié:
+                                                {{ $portfolio->updated_at->format('d/m/Y à H:i') }}</small>
+                                            <small class="text-muted d-block">Images galerie:
+                                                {{ $portfolio->getMedia('galerie')->count() }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -261,7 +310,7 @@
         $(document).ready(function() {
             // Animation d'entrée
             $('.card').hide().fadeIn(500);
-            
+
             // Initialiser le compteur avec les images existantes + nouvelles
             updateImageCount();
         });
@@ -270,10 +319,10 @@
         function showError(fieldId, message) {
             const errorDiv = $(`#${fieldId}-error`);
             const field = $(`#${fieldId}`);
-            
+
             errorDiv.text(message).show();
             field.addClass('is-invalid');
-            
+
             setTimeout(() => {
                 errorDiv.hide();
                 field.removeClass('is-invalid');
@@ -284,15 +333,15 @@
         function hideError(fieldId) {
             const errorDiv = $(`#${fieldId}-error`);
             const field = $(`#${fieldId}`);
-            
+
             errorDiv.hide();
             field.removeClass('is-invalid');
         }
 
         // Vérifier si une image existe déjà
         function imageAlreadyExists(file) {
-            return galerieFiles.some(existingFile => 
-                existingFile.file.name === file.name && 
+            return galerieFiles.some(existingFile =>
+                existingFile.file.name === file.name &&
                 existingFile.file.size === file.size &&
                 existingFile.file.lastModified === file.lastModified
             );
@@ -302,7 +351,7 @@
         $('#image_principale').on('change', function(e) {
             const [file] = this.files;
             hideError('image_principale');
-            
+
             if (file) {
                 if (file.size > 1 * 1024 * 1024) {
                     showError('image_principale', 'L\'image principale est trop volumineuse. Taille maximale: 1MB');
@@ -345,15 +394,15 @@
         $(document).on('click', '.delete-existing-image', function() {
             const mediaId = $(this).data('media-id');
             const imageElement = $(this).closest('.col-6');
-            
+
             if (confirm('Voulez-vous vraiment supprimer cette image ? elle sera definitivement supprimée ?')) {
                 // Ajouter à la liste des suppressions
                 deletedImages.push(mediaId);
                 $('#deleted_images').val(deletedImages.join(','));
-                
+
                 // Supprimer visuellement
                 imageElement.remove();
-                
+
                 // Mettre à jour le compteur
                 updateImageCount();
             }
@@ -363,19 +412,21 @@
         $('#galerie').on('change', function(e) {
             const newFiles = Array.from(this.files);
             hideError('galerie');
-            
+
             if (newFiles.length > 0) {
                 const currentExistingCount = $('#currentGallery .col-6').length;
                 const totalAfterAdd = currentExistingCount + galerieFiles.length + newFiles.length;
-                
+
                 if (totalAfterAdd > 10) {
-                    showError('galerie', `Vous ne pouvez avoir que 10 images maximum. Total actuel: ${currentExistingCount + galerieFiles.length}`);
+                    showError('galerie',
+                        `Vous ne pouvez avoir que 10 images maximum. Total actuel: ${currentExistingCount + galerieFiles.length}`
+                        );
                     this.value = '';
                     return;
                 }
 
                 const uniqueNewFiles = newFiles.filter(file => !imageAlreadyExists(file));
-                
+
                 if (uniqueNewFiles.length === 0) {
                     showError('galerie', 'Toutes ces images ont déjà été ajoutées.');
                     this.value = '';
@@ -384,15 +435,16 @@
 
                 let hasError = false;
                 let duplicateCount = 0;
-                
+
                 newFiles.forEach((file) => {
                     if (imageAlreadyExists(file)) {
                         duplicateCount++;
                         return;
                     }
-                    
+
                     if (file.size > 1 * 1024 * 1024) {
-                        showError('galerie', `L'image ${file.name} est trop volumineuse. Taille maximale: 1MB`);
+                        showError('galerie',
+                            `L'image ${file.name} est trop volumineuse. Taille maximale: 1MB`);
                         hasError = true;
                         return;
                     }
@@ -418,7 +470,8 @@
                 });
 
                 if (duplicateCount > 0 && !hasError) {
-                    const message = duplicateCount === 1 ? '1 image en doublon ignorée.' : `${duplicateCount} images en doublon ignorées.`;
+                    const message = duplicateCount === 1 ? '1 image en doublon ignorée.' :
+                        `${duplicateCount} images en doublon ignorées.`;
                     const infoDiv = $('#galerie-error');
                     infoDiv.removeClass('text-danger').addClass('text-info').text(message).show();
                     setTimeout(() => {
@@ -431,7 +484,7 @@
                     updateGalerieInput();
                 }
             }
-            
+
             this.value = '';
         });
 
@@ -455,10 +508,10 @@
         // Suppression d'une nouvelle image
         $(document).on('click', '.remove-galerie-image', function() {
             const imageId = parseInt($(this).data('image-id'));
-            
+
             galerieFiles = galerieFiles.filter(item => item.id !== imageId);
             $(this).closest('.col-6').remove();
-            
+
             updateImageCount();
             updateGalerieInput();
             hideError('galerie');
@@ -469,7 +522,7 @@
             const existingCount = $('#currentGallery .col-6').length;
             const newCount = galerieFiles.length;
             const totalCount = existingCount + newCount;
-            
+
             $('#imageCount').text(totalCount);
         }
 
@@ -479,7 +532,7 @@
             galerieFiles.forEach(item => {
                 dt.items.add(item.file);
             });
-            
+
             const galerieInput = document.getElementById('galerie');
             galerieInput.files = dt.files;
         }
@@ -487,10 +540,10 @@
         // Validation du formulaire
         $('#formSend').on('submit', function(e) {
             let hasErrors = false;
-            
+
             $('.text-danger[id$="-error"]').hide();
             $('.form-control, .form-select').removeClass('is-invalid');
-            
+
             const libelle = $('#libelle').val().trim();
             const categorie = $('#categorie').val();
 
@@ -516,7 +569,7 @@
             }
 
             updateGalerieInput();
-            
+
             // Confirmation si changement d'image principale
             const hasNewImagePrincipale = $('#image_principale')[0].files.length > 0;
             if (hasNewImagePrincipale) {

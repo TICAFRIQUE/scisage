@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 
 class PortfolioController extends Controller
 {
+
+    public function categories()
+    {
+        return ['realisations', 'projets', 'conceptions', 'catalogues'];
+    }
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +34,7 @@ class PortfolioController extends Controller
     {
         //
         try {
-            $categories = ['realisations', 'projets', 'conceptions'];
+            $categories = $this->categories();
             return view('backend.pages.portfolio.create', compact('categories'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
@@ -52,6 +57,7 @@ class PortfolioController extends Controller
                 'caracteristique' => 'nullable|string',
                 'localisation' => 'nullable|string',
                 'is_active' => 'required|boolean',
+                'is_catalogue' => 'nullable|boolean',
                 'prix' => 'nullable|numeric|min:0',
             ]);
 
@@ -65,6 +71,7 @@ class PortfolioController extends Controller
                 'caracteristique' => $request->caracteristique,
                 'localisation' => $request->localisation,
                 'is_active' => $request->is_active,
+                'is_catalogue' => $request->has('is_catalogue') ? (bool)$request->is_catalogue : false,
             ]);
 
             //enregistrer l'image avec media library
@@ -102,7 +109,7 @@ class PortfolioController extends Controller
         //
         try {
             $portfolio = Portfolio::findOrFail($id);
-            $categories = ['realisations', 'projets', 'conceptions'];
+            $categories = $this->categories();
             return view('backend.pages.portfolio.edit', compact('portfolio', 'categories'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
@@ -127,6 +134,7 @@ class PortfolioController extends Controller
                 'localisation' => 'nullable|string|max:255',
                 'prix' => 'nullable|numeric|min:0',
                 'is_active' => 'boolean',
+                'is_catalogue' => 'nullable|boolean',
                 'image_principale' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:1024',
                 'galerie' => 'nullable|array|max:10',
                 'galerie.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:1024',
@@ -142,6 +150,7 @@ class PortfolioController extends Controller
                 'localisation' => $request->localisation,
                 'prix' => $request->prix,
                 'is_active' => $request->has('is_active') ? $request->is_active : 1,
+                'is_catalogue' => $request->has('is_catalogue') ? (bool)$request->is_catalogue : false,
             ]);
 
             //mettre à jour l'image principale si nouvelle image

@@ -40,6 +40,7 @@
                                     <th>Caracteristiques</th>
                                     <th>Localisation</th>
                                     <th>Statut</th>
+                                    <th>Catalogue</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -61,6 +62,17 @@
                                         <td>
                                             <span
                                                 class="badge {{ $item->is_active == 1 ? 'bg-success' : 'bg-danger' }}">{{ $item->is_active == 1 ? 'Actif' : 'Inactif' }}</span>
+                                        </td>
+                                        <td>
+                                            @if($item->is_catalogue)
+                                                <span class="badge bg-info">
+                                                    <i class="ri-shopping-bag-line me-1"></i>Catalogue
+                                                </span>
+                                            @else
+                                                <span class="badge bg-secondary">
+                                                    <i class="ri-eye-line me-1"></i>Vitrine
+                                                </span>
+                                            @endif
                                         </td>
 
                                         <td>

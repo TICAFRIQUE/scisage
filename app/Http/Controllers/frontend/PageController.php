@@ -223,4 +223,111 @@ class PageController extends Controller
             ], 500);
         }
     }
+
+    // Page de souscription catalogue (maisons de rêves)
+    public function souscriptionCatalogue()
+    {
+        try {
+            // Récupérer les portfolios marqués comme catalogue
+            $portfolios = Portfolio::with(['media' => function ($query) {
+                $query->orderBy('order_column', 'asc');
+            }])->where('is_catalogue', true)->active()->get();
+
+            return view('frontend.pages.souscrire-catalogue', compact('portfolios'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
+        }
+    }
+
+    // Envoi du formulaire de souscription catalogue
+    public function envoyerSouscriptionCatalogue(Request $request)
+    {
+        $request->validate([
+            'portfolio_id' => 'required|exists:portfolios,id',
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'email' => 'required|email',
+            'contact' => 'required|string|max:20',
+            'ville' => 'required|string|max:255',
+            'message' => 'nullable|string|max:1000',
+        ]);
+
+        try {
+            $portfolio = Portfolio::findOrFail($request->portfolio_id);
+            
+            $data = [
+                'type' => 'souscription_catalogue',
+                'portfolio' => $portfolio,
+                'nom' => $request->nom,
+                'prenom' => $request->prenom,
+                'email' => $request->email,
+                'contact' => $request->contact,
+                'ville' => $request->ville,
+                'message' => $request->message,
+            ];
+
+            // Envoyer l'email (vous devrez créer SouscriptionMail)
+            Mail::to('contact@scisage.com')->queue(new \App\Mail\SouscriptionMail($data));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Votre demande de souscription a été envoyée avec succès'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de l\'envoi: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // Page de construction personnalisée
+    public function constructionPersonnalisee()
+    {
+        try {
+            return view('frontend.pages.construction-personnalisee');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
+        }
+    }
+
+    // Envoi du formulaire de construction personnalisée
+    public function envoyerConstructionPersonnalisee(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'email' => 'required|email',
+            'contact' => 'required|string|max:20',
+            'ville' => 'required|string|max:255',
+            'description_projet' => 'required|string|max:2000',
+            'budget_estime' => 'nullable|string|max:100',
+        ]);
+
+        try {
+            $data = [
+                'type' => 'construction_personnalisee',
+                'nom' => $request->nom,
+                'prenom' => $request->prenom,
+                'email' => $request->email,
+                'contact' => $request->contact,
+                'ville' => $request->ville,
+                'description_projet' => $request->description_projet,
+                'budget_estime' => $request->budget_estime,
+            ];
+
+            // Envoyer l'email (vous devrez créer ConstructionMail)
+            Mail::to('contact@scisage.com')->queue(new \App\Mail\ConstructionMail($data));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Votre projet de construction a été envoyé avec succès'
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de l\'envoi: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

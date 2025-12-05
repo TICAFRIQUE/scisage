@@ -774,7 +774,7 @@
     </section>
 
     <!-- Section Équipe -->
-    <section class="equipe-section">
+    {{-- <section class="equipe-section">
         <div class="container">
             <div class="section-header">
                 <div class="section-subtitle">Notre Force</div>
@@ -834,7 +834,7 @@
                 @endforelse
             </div>
         </div>
-    </section>
+    </section> --}}
     @include('frontend.components.boutton_form_projet')
 
 

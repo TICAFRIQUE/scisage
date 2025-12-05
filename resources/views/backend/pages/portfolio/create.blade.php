@@ -45,9 +45,9 @@
                                                     class="text-danger">*</span></label>
                                             <select name="categorie" id="categorie" class="form-select" required>
                                                 <option value="" disabled selected>Choisir une catégorie</option>
-                                                @php
-                                                    $categories = ['realisations', 'projets', 'conceptions'];
-                                                @endphp
+                                                {{-- @php
+                                                    $categories = ['realisations', 'projets', 'conceptions' , 'maison de rêve'];
+                                                @endphp --}}
                                                 @foreach ($categories as $categorie)
                                                     <option value="{{ $categorie }}"
                                                         {{ old('categorie') == $categorie ? 'selected' : '' }}>
@@ -119,6 +119,24 @@
                                             <option value="0" {{ !old('is_active', 1) ? 'selected' : '' }}>Inactif
                                             </option>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <!-- Catalogue -->
+                                <div class="card border mb-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title mb-3">
+                                            <i class="ri-shopping-bag-line me-2"></i>Options de vente
+                                        </h6>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="is_catalogue" name="is_catalogue" value="1" {{ old('is_catalogue') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="is_catalogue">
+                                                Disponible dans le catalogue
+                                            </label>
+                                        </div>
+                                        <div class="form-text mt-2">
+                                            <i class="ri-information-line me-1"></i>Si coché, ce portfolio sera disponible pour achat direct par les clients
+                                        </div>
                                     </div>
                                 </div>
 

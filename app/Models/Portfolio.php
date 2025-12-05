@@ -23,7 +23,8 @@ class Portfolio extends Model implements HasMedia
         'localisation', // location of the portfolio item
         'caracteristique', // ex: 3 chambres, 2 salles de bain, etc.
         'prix', // price of the portfolio item
-        'is_active' // status of the portfolio item
+        'is_active', // status of the portfolio item
+        'is_catalogue' // whether the portfolio item is available in catalogue for payment
     ];
 
 

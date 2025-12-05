@@ -195,6 +195,14 @@ Route::controller(PageController::class)->group(function () {
     route::get('', 'accueil')->name('page.accueil');
     route::get('apropos', 'apropos')->name('page.apropos');
     route::get('activite/{slug}', 'activites')->name('page.activites');
+    
+    // Routes spécifiques pour les activités maisons de rêve
+    route::get('souscrire-catalogue', 'souscriptionCatalogue')->name('page.souscrire.catalogue');
+    route::post('souscrire-catalogue/send', 'envoyerSouscriptionCatalogue')->name('page.souscrire.catalogue.send');
+    route::post('envoyer-souscription-catalogue', 'envoyerSouscriptionCatalogue')->name('page.envoyer-souscription-catalogue');
+    route::get('construction-personnalisee', 'constructionPersonnalisee')->name('page.construction.personnalisee');
+    route::post('construction-personnalisee/send', 'envoyerConstructionPersonnalisee')->name('page.construction.personnalisee.send');
+    
     // Remplacez votre route actuelle par :
     Route::get('/portfolio', [PageController::class, 'portfolios'])->name('page.portfolios');
 

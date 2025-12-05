@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description"
         content="SCI SAGES - Promoteur immobilier spécialisé dans la vente et la construction de maisons modernes de rêve.">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -648,15 +649,49 @@
             }
 
             .contact-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
                 margin-bottom: 1.5rem;
-                padding: 1rem;
+                padding: 1.5rem;
                 border-radius: 15px;
+            }
+
+            .contact-icon {
+                margin: 0 0 1rem 0;
+                width: 50px;
+                height: 50px;
+            }
+
+            .contact-icon i {
+                font-size: 1.2rem;
+            }
+
+            .contact-details {
+                width: 100%;
+            }
+
+            .contact-details h5 {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+                text-align: center;
+            }
+
+            .contact-details p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-item {
+                padding: 1.2rem;
             }
 
             .contact-icon {
                 width: 45px;
                 height: 45px;
-                margin-right: 1rem;
             }
 
             .contact-icon i {
@@ -665,35 +700,10 @@
 
             .contact-details h5 {
                 font-size: 1rem;
-                margin-bottom: 0.3rem;
             }
 
             .contact-details p {
                 font-size: 0.9rem;
-                line-height: 1.5;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .contact-item {
-                flex-direction: column;
-                text-align: center;
-                padding: 1.2rem;
-            }
-
-            .contact-icon {
-                margin: 0 auto 1rem auto;
-                width: 50px;
-                height: 50px;
-            }
-
-            .contact-details h5 {
-                font-size: 1.1rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .contact-details p {
-                font-size: 0.95rem;
             }
         }
 
@@ -1102,6 +1112,8 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @stack('scripts')
     <script>
