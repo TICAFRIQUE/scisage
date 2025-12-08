@@ -57,7 +57,7 @@
                                         <td><span class="fw-bold text-info">{{ $item->categorie }}</span></td>
                                         <td>{{ $item->libelle }}</td>
                                         <td>{{ $item->type }}</td>
-                                        <td>{{ $item->caracteristique }}</td>
+                                        <td>{!! $item->caracteristique !!}</td>
                                         <td>{{ $item->localisation }}</td>
                                         <td>
                                             <span

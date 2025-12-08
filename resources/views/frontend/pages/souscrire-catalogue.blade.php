@@ -448,7 +448,8 @@
                             @endif
 
                             @if($portfolio->caracteristique)
-                                <div class="house-details">{{ Str::limit($portfolio->caracteristique, 120) }}</div>
+                              
+                                <div class="house-details">{!! $portfolio->caracteristique !!}</div>
                             @endif
 
                             @if($portfolio->prix)

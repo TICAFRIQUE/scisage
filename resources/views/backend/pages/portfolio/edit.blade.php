@@ -110,7 +110,7 @@
                                 <!-- Caractéristiques -->
                                 <div class="mb-3">
                                     <label for="caracteristique" class="form-label">Caractéristiques</label>
-                                    <textarea name="caracteristique" class="form-control" id="caracteristique" rows="3"
+                                    <textarea name="caracteristique" class="form-control" id="ckeditor-classic" rows="3"
                                         placeholder="Ex: 4 chambres, 3 salles de bain, garage 2 places, piscine...">{{ old('caracteristique', $portfolio->caracteristique) }}</textarea>
                                     @error('caracteristique')
                                         <div class="text-danger">{{ $message }}</div>
@@ -299,6 +299,8 @@
     </div>
 
 @section('script')
+<script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+    <script src="{{ URL::asset('build/js/pages/ecommerce-product-create.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 
     <script>
