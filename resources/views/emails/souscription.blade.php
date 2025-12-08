@@ -80,13 +80,17 @@
             
             <div class="info-box">
                 <h3 style="color: #d4af37; margin-top: 0;">👤 Informations du client :</h3>
-                <p><strong>Nom complet :</strong> {{ $data['nom'] }} {{ $data['prenom'] }}</p>
-                <p><strong>Email :</strong> <a href="mailto:{{ $data['email'] }}">{{ $data['email'] }}</a></p>
-                <p><strong>Contact :</strong> <a href="tel:{{ $data['contact'] }}">{{ $data['contact'] }}</a></p>
-                <p><strong>Ville :</strong> {{ $data['ville'] }}</p>
+                <p><strong>Nom complet :</strong> {{ $data['nom'] }}</p>
+                @if(!empty($data['email']))
+                    <p><strong>Email :</strong> <a href="mailto:{{ $data['email'] }}">{{ $data['email'] }}</a></p>
+                @endif
+                <p><strong>Téléphone :</strong> <a href="tel:{{ $data['telephone'] }}">{{ $data['telephone'] }}</a></p>
+                @if(!empty($data['adresse']))
+                    <p><strong>Adresse :</strong> {{ $data['adresse'] }}</p>
+                @endif
             </div>
             
-            @if($data['message'])
+            @if(!empty($data['message']))
             <div class="info-box">
                 <h3 style="color: #d4af37; margin-top: 0;">💬 Message du client :</h3>
                 <p style="font-style: italic;">"{{ $data['message'] }}"</p>

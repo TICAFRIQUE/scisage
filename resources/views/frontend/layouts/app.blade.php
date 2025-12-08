@@ -5,13 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description"
-        content="SCI SAGES - Promoteur immobilier spécialisé dans la vente et la construction de maisons modernes de rêve.">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- SEO Meta Tags -->
+    <title>@yield('title', 'SCI SAGE - Promoteur Immobilier - Maisons de Rêve en Côte d\'Ivoire')</title>
+    <meta name="description" content="@yield('description', 'SCI SAGE, promoteur immobilier de référence en Côte d\'Ivoire. Construction et vente de maisons modernes de rêve. Projets clé en main, sur mesure et catalogue de villas luxueuses à Abidjan.')">
+    <meta name="keywords" content="@yield('keywords', 'promoteur immobilier, construction maison, vente maison, immobilier Côte d\'Ivoire, villa moderne, maison de rêve, construction sur mesure, SCI SAGE, immobilier Abidjan, logement Côte d\'Ivoire')">
+    <meta name="author" content="SCI SAGE">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('og_title', 'SCI SAGE - Promoteur Immobilier - Maisons de Rêve')">
+    <meta property="og:description" content="@yield('og_description', 'SCI SAGE, promoteur immobilier de référence en Côte d\'Ivoire. Construction et vente de maisons modernes.')">
+    <meta property="og:image" content="@yield('og_image', asset('images/logo.png'))">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="SCI SAGES">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="@yield('twitter_title', 'SCI SAGE - Promoteur Immobilier')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'Construction et vente de maisons modernes de rêve en Côte d\'Ivoire')">
+    <meta name="twitter:image" content="@yield('twitter_image', asset('images/logo.png'))">
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}">
-    <title>SCI SAGES - Promoteur Immobilier - Maisons de Rêve</title>
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "SCI SAGE",
+        "description": "Promoteur immobilier spécialisé dans la construction et la vente de maisons modernes en Côte d'Ivoire",
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('images/logo.png') }}",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "CI",
+            "addressLocality": "Abidjan"
+        },
+        "sameAs": [
+            "@yield('social_facebook', '#')",
+            "@yield('social_twitter', '#')",
+            "@yield('social_instagram', '#')",
+            "@yield('social_linkedin', '#')"
+        ]
+    }
+    </script>
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">

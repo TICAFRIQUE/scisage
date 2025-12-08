@@ -76,7 +76,7 @@
         </div>
         
         <div class="priority">
-            ⚡ PROJET PERSONNALISÉ - CONTACT PRIORITAIRE
+            ⚡ PROJET PERSONNALISÉ
         </div>
         
         <div class="content">
@@ -86,9 +86,9 @@
             
             <div class="info-box">
                 <h3 style="color: #d4af37; margin-top: 0;">👤 Informations du client :</h3>
-                <p><strong>Nom complet :</strong> {{ $data['nom'] }} {{ $data['prenom'] }}</p>
+                <p><strong>Nom complet :</strong> {{ $data['nom'] }} </p>
                 <p><strong>Email :</strong> <a href="mailto:{{ $data['email'] }}">{{ $data['email'] }}</a></p>
-                <p><strong>Contact :</strong> <a href="tel:{{ $data['contact'] }}">{{ $data['contact'] }}</a></p>
+                <p><strong>Contact :</strong> <a href="tel:{{ $data['telephone'] }}">{{ $data['telephone'] }}</a></p>
                 <p><strong>Ville de construction :</strong> {{ $data['ville'] }}</p>
                 @if($data['budget_estime'])
                     <p><strong>Budget estimé :</strong> 
@@ -122,7 +122,7 @@
                 </div>
             </div>
             
-            <div class="info-box">
+            {{-- <div class="info-box">
                 <h3 style="color: #d4af37; margin-top: 0;">⚡ Actions à entreprendre :</h3>
                 <ul>
                     <li><strong>Immédiatement :</strong> Contacter le client par téléphone</li>
@@ -130,12 +130,12 @@
                     <li><strong>Sous 48h :</strong> Préparer une première esquisse et estimation</li>
                     <li><strong>Suivi :</strong> Proposer un rendez-vous avec l'architecte</li>
                 </ul>
-            </div>
+            </div> --}}
             
-            <p style="background: #e3f2fd; padding: 15px; border-radius: 5px; border-left: 4px solid #2196f3;">
+            {{-- <p style="background: #e3f2fd; padding: 15px; border-radius: 5px; border-left: 4px solid #2196f3;">
                 <strong>💡 Note :</strong> Les projets personnalisés nécessitent un accompagnement sur mesure. 
                 Assurez-vous de bien comprendre les attentes du client avant de proposer des solutions.
-            </p>
+            </p> --}}
         </div>
         
         <div class="footer">

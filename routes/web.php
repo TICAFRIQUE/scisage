@@ -198,7 +198,7 @@ Route::controller(PageController::class)->group(function () {
     
     // Routes spécifiques pour les activités maisons de rêve
     route::get('souscrire-catalogue', 'souscriptionCatalogue')->name('page.souscrire.catalogue');
-    route::post('souscrire-catalogue/send', 'envoyerSouscriptionCatalogue')->name('page.souscrire.catalogue.send');
+    route::post('souscrire-catalogue/send', 'envoyerSouscriptionCatalogue')->name('page.souscrire.catalogue.send'); // envoi du formulaire par mail
     route::post('envoyer-souscription-catalogue', 'envoyerSouscriptionCatalogue')->name('page.envoyer-souscription-catalogue');
     route::get('construction-personnalisee', 'constructionPersonnalisee')->name('page.construction.personnalisee');
     route::post('construction-personnalisee/send', 'envoyerConstructionPersonnalisee')->name('page.construction.personnalisee.send');

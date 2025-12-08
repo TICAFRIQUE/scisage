@@ -1,6 +1,10 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Portfolio - SCI SAGES')
+@section('title', 'Portfolio - Nos Réalisations Immobilières | SCI SAGE')
+@section('description', 'Découvrez nos réalisations immobilières exceptionnelles : villas modernes, maisons de luxe et projets architecturaux uniques en Côte d\'Ivoire. Portfolio complet de SCI SAGE.')
+@section('keywords', 'portfolio immobilier, réalisations maisons, projets immobiliers, villas réalisées, galerie maisons, références SCI SAGE, projets achevés Abidjan')
+@section('og_title', 'Portfolio - Nos Plus Belles Réalisations Immobilières')
+@section('og_description', 'Explorez notre portfolio de maisons modernes et villas luxueuses réalisées avec excellence.')
 
 @push('styles')
     <style>

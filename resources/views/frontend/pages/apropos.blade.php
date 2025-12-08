@@ -1,6 +1,10 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'À propos - SCI SAGES')
+@section('title', 'À propos de SCI SAGE - Notre Histoire et Nos Valeurs')
+@section('description', 'Découvrez SCI SAGE, promoteur immobilier de référence en Côte d\'Ivoire. Notre mission : créer des maisons de rêve qui transforment votre vision en réalité. Expertise, qualité et innovation.')
+@section('keywords', 'à propos SCI SAGE, histoire entreprise immobilière, valeurs promoteur immobilier, expertise construction, équipe SCI SAGE, engagement qualité immobilier')
+@section('og_title', 'À propos de SCI SAGE - Notre Expertise Immobilière')
+@section('og_description', 'Découvrez notre histoire, nos valeurs et notre équipe passionnée au service de vos projets immobiliers.')
 
 @push('styles')
     <style>

@@ -1,5 +1,9 @@
 @extends('frontend.layouts.app')
-@section('title', 'Construction Personnalisée - Votre Maison de Rêve')
+@section('title', 'Construction Personnalisée sur Mesure - Créez Votre Maison de Rêve | SCI SAGE')
+@section('description', 'Faites construire la maison de vos rêves avec SCI SAGE. Construction personnalisée sur mesure, accompagnement complet, qualité garantie. Concrétisez votre projet immobilier unique en Côte d\'Ivoire.')
+@section('keywords', 'construction sur mesure, maison personnalisée, faire construire maison, projet architectural personnalisé, construction villa sur mesure, bâtir maison Abidjan, construction clé en main')
+@section('og_title', 'Construction Personnalisée - Créez Votre Maison Unique')
+@section('og_description', 'Construisez la maison qui vous ressemble avec notre accompagnement complet de A à Z.')
 
 @section('content')
     <style>
@@ -196,24 +200,18 @@
                                     </h5>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label for="nom" class="form-label">Nom *</label>
+                                <div class="col-md-12">
+                                    <label for="nom" class="form-label">Nom complet *</label>
                                     <input type="text" class="form-control" id="nom" name="nom" required>
                                 </div>
-
                                 <div class="col-md-6">
-                                    <label for="prenom" class="form-label">Prénom *</label>
-                                    <input type="text" class="form-control" id="prenom" name="prenom" required>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Email *</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email">
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="contact" class="form-label">Contact *</label>
-                                    <input type="tel" class="form-control" id="contact" name="contact" placeholder="+225 XX XX XX XX" required>
+                                    <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="+225 XX XX XX XX" required>
                                 </div>
 
                                 <div class="col-12">
@@ -236,7 +234,7 @@
                                     <div class="form-text">Plus vous êtes précis, mieux nous pourrons répondre à vos attentes.</div>
                                 </div>
 
-                                <div class="col-12">
+                                {{-- <div class="col-12">
                                     <label for="budget_estime" class="form-label">Budget estimé (optionnel)</label>
                                     <select class="form-select" id="budget_estime" name="budget_estime">
                                         <option value="">Sélectionnez une fourchette</option>
@@ -247,7 +245,7 @@
                                         <option value="discuter">À discuter</option>
                                     </select>
                                     <div class="form-text">Cette information nous aide à mieux orienter notre proposition.</div>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-12 text-center mt-5">
                                     <button type="submit" class="btn btn-submit">

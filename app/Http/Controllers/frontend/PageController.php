@@ -18,6 +18,7 @@ use App\Models\Statistique;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class PageController extends Controller
 {
@@ -245,35 +246,36 @@ class PageController extends Controller
         $request->validate([
             'portfolio_id' => 'required|exists:portfolios,id',
             'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'email' => 'required|email',
-            'contact' => 'required|string|max:20',
-            'ville' => 'required|string|max:255',
+            'email' => 'nullable|email',
+            'telephone' => 'required|string|max:20',
+            'adresse' => 'nullable|string|max:255',
             'message' => 'nullable|string|max:1000',
         ]);
 
         try {
             $portfolio = Portfolio::findOrFail($request->portfolio_id);
+            $parametre = \App\Models\Parametre::first();
             
             $data = [
                 'type' => 'souscription_catalogue',
                 'portfolio' => $portfolio,
                 'nom' => $request->nom,
-                'prenom' => $request->prenom,
                 'email' => $request->email,
-                'contact' => $request->contact,
-                'ville' => $request->ville,
+                'telephone' => $request->telephone,
+                'adresse' => $request->adresse,
                 'message' => $request->message,
             ];
 
-            // Envoyer l'email (vous devrez créer SouscriptionMail)
-            Mail::to('contact@scisage.com')->queue(new \App\Mail\SouscriptionMail($data));
+            // Envoyer l'email en queue
+            $emailTo = $parametre->email1 ?? 'contact@scisage.com';
+            Mail::to($emailTo)->queue(new \App\Mail\SouscriptionMail($data));
 
             return response()->json([
                 'success' => true,
                 'message' => 'Votre demande de souscription a été envoyée avec succès'
             ]);
         } catch (\Throwable $e) {
+            Log::error('Erreur envoi souscription catalogue: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Erreur lors de l\'envoi: ' . $e->getMessage()
@@ -296,9 +298,8 @@ class PageController extends Controller
     {
         $request->validate([
             'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'email' => 'required|email',
-            'contact' => 'required|string|max:20',
+            'email' => 'nullable|email',
+            'telephone' => 'required|string|max:20',
             'ville' => 'required|string|max:255',
             'description_projet' => 'required|string|max:2000',
             'budget_estime' => 'nullable|string|max:100',
@@ -308,9 +309,8 @@ class PageController extends Controller
             $data = [
                 'type' => 'construction_personnalisee',
                 'nom' => $request->nom,
-                'prenom' => $request->prenom,
                 'email' => $request->email,
-                'contact' => $request->contact,
+                'telephone' => $request->telephone,
                 'ville' => $request->ville,
                 'description_projet' => $request->description_projet,
                 'budget_estime' => $request->budget_estime,

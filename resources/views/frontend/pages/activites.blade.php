@@ -1,6 +1,11 @@
 @extends('frontend.layouts.app')
 
-@section('title', $activite->libelle . ' - SCI SAGES')
+@section('title', $activite->libelle . ' - Nos Services Immobiliers | SCI SAGE')
+@section('description', strip_tags($activite->description ?? 'Découvrez nos services immobiliers de qualité. SCI SAGE vous accompagne dans tous vos projets de construction et d\'achat de maisons en Côte d\'Ivoire.'))
+@section('keywords', 'services immobiliers, ' . strtolower($activite->libelle) . ', prestations immobilières, SCI SAGE activités, solutions immobilières Côte d\'Ivoire')
+@section('og_title', $activite->libelle . ' - SCI SAGE')
+@section('og_description', strip_tags(Str::limit($activite->description ?? '', 150)))
+@section('og_image', $activite->getFirstMediaUrl('image') ?: asset('images/logo.png'))
 
 @push('styles')
     <style>

@@ -1,5 +1,9 @@
 ﻿@extends('frontend.layouts.app')
-@section('title', 'Catalogue Maisons de RÃªves - Souscription')
+@section('title', 'Catalogue de Maisons de Rêves - Souscription | SCI SAGE')
+@section('description', 'Découvrez notre catalogue de maisons de rêves modernes et luxueuses. Choisissez votre future villa parmi notre sélection exclusive de projets immobiliers prêts à l\'achat en Côte d\'Ivoire.')
+@section('keywords', 'catalogue maison, villa luxueuse, maison prête, souscription immobilière, achat villa Abidjan, maison moderne catalogue, projet immobilier clé en main')
+@section('og_title', 'Catalogue de Maisons de Rêves - SCI SAGE')
+@section('og_description', 'Parcourez notre sélection exclusive de villas modernes et luxueuses. Trouvez la maison de vos rêves.')
 
 @section('content')
 <style>
@@ -536,8 +540,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Email *</label>
-                                <input type="email" class="form-control" name="email" required>
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email">
                             </div>
                         </div>
                     </div>
@@ -551,16 +555,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Profession</label>
-                                <input type="text" class="form-control" name="profession">
+                                <label class="form-label">Adresse de résidence</label>
+                                <input type="text" class="form-control" name="adresse">
                             </div>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Adresse actuelle</label>
-                        <input type="text" class="form-control" name="adresse">
-                    </div>
 
                     {{-- <div class="row">
                         <div class="col-md-6">
@@ -728,8 +728,8 @@ document.getElementById('subscriptionForm').addEventListener('submit', function(
     .then(data => {
         if (data.success) {
             Swal.fire({
-                title: 'Demande envoyÃ©e !',
-                text: 'Nous vous recontacterons trÃ¨s prochainement.',
+                title: 'Demande envoyée !',
+                text: 'Nous vous recontacterons très prochainement.',
                 icon: 'success',
                 confirmButtonColor: '#d4af37'
             });
