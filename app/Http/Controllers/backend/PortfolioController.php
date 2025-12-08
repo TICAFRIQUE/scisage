@@ -128,7 +128,7 @@ class PortfolioController extends Controller
             //validation
             $request->validate([
                 'libelle' => 'nullable|string|max:255',
-                'categorie' => 'required|string|in:realisations,projets,conceptions',
+                'categorie' => 'required|string|in:realisations,projets,conceptions,catalogues',
                 'type' => 'nullable|string|max:255',
                 'caracteristique' => 'nullable|string',
                 'localisation' => 'nullable|string|max:255',
