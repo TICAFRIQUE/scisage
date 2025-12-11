@@ -139,7 +139,7 @@
         </div>
         
         <div class="footer">
-            <p>Email automatique - Système de gestion SCI SAGE</p>
+            <p>Email automatique - Système de gestion SCISAGES</p>
             <p>{{ now()->format('d/m/Y à H:i') }}</p>
         </div>
     </div>

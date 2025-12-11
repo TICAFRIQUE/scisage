@@ -9,19 +9,24 @@ use App\Models\Apropos;
 use App\Models\Service;
 use App\Models\Activite;
 use App\Models\Banniere;
-use App\Mail\ContactMail;
 use App\Models\Actualite;
 use App\Models\Portfolio;
 use App\Models\Engagement;
 use App\Models\Entreprise;
 use App\Models\Statistique;
 use Illuminate\Http\Request;
+use App\Services\EmailService;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
 class PageController extends Controller
 {
+    protected $emailService;
+
+    public function __construct(EmailService $emailService)
+    {
+        $this->emailService = $emailService;
+    }
     public function accueil()
     {
         try {
@@ -185,9 +190,6 @@ class PageController extends Controller
 
 
     //Envoyer un contact 
-
-
-
     public function envoyerContact(Request $request)
     {
         $request->validate([
@@ -198,7 +200,6 @@ class PageController extends Controller
             'sujet' => 'nullable|string|max:255',
         ]);
 
-
         try {
             $data = [
                 'nom' => $request->nom,
@@ -208,10 +209,8 @@ class PageController extends Controller
                 'message' => $request->message,
             ];
 
-            Mail::to('contact@scisage.com')->queue(new ContactMail($data));
-            // Mail::to('contact@dcagency.com')
-            //     ->later(now()->addSeconds(10), new ContactMail($data));
-
+            // Utiliser le EmailService
+            $this->emailService->sendContactMail($data);
 
             return response()->json([
                 'success' => true,
@@ -254,7 +253,6 @@ class PageController extends Controller
 
         try {
             $portfolio = Portfolio::findOrFail($request->portfolio_id);
-            $parametre = \App\Models\Parametre::first();
             
             $data = [
                 'type' => 'souscription_catalogue',
@@ -266,9 +264,8 @@ class PageController extends Controller
                 'message' => $request->message,
             ];
 
-            // Envoyer l'email en queue
-            $emailTo = $parametre->email1 ?? 'contact@scisage.com';
-            Mail::to($emailTo)->queue(new \App\Mail\SouscriptionMail($data));
+            // Utiliser le EmailService
+            $this->emailService->sendSouscriptionMail($data);
 
             return response()->json([
                 'success' => true,
@@ -309,15 +306,17 @@ class PageController extends Controller
             $data = [
                 'type' => 'construction_personnalisee',
                 'nom' => $request->nom,
+                'prenom' => '',
                 'email' => $request->email,
+                'contact' => $request->telephone,
                 'telephone' => $request->telephone,
                 'ville' => $request->ville,
                 'description_projet' => $request->description_projet,
                 'budget_estime' => $request->budget_estime,
             ];
 
-            // Envoyer l'email (vous devrez créer ConstructionMail)
-            Mail::to('contact@scisage.com')->queue(new \App\Mail\ConstructionMail($data));
+            // Utiliser le EmailService
+            $this->emailService->sendConstructionMail($data);
 
             return response()->json([
                 'success' => true,
