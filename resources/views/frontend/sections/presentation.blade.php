@@ -517,7 +517,7 @@
             </div>
         </div>
 
-        -- <!-- Nos valeurs -->
+       <!-- Nos valeurs -->
        @include('frontend.sections.engagement')
     </div>
 </section>

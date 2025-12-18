@@ -83,7 +83,7 @@ class EmailService
      */
     public function sendContactMail(array $data): bool
     {
-        $adminEmail = env('MAIL_FROM_ADDRESS', 'infos@sageshome.ci');
+        $adminEmail = env('MAIL_FROM_ADDRESS', 'info@scisages.ci');
         
         return $this->send(
             $adminEmail,
@@ -101,7 +101,7 @@ class EmailService
      */
     public function sendSouscriptionMail(array $data): bool
     {
-        $adminEmail = env('MAIL_FROM_ADDRESS', 'infos@sageshome.ci');
+        $adminEmail = env('MAIL_FROM_ADDRESS', 'info@scisages.ci');
         
         return $this->send(
             $adminEmail,
@@ -119,7 +119,7 @@ class EmailService
      */
     public function sendConstructionMail(array $data): bool
     {
-        $adminEmail = env('MAIL_FROM_ADDRESS', 'infos@sageshome.ci');
+        $adminEmail = env('MAIL_FROM_ADDRESS', 'info@scisages.ci');
         
         return $this->send(
             $adminEmail,
