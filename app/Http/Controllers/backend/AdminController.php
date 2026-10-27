@@ -115,6 +115,8 @@ class AdminController extends Controller
 
             Alert::success('Opération réussie', 'Succès');
             return back();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
 
             return back()->with('error', 'Une erreur est survenue lors de la création : ' . $e->getMessage());
@@ -152,6 +154,8 @@ class AdminController extends Controller
 
             Alert::success('Opération réussie', 'Les informations ont été mises à jour');
             return back();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return back()->with('error', 'Une erreur est survenue lors de la mise à jour : ' . $e->getMessage());
             // Alert::error('Erreur', 'Une erreur est survenue lors de la mise à jour : ' . $e->getMessage());
@@ -166,6 +170,8 @@ class AdminController extends Controller
             return response()->json([
                 'status' => 200,
             ]);
+        } catch (\Illuminate\Validation\ValidationException $th) {
+            throw $th;
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 500,

@@ -1,34 +1,19 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'SCI SAGE - Promoteur Immobilier en Côte d\'Ivoire | Maisons de Rêve')
-@section('description', 'SCI SAGE, votre promoteur immobilier de confiance en Côte d\'Ivoire. Découvrez nos maisons modernes de rêve, nos projets sur mesure et notre catalogue de villas luxueuses à Abidjan.')
-@section('keywords', 'promoteur immobilier Côte d\'Ivoire, maison moderne Abidjan, construction villa, vente maison luxueuse, immobilier CI, SCI SAGE, projet immobilier Abidjan')
-@section('og_title', 'SCI SAGE - Votre Promoteur Immobilier en Côte d\'Ivoire')
-@section('og_description', 'Découvrez nos maisons modernes de rêve et nos projets immobiliers clé en main en Côte d\'Ivoire.')
+@section('title', 'SCI SAGES - Promoteur immobilier & construction en Côte d\'Ivoire')
+@section('description', 'SCI SAGES, promoteur immobilier et constructeur en Côte d\'Ivoire. Maisons modernes clé en main, construction sur mesure et suivi de chantier à Abidjan et Bingerville.')
+@section('keywords', 'promoteur immobilier Côte d\'Ivoire, construction maison Abidjan, BTP, villa moderne, construction sur mesure, SCI SAGES, maison clé en main')
+@section('og_title', 'SCI SAGES - Nous bâtissons votre rêve')
+@section('og_description', 'Maisons modernes clé en main et construction sur mesure en Côte d\'Ivoire.')
 
 @section('content')
-    <!-- Section Bannière Principale -->
     @include('frontend.sections.banniere')
-
-    <!-- Section Statistiques -->
     @include('frontend.sections.statistique')
-
-    <!-- Section Présentation -->
     @include('frontend.sections.presentation')
-
-    <!-- Section engagements -->
-    {{-- @include('frontend.sections.engagement') --}}
-
-    <!-- Section Chronogramme -->
     @include('frontend.sections.projets')
-
-    <!-- Section button demarrer votre projet -->
+    @include('frontend.sections.realisations')
     @include('frontend.components.boutton_form_projet')
-
-    <!-- Section FAQ -->
     @include('frontend.sections.faq')
-
     @include('frontend.sections.form_projet')
-
     @include('frontend.sections.contact')
 @endsection

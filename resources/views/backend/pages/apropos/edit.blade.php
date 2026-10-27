@@ -153,7 +153,6 @@
     <script>
         $(document).ready(function() {
             // Animation d'entrée
-            $('.card').hide().fadeIn(500);
         });
 
         // Aperçu de la nouvelle image

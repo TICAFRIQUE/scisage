@@ -1,125 +1,64 @@
-@push('styles')
-    <style>
-        .faq-section {
-            background: var(--light-gray);
-            padding: 120px 0;
-        }
-
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            background: var(--white);
-            border-radius: 15px;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-light);
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .faq-item:hover {
-            box-shadow: var(--shadow-medium);
-        }
-
-        .faq-question {
-            padding: 2rem;
-            background: white;
-            color: var(--gradient-brown);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        .faq-question:hover {
-            background: var(--gradient-brown);
-            color: var(--white);
-        }
-
-        .faq-answer {
-            padding: 2rem;
-            display: none;
-            color: var(--dark-gray);
-            line-height: 1.7;
-        }
-
-        .faq-answer.active {
-            display: block;
-            animation: fadeInDown 0.3s ease;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .faq-icon {
-            transition: transform 0.3s ease;
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
-    </style>
-@endpush
-
-<section id="faq" class="faq-section">
-    <div class="container">
-        <div class="section-subtitle" data-aos="fade-up">Questions fréquentes</div>
-        <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">FAQ</h2>
-
-        <div class="faq-container">
-            @foreach ($faqs as $item)
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="faq-question">
-                        <span>{{ $item->question }}</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
+@if ($faqs && $faqs->count())
+    <section id="faq" class="section faq">
+        <div class="container">
+            <div class="faq__grid">
+                <div class="faq__intro" data-aos="fade-up">
+                    <div class="section-head section-head--left mb-4">
+                        <span class="eyebrow">Questions fréquentes</span>
+                        <h2 class="section-title">Vous vous posez des questions ?</h2>
+                        <p class="section-lead">Les réponses aux questions que nos clients nous posent le plus souvent.</p>
                     </div>
-                    <div class="faq-answer">
-                        <p>{{ $item->reponse }}</p>
-
+                    <div class="faq__help">
+                        <span class="icon-box icon-box--dark"><i class="fas fa-headset"></i></span>
+                        <div>
+                            <strong>Une autre question ?</strong>
+                            <a href="#contact" class="link-arrow">Contactez un conseiller <i class="fas fa-arrow-right"></i></a>
+                        </div>
                     </div>
                 </div>
-            @endforeach
 
-
+                <div class="faq__list">
+                    @foreach ($faqs as $item)
+                        <div class="faq-item" data-aos="fade-up" data-aos-delay="{{ min($loop->index, 4) * 50 }}">
+                            <h3 class="faq-item__q">
+                                <button type="button" aria-expanded="false" aria-controls="faq-{{ $loop->index }}"
+                                    id="faq-btn-{{ $loop->index }}">
+                                    <span>{{ $item->question }}</span>
+                                    <i class="fas fa-plus" aria-hidden="true"></i>
+                                </button>
+                            </h3>
+                            <div class="faq-item__a" id="faq-{{ $loop->index }}" role="region"
+                                aria-labelledby="faq-btn-{{ $loop->index }}">
+                                <div>
+                                    <p>{!! nl2br(e($item->reponse)) !!}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-@push('scripts')
-    <script>
-        // FAQ Toggle
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', function() {
-                const faqItem = this.parentNode;
-                const answer = faqItem.querySelector('.faq-answer');
-                const icon = this.querySelector('.faq-icon');
-
-                // Fermer toutes les autres FAQ
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    if (item !== faqItem) {
-                        item.classList.remove('active');
-                        item.querySelector('.faq-answer').classList.remove('active');
-                    }
+    @push('scripts')
+        <script>
+            (function() {
+                const items = document.querySelectorAll('.faq-item');
+                items.forEach(item => {
+                    const btn = item.querySelector('button');
+                    btn.addEventListener('click', () => {
+                        const open = btn.getAttribute('aria-expanded') === 'true';
+                        items.forEach(other => {
+                            other.classList.remove('is-open');
+                            other.querySelector('button').setAttribute('aria-expanded', 'false');
+                        });
+                        if (!open) {
+                            item.classList.add('is-open');
+                            btn.setAttribute('aria-expanded', 'true');
+                        }
+                    });
                 });
-
-                // Toggle la FAQ actuelle
-                faqItem.classList.toggle('active');
-                answer.classList.toggle('active');
-            });
-        });
-    </script>
-@endpush
+            })();
+        </script>
+    @endpush
+@endif

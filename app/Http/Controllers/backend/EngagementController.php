@@ -17,6 +17,8 @@ class EngagementController extends Controller
         try {
             $engagements = Engagement::all();
             return view('backend.pages.engagement.index', compact('engagements'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la récupération des engagements : ' . $e->getMessage());
         }
@@ -30,6 +32,8 @@ class EngagementController extends Controller
         //
         try {
             return view('backend.pages.engagement.create');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'affichage du formulaire de création : ' . $e->getMessage());
         }
@@ -65,6 +69,8 @@ class EngagementController extends Controller
             }
 
             return redirect()->route('engagements.index')->with('success', 'Engagement créé avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erreur lors de la création de l\'engagement : ' . $e->getMessage());
         }
@@ -87,6 +93,8 @@ class EngagementController extends Controller
         try {
             $engagement = Engagement::findOrFail($id);
             return view('backend.pages.engagement.edit', compact('engagement'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'affichage du formulaire d\'édition : ' . $e->getMessage());
         }
@@ -123,6 +131,8 @@ class EngagementController extends Controller
             }
 
             return redirect()->route('engagements.index')->with('success', 'Engagement mis à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la mise à jour de l\'engagement : ' . $e->getMessage());
         }
@@ -140,6 +150,8 @@ class EngagementController extends Controller
             $engagement->clearMediaCollection('image');
             $engagement->delete();
             return response()->json(['success' => 'Engagement supprimé avec succès.', 'status' => 200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return response()->json(['error' => 'Erreur lors de la suppression de l\'engagement : ' . $e->getMessage(), 'status' => 500]);
         }

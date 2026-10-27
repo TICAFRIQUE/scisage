@@ -54,10 +54,10 @@
                                                     class="img-thumbnail" width="50">
                                             @endif
                                         </td>
-                                        <td><span class="fw-bold text-info">{{ $item->categorie }}</span></td>
-                                        <td>{{ $item->libelle }}</td>
+                                        <td><span class="badge bg-primary-subtle text-primary text-capitalize">{{ $item->categorie }}</span></td>
+                                        <td class="fw-semibold">{{ $item->libelle }}</td>
                                         <td>{{ $item->type }}</td>
-                                        <td>{!! $item->caracteristique !!}</td>
+                                        <td class="small text-muted" style="min-width:180px">{{ \App\Support\Features::split($item->caracteristique)->take(4)->implode(' · ') }}</td>
                                         <td>{{ $item->localisation }}</td>
                                         <td>
                                             <span
@@ -65,11 +65,11 @@
                                         </td>
                                         <td>
                                             @if($item->is_catalogue)
-                                                <span class="badge bg-info">
+                                                <span class="badge bg-warning-subtle text-warning">
                                                     <i class="ri-shopping-bag-line me-1"></i>Catalogue
                                                 </span>
                                             @else
-                                                <span class="badge bg-secondary">
+                                                <span class="badge bg-light text-body">
                                                     <i class="ri-eye-line me-1"></i>Vitrine
                                                 </span>
                                             @endif
@@ -112,8 +112,6 @@
     <!--end row-->
 @endsection
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>

@@ -1,58 +1,19 @@
-<style>
-      /* ================== CTA SECTION ================== */
-    .cta-section {
-        background: var(--gradient-brown);
-        padding: 80px 0;
-        text-align: center;
-    }
-
-    .cta-title {
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: var(--white);
-        margin-bottom: 1rem;
-    }
-
-    .cta-description {
-        font-size: 1.2rem;
-        color: rgba(255, 255, 255, 0.9);
-        margin-bottom: 2rem;
-    }
-
-    .btn-cta {
-        background: var(--gradient-gold);
-        color: var(--dark-brown);
-        padding: 1rem 2.5rem;
-        border-radius: 30px;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .btn-cta:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
-        color: var(--dark-brown);
-        text-decoration: none;
-    }
-</style>
-
-
-<section class="cta-section">
+{{-- Bandeau d'appel à l'action réutilisable --}}
+<section class="cta-band">
+    <span class="cta-band__glow" aria-hidden="true"></span>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center" data-aos="fade-up">
-                <h3 class="cta-title">Prêt à démarrer votre projet ?</h3>
-                {{-- <p class="cta-description">
-                    Contactez notre équipe d'experts pour une consultation personnalisée et un devis gratuit.
-                </p> --}}
-                <a href="{{ route('page.accueil') }}#form-projet" class="btn-cta">
-                    <i class="fas fa-rocket"></i>
-                    <span>Démarrer mon projet</span>
+        <div class="cta-band__inner" data-aos="fade-up">
+            <div>
+                <span class="eyebrow">Parlons de votre projet</span>
+                <h2>Prêt à bâtir votre maison ?</h2>
+                <p>Étude gratuite, devis clair et suivi de chantier de A à Z. Nos équipes vous répondent sous 48 h.</p>
+            </div>
+            <div class="cta-band__actions">
+                <a href="{{ route('page.accueil') }}#form-projet" class="btn-sage btn-sage--lg">
+                    <i class="fas fa-helmet-safety"></i> Démarrer mon projet
+                </a>
+                <a href="{{ route('page.accueil') }}#contact" class="btn-sage btn-sage--outline btn-sage--lg">
+                    Nous contacter
                 </a>
             </div>
         </div>

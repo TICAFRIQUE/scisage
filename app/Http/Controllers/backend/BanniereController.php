@@ -16,6 +16,8 @@ class BanniereController extends Controller
         try {
             $bannieres = Banniere::get();
             return view('backend.pages.banniere.index', compact('bannieres'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -29,6 +31,8 @@ class BanniereController extends Controller
         //
         try {
             return view('backend.pages.banniere.create');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -56,6 +60,8 @@ class BanniereController extends Controller
             $banniere->save();
 
             return redirect()->route('bannieres.index')->with('success', 'Banniere créée avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -78,6 +84,8 @@ class BanniereController extends Controller
         try {
             $banniere = Banniere::findOrFail($id);
             return view('backend.pages.banniere.edit', compact('banniere'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -112,6 +120,8 @@ class BanniereController extends Controller
             $banniere->save();
 
             return redirect()->route('bannieres.index')->with('success', 'Banniere mise à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -133,6 +143,8 @@ class BanniereController extends Controller
 
             //return response
             return response()->json(['success' => 'Banniere supprimée avec succès.', 'status' => 200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', $e->getMessage());
         }

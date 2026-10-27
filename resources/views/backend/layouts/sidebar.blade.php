@@ -1,230 +1,116 @@
-<!-- ========== App Menu ========== -->
+@php
+    $adminLogo = $parametre?->getFirstMediaUrl('logo_header') ?: asset('images/logo.png');
+    $isAdminUser = Auth::check() && (in_array(Auth::user()->role, ['superadmin', 'developpeur']) || Auth::user()->can('voir-parametre'));
+    $menu = [
+        'Page d\'accueil' => [
+            ['bannieres', 'ri-image-2-line', 'Bannières'],
+            ['statistiques', 'ri-bar-chart-box-line', 'Chiffres clés'],
+            ['engagements', 'ri-shield-star-line', 'Valeurs & engagements'],
+            ['apropos', 'ri-information-line', 'À propos'],
+            ['faqs', 'ri-question-answer-line', 'FAQ'],
+        ],
+        'Offres & chantiers' => [
+            ['activites', 'ri-hammer-line', 'Activités'],
+            ['projets', 'ri-list-ordered', 'Étapes des activités'],
+            ['portfolios', 'ri-building-2-line', 'Portfolio & catalogue'],
+        ],
+        'Communication' => [
+            ['actualites', 'ri-newspaper-line', 'Actualités'],
+            ['equipes', 'ri-team-line', 'Équipe'],
+        ],
+    ];
+@endphp
+
+<!-- ========== Menu latéral ========== -->
 <div class="app-menu navbar-menu">
-    <!-- LOGO -->
     <div class="navbar-brand-box">
-        {{-- <h4 class="text-white"> {{config('app.name')}} </h4> --}}
-        <!-- Dark Logo-->
-        @if ($parametre != null)
-
-            <!-- Light Logo-->
-            <a href="#" class="logo logo-light">
-                @if ($parametre->hasMedia('logo_header'))
-                    <span class="logo-lg">
-                        <img src="{{ URL::asset($parametre?->getFirstMediaUrl('logo_header')) }}" alt=""
-                            width="70" class="rounded-circle">
-                    </span>
-                @endif
-
-            </a>
-        @endif
-
-        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
-            id="vertical-hover">
+        <a href="{{ route('dashboard.index') }}" class="sage-brand">
+            <span class="sage-brand__logo"><img src="{{ $adminLogo }}" alt="SCI SAGES"></span>
+            <span class="sage-brand__text">
+                <strong>SCI SAGES</strong>
+                <small>Administration</small>
+            </span>
+        </a>
+        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover ms-auto"
+            id="vertical-hover" aria-label="Épingler le menu">
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
 
-    {{-- @auth
-        <div class="dropdown sidebar-user m-1 rounded">
-            <button type="button" class="btn material-shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <span class="d-flex align-items-center gap-2">
-                    <img class="rounded header-profile-user"
-                        src="@if (Auth::user()->avatar != '') {{ URL::asset('images/' . Auth::user()->avatar) }}@else{{ URL::asset('build/images/users/avatar-1.jpg') }} @endif"
-                        alt="Header Avatar">
-                    <span class="text-start">
-                        <span class="d-block fw-medium sidebar-user-name-text">{{ Auth::user()->username }}</span>
-                        <span class="d-block fs-14 sidebar-user-name-sub-text"><i
-                                class="ri ri-circle-fill fs-10 text-success align-baseline"></i> <span
-                                class="align-middle">En ligne</span></span>
-                    </span>
-                </span>
-            </button>
-            <div class="dropdown-menu dropdown-menu-end">
-                <!-- item-->
-                <h6 class="dropdown-header">Bienvenue {{ Auth::user()->username }}!</h6>
-                <a class="dropdown-item" href="{{ route('admin-register.profil', Auth::user()->id) }}"><i
-                        class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
-                        class="align-middle">Profil</span></a>
-
-                <a class="dropdown-item" href="#"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
-                    <span class="align-middle">Aide</span></a>
-                <div class="dropdown-divider"></div>
-
-
-
-                <a class="dropdown-item " href="javascript:void();"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
-                        key="t-logout">@lang('translation.logout')</span></a>
-                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </div>
-        </div>
-    @endauth --}}
-
     <div id="scrollbar">
         <div class="container-fluid">
-
-            <div id="two-column-menu">
-            </div>
-            {{-- @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'developpeur')
-            @endif --}}
+            <div id="two-column-menu"></div>
             <ul class="navbar-nav" id="navbar-nav">
 
                 @can('voir-tableau de bord')
                     <li class="nav-item">
-                        <a class="nav-link menu-link {{ Route::is('dashboard.*') ? 'active' : '' }} "
+                        <a class="nav-link menu-link {{ Route::is('dashboard.*') ? 'active' : '' }}"
                             href="{{ route('dashboard.index') }}">
-                            <i class="ri-dashboard-2-line"></i> <span>TABLEAU DE BORD</span>
+                            <i class="ri-dashboard-2-line"></i> <span>Tableau de bord</span>
                         </a>
                     </li>
                 @endcan
 
-                {{-- @can('voir-banniere') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('bannieres.*') ? 'active' : '' }} "
-                        href="{{ route('bannieres.index') }}">
-                        <i class="ri-image-add-line"></i> <span>BANNIERES</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-
-                {{-- @can('voir-statistique') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('statistiques.*') ? 'active' : '' }} "
-                        href="{{ route('statistiques.index') }}">
-                        <i class="ri-bar-chart-line"></i> <span>STATISTIQUES</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-                {{-- @can('voir-engagement') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('engagements.*') ? 'active' : '' }} "
-                        href="{{ route('engagements.index') }}">
-                        <i class="ri-heart-line"></i> <span>ENGAGEMENTS</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-
-                {{-- @can('voir-apropos') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('apropos.*') ? 'active' : '' }} "
-                        href="{{ route('apropos.index') }}">
-                        <i class="ri-information-line"></i> <span>APROPOS</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-
-                {{-- @can('voir-equipe') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('equipes.*') ? 'active' : '' }} "
-                        href="{{ route('equipes.index') }}">
-                        <i class="ri-team-line"></i> <span>EQUIPES</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-                {{-- @can('voir-activite') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('activites.*') ? 'active' : '' }} "
-                        href="{{ route('activites.index') }}">
-                        <i class="ri-calendar-event-line"></i> <span>ACTIVITES</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-                {{-- @can('voir-projet') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('projets.*') ? 'active' : '' }} "
-                        href="{{ route('projets.index') }}">
-                        <i class="ri-folder-line"></i> <span>PROJETS</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-                {{-- @can('voir-faq') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('faqs.*') ? 'active' : '' }} "
-                        href="{{ route('faqs.index') }}">
-                        <i class="ri-question-answer-line"></i> <span>FAQ</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-                {{-- @can('voir-portfolio') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('portfolios.*') ? 'active' : '' }} "
-                        href="{{ route('portfolios.index') }}">
-                        <i class="ri-briefcase-line"></i> <span>PORTFOLIO</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-
-                         {{-- @can('voir-actualite') --}}
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('actualites.*') ? 'active' : '' }} "
-                        href="{{ route('actualites.index') }}">
-                        <i class="ri-newspaper-line"></i> <span>ACTUALITES</span>
-                    </a>
-                </li>
-                {{-- @endcan --}}
-
-
-                @auth
-                    @if (
-                        (Auth::check() && Auth::user()->role == 'superadmin') ||
-                            Auth::user()->role == 'developpeur' ||
-                            Auth::user()->can('voir-parametre'))
+                @foreach ($menu as $section => $items)
+                    <li class="menu-title"><span>{{ $section }}</span></li>
+                    @foreach ($items as [$route, $icon, $label])
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarAuth" data-bs-toggle="collapse" role="button"
-                                aria-controls="sidebarAuth">
-                                <i class=" ri-settings-2-fill"></i> <span>PARAMETRE</span>
+                            <a class="nav-link menu-link {{ Route::is($route . '.*') ? 'active' : '' }}"
+                                href="{{ route($route . '.index') }}">
+                                <i class="{{ $icon }}"></i> <span>{{ $label }}</span>
                             </a>
-                            <div class="collapse menu-dropdown {{ Route::is('role.*') || Route::is('parametre.*') || Route::is('module.*') || Route::is('role.*') || Route::is('permission.*') || Route::is('admin-register.*') ? 'show' : '' }}"
-                                id="sidebarAuth">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item active">
-                                        <a href="{{ route('parametre.index') }}"
-                                            class="nav-link {{ Route::is('parametre.*') ? 'active' : '' }}">Informations</a>
-                                    </li>
-
-                                    <li class="nav-item active">
-                                        <a href="{{ route('admin-register.index') }}"
-                                            class="nav-link {{ Route::is('admin-register.*') ? 'active' : '' }}">Utilisateurs</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="{{ route('module.index') }}"
-                                            class="nav-link {{ Route::is('module.*') ? 'active' : '' }}">Modules</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('role.index') }}"
-                                            class="nav-link {{ Route::is('role.*') ? 'active' : '' }}">Roles</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('permission.index') }}"
-                                            class="nav-link {{ Route::is('permission.*') ? 'active' : '' }}">Permissions/
-                                            Roles</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
-                    @endif
-                @endauth
+                    @endforeach
+                @endforeach
 
+                @if ($isAdminUser)
+                    @php
+                        $settingsOpen = Route::is('parametre.*', 'module.*', 'role.*', 'permission.*', 'admin-register.*');
+                    @endphp
+                    <li class="menu-title"><span>Administration</span></li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ $settingsOpen ? 'active' : 'collapsed' }}" href="#sidebarAuth"
+                            data-bs-toggle="collapse" role="button" aria-expanded="{{ $settingsOpen ? 'true' : 'false' }}"
+                            aria-controls="sidebarAuth">
+                            <i class="ri-settings-3-line"></i> <span>Paramètres</span>
+                        </a>
+                        <div class="collapse menu-dropdown {{ $settingsOpen ? 'show' : '' }}" id="sidebarAuth">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('parametre.index') }}"
+                                        class="nav-link {{ Route::is('parametre.*') ? 'active' : '' }}">Informations du site</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin-register.index') }}"
+                                        class="nav-link {{ Route::is('admin-register.*') ? 'active' : '' }}">Utilisateurs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('module.index') }}"
+                                        class="nav-link {{ Route::is('module.*') ? 'active' : '' }}">Modules</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('role.index') }}"
+                                        class="nav-link {{ Route::is('role.*') ? 'active' : '' }}">Rôles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('permission.index') }}"
+                                        class="nav-link {{ Route::is('permission.*') ? 'active' : '' }}">Permissions</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
             </ul>
+
+            <div class="sage-sidebar-site">
+                Vos modifications sont visibles immédiatement sur le site.
+                <a href="{{ route('page.accueil') }}" target="_blank" rel="noopener">
+                    <i class="ri-external-link-line"></i> Voir le site
+                </a>
+            </div>
         </div>
-        <!-- Sidebar -->
     </div>
     <div class="sidebar-background"></div>
 </div>
-<!-- Left Sidebar End -->
-<!-- Vertical Overlay-->
+<!-- Overlay mobile -->
 <div class="vertical-overlay"></div>

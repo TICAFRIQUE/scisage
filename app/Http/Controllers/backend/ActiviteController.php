@@ -17,6 +17,8 @@ class ActiviteController extends Controller
         try {
             $activites = Activite::all();
             return view('backend.pages.activite.index', compact('activites'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             # code...
         }
@@ -30,6 +32,8 @@ class ActiviteController extends Controller
         //
         try {
             return view('backend.pages.activite.create');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', 'Une erreur est survenue lors du chargement du formulaire.' . $e->getMessage());
         }
@@ -65,6 +69,8 @@ class ActiviteController extends Controller
             }
 
             return redirect()->route('activites.index')->with('success', 'Activité créée avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', 'Une erreur est survenue lors de la création de l\'activité.' . $e->getMessage());
         }
@@ -87,6 +93,8 @@ class ActiviteController extends Controller
         try {
             $activite = Activite::findOrFail($id);
             return view('backend.pages.activite.edit', compact('activite'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', 'Une erreur est survenue lors du chargement du formulaire.' . $e->getMessage());
         }
@@ -126,6 +134,8 @@ class ActiviteController extends Controller
             }
 
             return redirect()->route('activites.index')->with('success', 'Activité mise à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', 'Une erreur est survenue lors de la mise à jour de l\'activité.' . $e->getMessage());
         }
@@ -143,6 +153,8 @@ class ActiviteController extends Controller
             $activite->clearMediaCollection('image'); // Remove associated media
             $activite->delete();
             return response()->json(['success' => 'Activité supprimée avec succès.' , 'status' => 200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return back()->with('error', 'Une erreur est survenue lors de la suppression de l\'activité.' . $e->getMessage());
         }

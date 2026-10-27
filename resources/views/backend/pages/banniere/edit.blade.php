@@ -262,7 +262,6 @@
         });
 
         // Animation d'entrée
-        $('.card').hide().fadeIn(500);
     </script>
 @endsection
 @endsection

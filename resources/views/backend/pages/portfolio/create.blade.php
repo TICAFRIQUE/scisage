@@ -78,8 +78,8 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="prix" class="form-label">Prix (FCFA)</label>
-                                            <input type="number" name="prix" class="form-control" id="prix"
-                                                placeholder="Ex: 75000000" value="{{ old('prix') }}" min="0">
+                                            <input type="text" inputmode="numeric" autocomplete="off" name="prix" class="form-control" id="prix"
+                                                placeholder="Ex : 75 000 000" value="{{ old('prix') }}" min="0">
                                             @error('prix')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -230,7 +230,6 @@
 
         $(document).ready(function() {
             // Animation d'entrée
-            $('.card').hide().fadeIn(500);
         });
 
         // Fonction pour afficher une erreur sous un champ

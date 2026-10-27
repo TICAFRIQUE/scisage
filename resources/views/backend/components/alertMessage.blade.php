@@ -1,86 +1,43 @@
-<!-- Danger Alert -->
-{{-- @if ($Msg = Session::get('error'))
-    <div class="alert alert-danger alert-top-border alert-dismissible fade show" role="alert">
-        <i class="ri-error-warning-line me-3 align-middle fs-16 text-danger"></i><strong> {{ $Msg }} </strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif --}}
-
-
-<!-- Danger Alert -->
-@if ($Msg = Session::get('error'))
-    <div class="alert alert-danger alert-dismissible bg-danger text-white alert-label-icon fade show material-shadow"
-        role="alert">
-        <i class="ri-error-warning-line label-icon"></i><strong>{{ $Msg }}</strong>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+{{-- Messages de session (succès / erreur) --}}
+@if ($msg = Session::get('error'))
+    <div class="col-12">
+        <div class="alert alert-danger alert-dismissible alert-label-icon label-arrow fade show js-flash" role="alert">
+            <i class="ri-error-warning-line label-icon"></i><strong>{{ $msg }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div>
     </div>
 @endif
 
-<!-- Success Alert -->
-@if ($Msg = Session::get('success'))
-    <div class="alert alert-success alert-dismissible bg-success text-white alert-label-icon fade show material-shadow"
-        role="alert">
-        <i class="ri-checkbox-circle-line label-icon"></i><strong>{{ $Msg }}</strong>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+@if ($msg = Session::get('success'))
+    <div class="col-12">
+        <div class="alert alert-success alert-dismissible alert-label-icon label-arrow fade show js-flash" role="alert">
+            <i class="ri-checkbox-circle-line label-icon"></i><strong>{{ $msg }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div>
     </div>
 @endif
 
+@if ($errors->any())
+    <div class="col-12">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong><i class="ri-alert-line me-1"></i> Merci de corriger les champs signalés :</strong>
+            <ul class="mb-0 mt-1 ps-3">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div>
+    </div>
+@endif
 
-{{-- 
-<!-- Primary Alert -->
-<div class="alert alert-primary alert-top-border alert-dismissible fade show" role="alert">
-    <i class="ri-user-smile-line me-3 align-middle fs-16 text-primary"></i><strong>Primary</strong> - Top border alert
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-<!-- Secondary Alert -->
-<div class="alert alert-secondary alert-top-border alert-dismissible fade show" role="alert">
-    <i class="ri-check-double-line me-3 align-middle fs-16 text-secondary"></i><strong>Secondary</strong> - Top border alert
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-<!-- Success Alert -->
-<div class="alert alert-success alert-top-border alert-dismissible fade show" role="alert">
-    <i class="ri-notification-off-line me-3 align-middle fs-16 text-success"></i><strong>Success</strong> - Top border alert
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-
-
-
-
-<!-- Warning Alert -->
-<div class="alert alert-warning alert-top-border alert-dismissible fade show" role="alert">
-    <i class="ri-alert-line me-3 align-middle fs-16 text-warning"></i><strong>Warning</strong> - Top border alert
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-<!-- Info Alert -->
-<div class="alert alert-info alert-top-border alert-dismissible fade show" role="alert">
-    <i class="ri-airplay-line me-3 align-middle fs-16 text-info"></i><strong>Info</strong> - Top border alert
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-
-<!-- Light Alert -->
-<div class="alert alert-light alert-top-border alert-dismissible fade show" role="alert">
-    <i class="ri-mail-line me-3 align-middle fs-16 text-light"></i><strong>Light</strong> - Top border alert
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-    
-<!-- Dark Alert -->
-<div class="alert alert-dark alert-top-border alert-dismissible fade show mb-0" role="alert">
-    <i class="ri-refresh-line me-3 align-middle fs-16 text-body"></i><strong>Dark</strong> - Top border alert
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div> --}}
-
-
-<script>
-    // faire disparaitre les alertes après 5 secondes
-    setTimeout(function() {
-        var alertElements = document.querySelectorAll('.alert');
-        alertElements.forEach(function(alert) {
-            var bsAlert = new bootstrap.Alert(alert);
-            bsAlert.close();
-        });
-    }, 15000);
-</script>
+@once
+    <script>
+        // Les messages de succès / erreur se ferment seuls après 8 secondes
+        setTimeout(function() {
+            document.querySelectorAll('.js-flash').forEach(function(el) {
+                if (window.bootstrap) bootstrap.Alert.getOrCreateInstance(el).close();
+            });
+        }, 8000);
+    </script>
+@endonce

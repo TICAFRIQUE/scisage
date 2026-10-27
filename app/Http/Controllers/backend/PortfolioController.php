@@ -22,6 +22,8 @@ class PortfolioController extends Controller
         try {
             $portfolios = Portfolio::orderBy('created_at', 'desc')->get();
             return view('backend.pages.portfolio.index', compact('portfolios'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -36,6 +38,8 @@ class PortfolioController extends Controller
         try {
             $categories = $this->categories();
             return view('backend.pages.portfolio.create', compact('categories'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -48,9 +52,12 @@ class PortfolioController extends Controller
     {
         //
         try {
+            // Le prix peut être saisi avec des espaces (ex. "75 000 000")
+            $request->merge(['prix' => $request->filled('prix') ? preg_replace('/\D/', '', $request->prix) : null]);
+
             //validation
             $request->validate([
-                'image_principale' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+                'image_principale' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:1024',
                 'categorie' => 'required|string',
                 'libelle' => 'nullable|string',
                 'type' => 'nullable|string',
@@ -87,6 +94,8 @@ class PortfolioController extends Controller
             }
 
             return redirect()->route('portfolios.index')->with('success', 'Portfolio créé avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -111,6 +120,8 @@ class PortfolioController extends Controller
             $portfolio = Portfolio::findOrFail($id);
             $categories = $this->categories();
             return view('backend.pages.portfolio.edit', compact('portfolio', 'categories'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -124,6 +135,9 @@ class PortfolioController extends Controller
         //
         try {
             $portfolio = Portfolio::findOrFail($id);
+
+            // Le prix peut être saisi avec des espaces (ex. "75 000 000")
+            $request->merge(['prix' => $request->filled('prix') ? preg_replace('/\D/', '', $request->prix) : null]);
 
             //validation
             $request->validate([
@@ -184,6 +198,8 @@ class PortfolioController extends Controller
 
             return redirect()->route('portfolios.index')
                 ->with('success', 'Portfolio mis à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Une erreur est survenue: ' . $e->getMessage())
@@ -205,6 +221,8 @@ class PortfolioController extends Controller
             //supprimer le portfolio
             $portfolio->delete();
             return response()->json(['success' => true, 'message' => 'Portfolio supprimé avec succès.', 'status' => 200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }

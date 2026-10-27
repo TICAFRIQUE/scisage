@@ -17,6 +17,8 @@ class ActualiteController extends Controller
         try {
             $actualites = Actualite::orderBy('created_at', 'desc')->get();
             return view('backend.pages.actualite.index', compact('actualites'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -30,6 +32,8 @@ class ActualiteController extends Controller
         //
         try {
             return view('backend.pages.actualite.create');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return back()->with('error', 'Une erreur est survenue lors du chargement du formulaire.' . $e->getMessage());
         }
@@ -68,6 +72,8 @@ class ActualiteController extends Controller
             }
 
             return redirect()->route('actualites.index')->with('success', 'Actualite créée avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la création de l\'actualite: ' . $e->getMessage());
         }
@@ -90,6 +96,8 @@ class ActualiteController extends Controller
         try {
             $actualite = Actualite::findOrFail($id);
             return view('backend.pages.actualite.edit', compact('actualite'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return back()->with('error', 'Une erreur est survenue lors du chargement du formulaire d\'édition.' . $e->getMessage());
         }
@@ -149,6 +157,8 @@ class ActualiteController extends Controller
             }
 
             return redirect()->route('actualites.index')->with('success', 'Actualite mise à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la mise à jour de l\'actualite: ' . $e->getMessage());
         }
@@ -168,6 +178,8 @@ class ActualiteController extends Controller
             //supprimer le actualite
             $actualite->delete();
             return response()->json(['success' => true, 'message' => 'Actualité supprimée avec succès.' , 'status' => 200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }

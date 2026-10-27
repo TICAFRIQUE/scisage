@@ -1,3 +1,19 @@
+@php
+    $logoUrl = $parametre?->getFirstMediaUrl('logo_header') ?: asset('images/logo.png');
+    $siteName = 'SCI SAGES';
+    $phones = collect([$parametre?->contact1, $parametre?->contact2, $parametre?->contact3])->filter()->values();
+    $emails = collect([$parametre?->email1, $parametre?->email2])->filter()->values();
+    $telHref = fn($n) => 'tel:' . preg_replace('/[^0-9+]/', '', $n);
+    $whatsappNumber = preg_replace('/[^0-9]/', '', $parametre?->contact3 ?: $parametre?->contact1 ?: '');
+    $socials = collect([
+        'facebook-f' => $parametre?->lien_facebook,
+        'instagram' => $parametre?->lien_instagram,
+        'linkedin-in' => $parametre?->lien_linkedin,
+        'tiktok' => $parametre?->lien_tiktok,
+        'x-twitter' => $parametre?->lien_twitter,
+    ])->filter();
+    $isHome = request()->routeIs('page.accueil');
+@endphp
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -5,1300 +21,447 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <!-- SEO Meta Tags -->
-    <title>@yield('title', 'SCI SAGE - Promoteur Immobilier - Maisons de Rêve en Côte d\'Ivoire')</title>
-    <meta name="description" content="@yield('description', 'SCI SAGE, promoteur immobilier de référence en Côte d\'Ivoire. Construction et vente de maisons modernes de rêve. Projets clé en main, sur mesure et catalogue de villas luxueuses à Abidjan.')">
-    <meta name="keywords" content="@yield('keywords', 'promoteur immobilier, construction maison, vente maison, immobilier Côte d\'Ivoire, villa moderne, maison de rêve, construction sur mesure, SCI SAGE, immobilier Abidjan, logement Côte d\'Ivoire')">
-    <meta name="author" content="SCI SAGE">
+    <meta name="theme-color" content="#2A1A0B">
+
+    <!-- SEO -->
+    <title>@yield('title', 'SCI SAGES - Promoteur immobilier & construction en Côte d\'Ivoire')</title>
+    <meta name="description" content="@yield('description', 'SCI SAGES, promoteur immobilier et constructeur en Côte d\'Ivoire. Maisons clé en main, construction sur mesure et suivi de chantier à Abidjan.')">
+    <meta name="keywords" content="@yield('keywords', 'promoteur immobilier, construction maison, BTP Côte d\'Ivoire, villa moderne, construction sur mesure, SCI SAGES, immobilier Abidjan')">
+    <meta name="author" content="SCI SAGES">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="@yield('canonical', url()->current())">
-    
-    <!-- Open Graph / Facebook -->
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('og_title', 'SCI SAGE - Promoteur Immobilier - Maisons de Rêve')">
-    <meta property="og:description" content="@yield('og_description', 'SCI SAGE, promoteur immobilier de référence en Côte d\'Ivoire. Construction et vente de maisons modernes.')">
+    <meta property="og:title" content="@yield('og_title', 'SCI SAGES - Promoteur immobilier & construction')">
+    <meta property="og:description" content="@yield('og_description', 'Construction et vente de maisons modernes en Côte d\'Ivoire.')">
     <meta property="og:image" content="@yield('og_image', asset('images/logo.png'))">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="SCI SAGES">
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="{{ url()->current() }}">
-    <meta name="twitter:title" content="@yield('twitter_title', 'SCI SAGE - Promoteur Immobilier')">
-    <meta name="twitter:description" content="@yield('twitter_description', 'Construction et vente de maisons modernes de rêve en Côte d\'Ivoire')">
+    <meta name="twitter:title" content="@yield('twitter_title', 'SCI SAGES - Promoteur immobilier')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'Construction et vente de maisons modernes en Côte d\'Ivoire')">
     <meta name="twitter:image" content="@yield('twitter_image', asset('images/logo.png'))">
-    
+
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}">
-    
-    <!-- Structured Data / Schema.org -->
+
+    <!-- Schema.org -->
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "RealEstateAgent",
-        "name": "SCI SAGE",
-        "description": "Promoteur immobilier spécialisé dans la construction et la vente de maisons modernes en Côte d'Ivoire",
-        "url": "{{ url('/') }}",
-        "logo": "{{ asset('images/logo.png') }}",
-        "address": {
-            "@type": "PostalAddress",
-            "addressCountry": "CI",
-            "addressLocality": "Abidjan"
-        },
-        "sameAs": [
-            "@yield('social_facebook', '#')",
-            "@yield('social_twitter', '#')",
-            "@yield('social_instagram', '#')",
-            "@yield('social_linkedin', '#')"
-        ]
-    }
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'HomeAndConstructionBusiness',
+        'name' => 'SCI SAGES',
+        'description' => 'Promoteur immobilier et constructeur de maisons modernes en Côte d\'Ivoire',
+        'url' => url('/'),
+        'logo' => asset('images/logo.png'),
+        'telephone' => $phones->first(),
+        'email' => $emails->first(),
+        'address' => ['@type' => 'PostalAddress', 'addressCountry' => 'CI', 'addressLocality' => 'Abidjan', 'streetAddress' => $parametre?->localisation],
+        'sameAs' => $socials->values()->all(),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
     </script>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- AOS CSS -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <!-- Connexions anticipées (réduit la latence des ressources externes) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload" as="image" href="{{ $logoUrl }}">
+
+    <!-- Polices : Barlow (corps) + Barlow Condensed (titres, style chantier) -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
 
     @stack('styles')
 
-    <style>
-        :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #FFD700;
-            --dark-brown: #3C2415;
-            --light-brown: #8B4513;
-            --white: #FFFFFF;
-            --light-gray: #F8F9FA;
-            --dark-gray: #6C757D;
-            --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
-            --gradient-brown: linear-gradient(135deg, #3C2415 0%, #8B4513 100%);
-            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.1);
-            --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.15);
-            --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: var(--dark-brown);
-            line-height: 1.6;
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* ================== CORRECTIONS RESPONSIVE MOBILE ================== */
-        /* Forcer le viewport à respecter la largeur mobile */
-        html {
-            overflow-x: hidden;
-        }
-
-        /* body {
-            overflow-x: hidden;
-            width: 100%;
-            max-width: 100vw;
-        } */
-
-
-        p {
-            margin-bottom: 0.5rem !important;
-        }
-
-        .section-padding {
-            padding: 100px 0;
-        }
-
-        /* ================== LOADER ================== */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-brown);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease-out;
-        }
-
-        .loader-content {
-            text-align: center;
-            color: var(--white);
-        }
-
-        .loader-logo {
-            font-size: 4rem;
-            font-weight: 800;
-            color: var(--secondary-gold);
-            margin-bottom: 1rem;
-            animation: logoScale 1.5s ease-in-out infinite alternate;
-        }
-
-        .loader-tagline {
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease-out 0.3s both;
-        }
-
-        .loader-spinner {
-            width: 60px;
-            height: 60px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top: 3px solid var(--primary-gold);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes logoScale {
-            from {
-                transform: scale(1);
-            }
-
-            to {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        body.loading {
-            overflow: hidden;
-        }
-
-        .main-content {
-            opacity: 0;
-            transition: opacity 0.6s ease-in;
-        }
-
-        .main-content.loaded {
-            opacity: 1;
-        }
-
-        #loader.hide {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* ================== HEADER ================== */
-        .navbar {
-            background: rgba(60, 36, 21, 0.95);
-            backdrop-filter: blur(15px);
-            padding: 0.5rem 1rem;
-            /* Réduire le padding du menu */
-            transition: all 0.4s ease;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .navbar-brand {
-            font-weight: 800;
-            font-size: 2rem;
-            color: var(--secondary-gold);
-            text-decoration: none;
-        }
-
-        .navbar-nav .nav-link {
-            color: var(--white);
-            font-weight: 500;
-            margin: 0 1rem;
-            transition: all 0.3s ease;
-            position: relative;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-        }
-
-        .navbar-nav .nav-link::before {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 50%;
-            background: var(--primary-gold);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: var(--primary-gold);
-        }
-
-        .navbar-nav .nav-link:hover::before {
-            width: 100%;
-        }
-
-        .btn-request {
-            background: var(--gradient-gold);
-            border: none;
-            color: var(--dark-brown);
-            padding: 0.8rem 2rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 50px;
-            transition: all 0.4s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-request:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-medium);
-            color: var(--dark-brown);
-        }
-
-
-        /* ================== DROPDOWN MENU ================== */
-        .navbar-nav .dropdown-menu {
-            background: rgba(60, 36, 21, 0.98);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 15px;
-            padding: 1rem;
-            margin-top: 0.5rem;
-            box-shadow: var(--shadow-medium);
-            min-width: 250px;
-        }
-
-        .navbar-nav .dropdown-item {
-            color: var(--white);
-            padding: 0.8rem 1.2rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-        }
-
-        .navbar-nav .dropdown-item:hover {
-            background: var(--gradient-gold);
-            color: var(--dark-brown);
-            transform: translateX(5px);
-        }
-
-        .navbar-nav .dropdown-item i {
-            color: var(--primary-gold);
-            width: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .navbar-nav .dropdown-item:hover i {
-            color: var(--dark-brown);
-            transform: scale(1.2);
-        }
-
-        .dropdown-divider {
-            border-color: rgba(212, 175, 55, 0.3);
-            margin: 0.8rem 0;
-        }
-
-        /* Style pour le lien dropdown toggle */
-        .navbar-nav .dropdown-toggle::after {
-            border-top: 0.4em solid;
-            border-right: 0.3em solid transparent;
-            border-bottom: 0;
-            border-left: 0.3em solid transparent;
-            margin-left: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .navbar-nav .dropdown-toggle[aria-expanded="true"]::after {
-            transform: rotate(180deg);
-        }
-
-        .navbar-nav .dropdown-toggle:hover {
-            color: var(--primary-gold);
-        }
-
-        /* Animation d'apparition du menu */
-        .dropdown-menu {
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            display: block !important;
-            visibility: hidden;
-        }
-
-        .dropdown-menu.show {
-            opacity: 1;
-            transform: translateY(0);
-            visibility: visible;
-        }
-
-        /* ================== HERO SECTION ================== */
-
-
-        /* ================== STATISTICS SECTION ================== */
-
-        /* ================== PRESENTATION SECTION ================== */
-
-
-        /* ================== CHRONOGRAMME SECTION ================== */
-
-
-        /* ================== FAQ SECTION ================== */
-
-
-        /* ================== CONTACT SECTION ================== */
-        .btn-primary-custom {
-            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
-            border: none;
-            color: var(--dark-brown);
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            width: 100%;
-            margin-top: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary-custom::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--white), rgba(255, 255, 255, 0.9));
-            transition: left 0.4s ease;
-            z-index: -1;
-        }
-
-        .btn-primary-custom:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.6);
-            color: var(--primary-gold);
-        }
-
-        .btn-primary-custom:hover::before {
-            left: 0;
-        }
-
-        .btn-primary-custom:active {
-            transform: translateY(-1px);
-        }
-
-        .btn-primary-custom i {
-            font-size: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .btn-primary-custom:hover i {
-            transform: translateX(3px);
-        }
-
-
-        /* ================== FOOTER ================== */
-        .footer {
-            background: var(--dark-brown);
-            color: var(--white);
-            padding: 80px 0 40px;
-        }
-
-        .footer-logo {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--secondary-gold);
-            margin-bottom: 1rem;
-        }
-
-        .footer-description {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #ccc;
-            margin-bottom: 2rem;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--dark-brown);
-            font-size: 1.2rem;
-            transition: all 0.4s ease;
-            text-decoration: none;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .footer-section h5 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--secondary-gold);
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary-gold);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            margin-top: 3rem;
-            text-align: center;
-            color: #888;
-        }
-
-        /* ================== RESPONSIVE ================== */
-        @media (max-width: 768px) {
-            .hero-section h1 {
-                font-size: 2rem;
-                /* Réduire la taille du texte */
-            }
-
-            .navbar-brand img {
-                width: 50px;
-                /* Réduire la taille du logo */
-            }
-
-            .navbar-nav .nav-link {
-                font-size: 0.85rem;
-                /* Réduire la taille des liens */
-                margin: 0.5rem 0;
-                /* Espacement vertical */
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-                /* Réduire les titres */
-            }
-
-            .footer-logo {
-                font-size: 2rem;
-                /* Réduire la taille du logo dans le footer */
-            }
-
-            .footer-description {
-                font-size: 1rem;
-                /* Réduire la taille du texte */
-            }
-
-            .footer-links a {
-                font-size: 0.9rem;
-                /* Réduire la taille des liens */
-            }
-
-            .contact-item {
-                flex-direction: column;
-                /* Aligner les éléments verticalement */
-                text-align: center;
-            }
-
-            .contact-icon {
-                margin: 0 auto 1rem auto;
-                /* Centrer l'icône */
-            }
-        }
-
-        /* Fix for grids on small screens */
-        @media (max-width: 576px) {
-
-            .values-grid,
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-                /* Une seule colonne sur les petits écrans */
-            }
-
-            .portfolio-card {
-                margin-bottom: 1rem;
-                /* Ajouter un espacement entre les cartes */
-            }
-        }
-
-        /* ================== INFORMATIONS DE CONTACT ================== */
-        .contact-info {
-            padding: 2rem 0;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 3rem;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .contact-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(212, 175, 55, 0.4);
-        }
-
-        .contact-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1.5rem;
-            flex-shrink: 0;
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
-        }
-
-        .contact-icon i {
-            font-size: 1.4rem;
-            color: var(--dark-brown);
-        }
-
-        .contact-details h5 {
-            color: var(--secondary-gold);
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .contact-details p {
-            color: var(--white);
-            margin: 0;
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        /* Section title pour contact */
-        .contact-section .section-title {
-            color: var(--white);
-            margin-bottom: 3rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .contact-section .section-subtitle {
-            color: var(--secondary-gold);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        /* ================== RESPONSIVE CONTACT INFO ================== */
-        @media (max-width: 991px) {
-            .contact-info {
-                margin-top: 3rem;
-                padding: 1.5rem 0;
-            }
-
-            .contact-item {
-                margin-bottom: 2rem;
-                padding: 1.2rem;
-            }
-
-            .contact-icon {
-                width: 50px;
-                height: 50px;
-                margin-right: 1rem;
-            }
-
-            .contact-icon i {
-                font-size: 1.2rem;
-            }
-
-            .contact-details h5 {
-                font-size: 1.1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .contact-info {
-                margin-top: 2rem;
-            }
-
-            .contact-item {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                margin-bottom: 1.5rem;
-                padding: 1.5rem;
-                border-radius: 15px;
-            }
-
-            .contact-icon {
-                margin: 0 0 1rem 0;
-                width: 50px;
-                height: 50px;
-            }
-
-            .contact-icon i {
-                font-size: 1.2rem;
-            }
-
-            .contact-details {
-                width: 100%;
-            }
-
-            .contact-details h5 {
-                font-size: 1.1rem;
-                margin-bottom: 0.5rem;
-                text-align: center;
-            }
-
-            .contact-details p {
-                font-size: 0.95rem;
-                line-height: 1.6;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .contact-item {
-                padding: 1.2rem;
-            }
-
-            .contact-icon {
-                width: 45px;
-                height: 45px;
-            }
-
-            .contact-icon i {
-                font-size: 1.1rem;
-            }
-
-            .contact-details h5 {
-                font-size: 1rem;
-            }
-
-            .contact-details p {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* ================== ANIMATIONS ================== */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        /* Forcer les images et grilles à s'adapter */
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .row {
-            margin-left: 0;
-            margin-right: 0;
-        }
-
-        /* ================== CORRECTION DROPDOWN MOBILE UNIQUEMENT ================== */
-        @media (max-width: 991px) {
-            .navbar {
-                padding: 0.5rem 1rem;
-            }
-
-            .navbar-brand img {
-                width: 50px;
-                height: auto;
-            }
-
-            .navbar-toggler {
-                border: none;
-                padding: 0.25rem 0.5rem;
-                font-size: 1.1rem;
-                color: var(--white);
-            }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
-            }
-
-            .navbar-collapse {
-                margin-top: 1rem;
-            }
-
-            .navbar-nav .nav-link {
-                padding: 0.8rem 1rem;
-                margin: 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                text-align: center;
-            }
-
-            .navbar-nav .nav-link::before {
-                display: none;
-                /* Supprimer l'underline sur mobile */
-            }
-
-            /* DROPDOWN MENU MOBILE - CORRECTION */
-            .navbar-nav .dropdown-menu {
-                position: static !important;
-                float: none !important;
-                width: 100% !important;
-                margin-top: 0 !important;
-                background: rgba(40, 25, 15, 0.95) !important;
-                border: none !important;
-                border-radius: 0 !important;
-                box-shadow: none !important;
-                padding: 0 !important;
-                transform: none !important;
-                backdrop-filter: none !important;
-                min-width: auto !important;
-
-                /* Masquer par défaut */
-                display: none !important;
-                opacity: 0 !important;
-                visibility: hidden !important;
-            }
-
-            /* Quand le dropdown est ouvert */
-            .navbar-nav .dropdown-menu.show {
-                display: block !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-            }
-
-            .navbar-nav .dropdown-item {
-                padding: 1rem 1.5rem;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                text-align: center;
-                background: transparent;
-                color: var(--white);
-                transition: all 0.3s ease;
-                margin: 0;
-                border-radius: 0;
-                display: block;
-                width: 100%;
-            }
-
-            .navbar-nav .dropdown-item:hover {
-                background: rgba(212, 175, 55, 0.2) !important;
-                color: var(--primary-gold) !important;
-                transform: none !important;
-            }
-
-            .navbar-nav .dropdown-item:last-child {
-                border-bottom: none;
-            }
-
-            .navbar-nav .dropdown-item i {
-                color: var(--primary-gold);
-                width: 20px;
-                margin-right: 10px;
-                text-align: center;
-            }
-
-            .navbar-nav .dropdown-item:hover i {
-                color: var(--dark-brown);
-            }
-
-            .dropdown-divider {
-                display: none;
-            }
-
-            /* Style pour la flèche du dropdown sur mobile */
-            .navbar-nav .dropdown-toggle::after {
-                transition: transform 0.3s ease;
-            }
-
-            .navbar-nav .dropdown-toggle[aria-expanded="true"]::after {
-                transform: rotate(180deg);
-            }
-        }
-
-        @media (max-width: 576px) {
-            .navbar-nav .dropdown-item {
-                padding: 0.8rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .navbar-nav .dropdown-item i {
-                margin-right: 8px;
-            }
-        }
-
-        /* ================== LIENS ACTIFS ================== */
-        .navbar-nav .nav-link.active {
-            color: var(--primary-gold) !important;
-            font-weight: 600;
-        }
-
-        .navbar-nav .nav-link.active::before {
-            width: 100% !important;
-            background: var(--secondary-gold);
-        }
-
-        /* Pour les dropdowns actifs */
-        .navbar-nav .dropdown-toggle.active {
-            color: var(--primary-gold) !important;
-            font-weight: 600;
-        }
-
-        .navbar-nav .dropdown-toggle.active::before {
-            width: 100% !important;
-            background: var(--secondary-gold);
-        }
-
-        .navbar-nav .dropdown-item.active {
-            background: var(--gradient-gold) !important;
-            color: var(--dark-brown) !important;
-            transform: translateX(5px);
-        }
-
-        /* Mobile responsive pour les liens actifs */
-        @media (max-width: 991px) {
-            .navbar-nav .nav-link.active {
-                background: rgba(212, 175, 55, 0.2);
-                border-left: 3px solid var(--primary-gold);
-            }
-
-            .navbar-nav .dropdown-item.active {
-                background: rgba(212, 175, 55, 0.3) !important;
-                border-left: 3px solid var(--secondary-gold);
-            }
-        }
-    </style>
+    <!-- Charte SCI SAGES (chargée en dernier pour harmoniser toutes les pages) -->
+    <link rel="stylesheet" href="{{ asset('front/css/sage-btp.css') }}?v={{ @filemtime(public_path('front/css/sage-btp.css')) }}">
+    <link rel="stylesheet" href="{{ asset('front/css/sage-sections.css') }}?v={{ @filemtime(public_path('front/css/sage-sections.css')) }}">
 </head>
 
-<body class="loading">
-    <!-- Loader -->
-    <div id="loader">
-        <div class="loader-content">
-            <div class="loader-logo">
-                <img src="{{ $parametre?->getFirstMediaUrl('logo_header') ?? URL::asset('images/logo.png') }}"
-                    alt="SCI SAGES" width="100">
-            </div>
-            <div class="loader-tagline">Votre maison de rêve vous attend</div>
-            <div class="loader-spinner"></div>
+<body class="{{ $isHome ? 'is-home' : 'is-inner' }}">
+    <a href="#main" class="skip-link">Aller au contenu</a>
+    <div class="page-progress is-loading" id="pageProgress" aria-hidden="true"></div>
+
+    <!-- Barre d'informations -->
+    <div class="topbar d-none d-lg-flex">
+        <div class="container">
+            <ul class="topbar-info">
+                @if ($parametre?->localisation)
+                    <li><i class="fas fa-location-dot"></i> {{ Str::limit($parametre->localisation, 48) }}</li>
+                @endif
+                @if ($phones->isNotEmpty())
+                    <li><i class="fas fa-phone"></i> <a href="{{ $telHref($phones->first()) }}">{{ $phones->first() }}</a></li>
+                @endif
+                @if ($emails->isNotEmpty())
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:{{ $emails->first() }}">{{ $emails->first() }}</a></li>
+                @endif
+                <li><i class="fas fa-clock"></i> Lun - Ven : 8h - 18h · Sam : 9h - 16h</li>
+            </ul>
+            @if ($socials->isNotEmpty())
+                <div class="topbar-social">
+                    @foreach ($socials as $icon => $link)
+                        <a href="{{ $link }}" target="_blank" rel="noopener" aria-label="{{ ucfirst(explode('-', $icon)[0]) }}"><i class="fab fa-{{ $icon }}"></i></a>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
 
-    <!-- Contenu principal -->
-    <div class="main-content">
-        <!-- Header -->
-        <!-- Header -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <!-- En-tête -->
+    <header class="site-header" id="siteHeader">
+        <nav class="navbar navbar-expand-lg" aria-label="Navigation principale">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('page.accueil') }}">
-                    <img src="{{ $parametre?->getFirstMediaUrl('logo_header') ?? URL::asset('images/logo.png') }}"
-                        alt="SCI SAGES" width="70">
+                <a class="navbar-brand" href="{{ route('page.accueil') }}" aria-label="{{ $siteName }} - Accueil">
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" width="78" height="62" fetchpriority="high">
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
+                <button class="nav-burger d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainNav"
+                    aria-controls="mainNav" aria-expanded="false" aria-label="Ouvrir le menu">
+                    <span></span><span></span><span></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="mainNav" aria-labelledby="mainNavLabel">
+                    <div class="offcanvas-header">
+                        <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="offcanvas-logo" id="mainNavLabel">
+                        <button type="button" class="offcanvas-close" data-bs-dismiss="offcanvas" aria-label="Fermer le menu">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
 
-                        <!-- ACCUEIL (scroll + active auto) -->
-                        <li class="nav-item">
-                             <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/#accueil') }}"
-                                data-section="accueil">Accueil</a>
-                        </li>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav ms-lg-auto align-items-lg-center">
+                            <li class="nav-item">
+                                <a class="nav-link {{ $isHome ? 'active' : '' }}" href="{{ route('page.accueil') }}"
+                                    data-section="accueil">Accueil</a>
+                            </li>
 
-                        <!-- PRESENTATION (page séparée) -->
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('page.apropos') ? 'active' : '' }}"
-                                href="{{ route('page.apropos') }}">
-                                Présentation
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('page.apropos') ? 'active' : '' }}"
+                                    href="{{ route('page.apropos') }}">Présentation</a>
+                            </li>
 
-                        <!-- ACTIVITES -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ request()->routeIs('page.activites*') ? 'active' : '' }}"
-                                href="#" id="activitesDropdown" role="button" data-bs-toggle="dropdown">
-                                Activités
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="activitesDropdown">
-                                @foreach ($activites as $activite)
+                            @if ($activites && $activites->count())
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle {{ request()->routeIs('page.activites', 'page.souscrire.catalogue', 'page.construction.personnalisee') ? 'active' : '' }}"
+                                        href="#" id="activitesDropdown" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Activités <i class="fas fa-chevron-down nav-caret"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="activitesDropdown">
+                                        @foreach ($activites as $activite)
+                                            <li>
+                                                <a class="dropdown-item {{ request()->routeIs('page.activites') && request()->route('slug') == $activite->slug ? 'active' : '' }}"
+                                                    href="{{ route('page.activites', $activite->slug) }}">
+                                                    <i class="{{ $activite->icone ?: 'fas fa-hard-hat' }}"></i>
+                                                    <span>{{ $activite->libelle }}</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endif
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {{ request()->routeIs('page.portfolios*') ? 'active' : '' }}"
+                                    href="#" id="portfolioDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Portfolio <i class="fas fa-chevron-down nav-caret"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="portfolioDropdown">
+                                    @foreach ([
+                                        'realisations' => ['fas fa-house-circle-check', 'Réalisations'],
+                                        'conceptions' => ['fas fa-compass-drafting', 'Conceptions'],
+                                        'projets' => ['fas fa-building', 'Projets en cours'],
+                                    ] as $key => [$icon, $label])
+                                        <li>
+                                            <a class="dropdown-item {{ request()->get('categorie') == $key ? 'active' : '' }}"
+                                                href="{{ route('page.portfolios', ['categorie' => $key]) }}">
+                                                <i class="{{ $icon }}"></i><span>{{ $label }}</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                    <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item 
-                                      {{ request()->routeIs('page.activites') && request()->route('slug') == $activite->slug ? 'active' : '' }}"
-                                            href="{{ route('page.activites', $activite->slug) }}">
-                                            <i class="{{ $activite->icone }} me-2"></i>{{ $activite->libelle }}
+                                        <a class="dropdown-item {{ request()->routeIs('page.portfolios') && in_array(request()->get('categorie', 'tous'), ['tous']) ? 'active' : '' }}"
+                                            href="{{ route('page.portfolios', ['categorie' => 'tous']) }}">
+                                            <i class="fas fa-table-cells-large"></i><span>Tout voir</span>
                                         </a>
                                     </li>
-                                @endforeach
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
 
-                        <!-- PORTFOLIO -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ request()->routeIs('page.portfolios*') ? 'active' : '' }}"
-                                href="#" id="portfolioDropdown" role="button" data-bs-toggle="dropdown">
-                                Portfolio
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="portfolioDropdown">
-                                <li><a class="dropdown-item {{ request()->get('categorie') == 'realisations' ? 'active' : '' }}"
-                                        href="{{ route('page.portfolios', ['categorie' => 'realisations']) }}">
-                                        <i class="fas fa-home me-2"></i>Réalisations
-                                    </a></li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('page.actualites*') ? 'active' : '' }}"
+                                    href="{{ route('page.actualites') }}">Actualités</a>
+                            </li>
 
-                                <li><a class="dropdown-item {{ request()->get('categorie') == 'conceptions' ? 'active' : '' }}"
-                                        href="{{ route('page.portfolios', ['categorie' => 'conceptions']) }}">
-                                        <i class="fas fa-drafting-compass me-2"></i>Conceptions
-                                    </a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('page.accueil') }}#contact" data-section="contact">Contact</a>
+                            </li>
+                        </ul>
 
-                                <li><a class="dropdown-item {{ request()->get('categorie') == 'projets' ? 'active' : '' }}"
-                                        href="{{ route('page.portfolios', ['categorie' => 'projets']) }}">
-                                        <i class="fas fa-building me-2"></i>Projets
-                                    </a></li>
+                        <a href="{{ route('page.accueil') }}#form-projet" class="btn-sage btn-sage--sm header-cta">
+                            <i class="fas fa-helmet-safety"></i> Démarrer mon projet
+                        </a>
 
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-
-                                <li><a class="dropdown-item {{ request()->get('categorie') == 'tous' ? 'active' : '' }}"
-                                        href="{{ route('page.portfolios', ['categorie' => 'tous']) }}">
-                                        <i class="fas fa-th-large me-2"></i>Tout voir
-                                    </a></li>
-                            </ul>
-                        </li>
-
-                        <!-- ACTUALITES -->
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('page.actualites*') ? 'active' : '' }}"
-                                href="{{ route('page.actualites') }}">
-                                Actualités
-                            </a>
-                        </li>
-
-                        <!-- CONTACT (scroll + active auto) -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="/#contact" data-section="contact">
-                                Contact
-                            </a>
-                        </li>
-
-                    </ul>
+                        <div class="offcanvas-contact d-lg-none">
+                            @foreach ($phones->take(2) as $phone)
+                                <a href="{{ $telHref($phone) }}"><i class="fas fa-phone"></i> {{ $phone }}</a>
+                            @endforeach
+                            @if ($emails->isNotEmpty())
+                                <a href="mailto:{{ $emails->first() }}"><i class="fas fa-envelope"></i> {{ $emails->first() }}</a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
+    </header>
 
-
-
-
-        <!--yield content-->
+    <main id="main">
         @yield('content')
+    </main>
 
+    @include('frontend.components.boutton_flottant', ['whatsappNumber' => $whatsappNumber])
 
-        <!-- Section Contact -->
-
-
-
-        @include('frontend.components.boutton_flottant')
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 mb-4">
-                        <div class="footer-logo">SCI SAGES</div>
-                        <p class="footer-description">Promoteur immobilier de confiance, nous réalisons vos rêves
-                            immobiliers avec passion et expertise.</p>
+    <!-- Pied de page -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-6">
+                    <a href="{{ route('page.accueil') }}" class="footer-brand d-inline-block">
+                        <img src="{{ $logoUrl }}" alt="{{ $siteName }}" width="90" height="72" loading="lazy">
+                    </a>
+                    <p class="footer-about">
+                        {{ $parametre?->description_projet ? Str::limit(strip_tags($parametre->description_projet), 180) : 'Promoteur immobilier et constructeur en Côte d\'Ivoire. De la conception à la remise des clés, nous bâtissons des maisons solides, modernes et durables.' }}
+                    </p>
+                    @if ($socials->isNotEmpty())
                         <div class="social-icons">
-                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            @foreach ($socials as $icon => $link)
+                                <a href="{{ $link }}" class="social-icon" target="_blank" rel="noopener"
+                                    aria-label="{{ ucfirst(explode('-', $icon)[0]) }}"><i class="fab fa-{{ $icon }}"></i></a>
+                            @endforeach
                         </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-6 mb-4">
-                        <div class="footer-section">
-                            <h5>Services</h5>
-                            <ul class="footer-links">
-                                @foreach ($activites as $item)
-                                    <li><a href="#projets">{{ $item->libelle }}</a></li>
-                                @endforeach
-
-                                <li><a href="#contact">Conseil immobilier</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-6 mb-4">
-                        <div class="footer-section">
-                            <h5>Entreprise</h5>
-                            <ul class="footer-links">
-                                <li><a href="#presentation">À propos</a></li>
-                                <li><a href="#valeurs">Nos valeurs</a></li>
-                                <li><a href="#projets">Nos projets</a></li>
-                                <li><a href="#form-projet">Démarrer votre projet</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 mb-4">
-                        <div class="footer-section">
-                            <h5>Newsletter</h5>
-                            <p>Restez informé de nos derniers projets et actualités</p>
-                            <form class="newsletter-form">
-                                <div class="input-group">
-                                    <input type="email" class="form-control" placeholder="Votre email">
-                                    <button type="submit" class="btn-primary-custom">S'abonner</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    @endif
                 </div>
 
-                <div class="footer-bottom">
-                    <p>&copy; 2025 SCI SAGES. Tous droits réservés. | <a href="#" style="color: #ccc;">Mentions
-                            légales</a> | <a href="#" style="color: #ccc;">Politique de confidentialité</a> |
-                        Développé par <a href="https://www.ticafrique.com/" target="_blank"
-                            style="color: #ccc;">TICAFRIQUE.COM</a>.</p>
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h2 class="footer-title">Navigation</h2>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('page.accueil') }}">Accueil</a></li>
+                        <li><a href="{{ route('page.apropos') }}">Présentation</a></li>
+                        <li><a href="{{ route('page.portfolios') }}">Portfolio</a></li>
+                        <li><a href="{{ route('page.actualites') }}">Actualités</a></li>
+                        <li><a href="{{ route('page.accueil') }}#faq">FAQ</a></li>
+                        <li><a href="{{ route('page.accueil') }}#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-6">
+                    <h2 class="footer-title">Nos activités</h2>
+                    <ul class="footer-links">
+                        @foreach ($activites ?? [] as $item)
+                            <li><a href="{{ route('page.activites', $item->slug) }}">{{ $item->libelle }}</a></li>
+                        @endforeach
+                        <li><a href="{{ route('page.souscrire.catalogue') }}">Catalogue de maisons</a></li>
+                        <li><a href="{{ route('page.construction.personnalisee') }}">Construction sur mesure</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h2 class="footer-title">Contact</h2>
+                    <ul class="footer-contact">
+                        @if ($parametre?->localisation)
+                            <li><i class="fas fa-location-dot"></i><span>{{ $parametre->localisation }}</span></li>
+                        @endif
+                        @if ($phones->isNotEmpty())
+                            <li><i class="fas fa-phone"></i>
+                                <span>
+                                    @foreach ($phones as $phone)
+                                        <a href="{{ $telHref($phone) }}">{{ $phone }}</a>@if (!$loop->last)<br>@endif
+                                    @endforeach
+                                </span>
+                            </li>
+                        @endif
+                        @foreach ($emails as $email)
+                            <li><i class="fas fa-envelope"></i><a href="mailto:{{ $email }}">{{ $email }}</a></li>
+                        @endforeach
+                        <li><i class="fas fa-clock"></i><span>Lun - Ven : 8h - 18h<br>Sam : 9h - 16h</span></li>
+                    </ul>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="mb-0">&copy; {{ date('Y') }} {{ $siteName }}. Tous droits réservés.</p>
+                <nav aria-label="Liens légaux">
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Confidentialité</a>
+                    <span>Réalisé par <a href="https://www.ticafrique.com/" target="_blank" rel="noopener">TICAFRIQUE</a></span>
+                </nav>
+            </div>
+        </div>
+    </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
 
-    @stack('scripts')
     <script>
-        // Loader
         (function() {
-            document.body.classList.add('loading');
+            'use strict';
 
-            let loaderTimer = setTimeout(function() {
-                hideLoader();
-            }, 2000);
+            // ---- Barre de progression (remplace le loader plein écran) ----
+            const progress = document.getElementById('pageProgress');
+            const endProgress = () => {
+                if (!progress) return;
+                progress.classList.remove('is-loading');
+                progress.classList.add('is-done');
+            };
+            if (document.readyState === 'complete') endProgress();
+            else window.addEventListener('load', endProgress);
+            setTimeout(endProgress, 4000);
 
-            window.addEventListener('load', function() {
-                clearTimeout(loaderTimer);
-                hideLoader();
-            });
+            // ---- Animations au scroll ----
+            if (window.AOS) {
+                AOS.init({
+                    duration: 650,
+                    easing: 'ease-out-cubic',
+                    once: true,
+                    offset: 60,
+                    disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                });
+            }
 
-            function hideLoader() {
-                const loader = document.getElementById('loader');
-                const mainContent = document.querySelector('.main-content');
-
-                if (loader) {
-                    loader.classList.add('hide');
-                    document.body.classList.remove('loading');
-
-                    if (mainContent) {
-                        mainContent.classList.add('loaded');
-                    }
-
-                    setTimeout(function() {
-                        loader.style.display = 'none';
-                    }, 800);
+            // ---- En-tête : ombre au scroll ----
+            const header = document.getElementById('siteHeader');
+            const backToTop = document.getElementById('backToTop');
+            let ticking = false;
+            const onScroll = () => {
+                const y = window.scrollY;
+                header && header.classList.toggle('is-scrolled', y > 20);
+                backToTop && backToTop.classList.toggle('show', y > 500);
+                ticking = false;
+            };
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(onScroll);
+                    ticking = true;
                 }
-            }
-        })();
+            }, { passive: true });
+            onScroll();
 
-        // Initialize AOS
-        AOS.init({
-            duration: 500,
-            once: true,
-            offset: 100
-        });
+            backToTop && backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        // Navbar scroll effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(60, 36, 21, 0.98)';
-                navbar.style.padding = '0.8rem 0';
-            } else {
-                navbar.style.background = 'rgba(60, 36, 21, 0.95)';
-                navbar.style.padding = '1rem 0';
-            }
-        });
-
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+            // ---- Menu mobile ----
+            const nav = document.getElementById('mainNav');
+            const burger = document.querySelector('.nav-burger');
+            if (nav && burger) {
+                nav.addEventListener('show.bs.offcanvas', () => burger.setAttribute('aria-expanded', 'true'));
+                nav.addEventListener('hide.bs.offcanvas', () => burger.setAttribute('aria-expanded', 'false'));
+                // Ferme le tiroir quand on suit un lien
+                nav.querySelectorAll('a[href]:not([data-bs-toggle])').forEach(link => {
+                    link.addEventListener('click', () => {
+                        const oc = window.bootstrap && bootstrap.Offcanvas.getInstance(nav);
+                        oc && oc.hide();
                     });
+                });
+            }
+
+            // ---- Défilement fluide pour les ancres internes de la page ----
+            document.querySelectorAll('a[href*="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const url = new URL(this.href, window.location.href);
+                    if (url.pathname !== window.location.pathname || !url.hash || url.hash === '#') return;
+                    const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+                    if (!target) return;
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    history.replaceState(null, '', url.hash);
+                });
+            });
+
+            // ---- Lien actif selon la section visible (accueil) ----
+            const sectionLinks = document.querySelectorAll('.site-header .nav-link[data-section]');
+            if (document.body.classList.contains('is-home') && 'IntersectionObserver' in window) {
+                const allLinks = document.querySelectorAll('.site-header .navbar-nav > .nav-item > .nav-link');
+                const spy = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) return;
+                        const id = entry.target.id;
+                        const match = [...sectionLinks].find(l => l.dataset.section === id);
+                        if (!match) return;
+                        allLinks.forEach(l => l.classList.remove('active'));
+                        match.classList.add('active');
+                    });
+                }, { rootMargin: '-45% 0px -50% 0px' });
+                ['accueil', 'contact'].forEach(id => {
+                    const el = document.getElementById(id);
+                    el && spy.observe(el);
+                });
+            }
+
+            // ---- Images : fondu une fois chargées ----
+            document.querySelectorAll('img.img-fade').forEach(img => {
+                const done = () => {
+                    img.classList.add('is-loaded');
+                    img.closest('.img-frame')?.classList.add('is-ready');
+                };
+                if (img.complete && img.naturalWidth) done();
+                else {
+                    img.addEventListener('load', done, { once: true });
+                    img.addEventListener('error', done, { once: true });
                 }
             });
-        });
 
-
-
-        // Form submissions
-        document.getElementById('heroForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Merci pour votre demande ! Nous vous contacterons très prochainement.');
-        });
-
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
-        });
-
-        // Fade in animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in-up').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Mobile menu close
-        // document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-        //     link.addEventListener('click', () => {
-        //         const navbarCollapse = document.querySelector('.navbar-collapse');
-        //         if (navbarCollapse.classList.contains('show')) {
-        //             const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
-        //                 toggle: false
-        //             });
-        //             bsCollapse.hide();
-        //         }
-        //     });
-        // });
-
-        const sections = document.querySelectorAll("section[id]");
-        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
-
-        function activateLink() {
-            let scrollY = window.scrollY + 150;
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                const sectionId = section.getAttribute("id");
-
-                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-                    navLinks.forEach(link => {
-                        link.classList.remove("active");
-                        if (link.dataset.section === sectionId) {
-                            link.classList.add("active");
+            // ---- Compteurs animés (.js-counter[data-target]) ----
+            const counters = document.querySelectorAll('.js-counter');
+            if (counters.length && 'IntersectionObserver' in window) {
+                const animate = el => {
+                    const raw = String(el.dataset.target || '');
+                    const m = raw.match(/^(\D*)([\d\s.,]+)(.*)$/);
+                    if (!m) { el.textContent = raw; return; }
+                    const target = parseInt(m[2].replace(/\D/g, ''), 10) || 0;
+                    // Une année (ex. 2014) s'affiche telle quelle, sans animation
+                    if (target >= 1900 && target <= 2100) { el.textContent = raw; return; }
+                    const start = performance.now();
+                    const duration = 1600;
+                    const step = now => {
+                        const p = Math.min((now - start) / duration, 1);
+                        const eased = 1 - Math.pow(1 - p, 3);
+                        el.textContent = m[1] + Math.round(target * eased) + m[3];
+                        if (p < 1) requestAnimationFrame(step);
+                    };
+                    requestAnimationFrame(step);
+                };
+                const io = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animate(entry.target);
+                            io.unobserve(entry.target);
                         }
                     });
-                }
-            });
-        }
-
-        if (window.location.pathname === "/") {
-            window.addEventListener("scroll", activateLink);
-            activateLink();
-        }
+                }, { threshold: .4 });
+                counters.forEach(c => io.observe(c));
+            }
+        })();
     </script>
+
+    @stack('scripts')
 </body>
 
 </html>

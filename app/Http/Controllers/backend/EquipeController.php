@@ -17,6 +17,8 @@ class EquipeController extends Controller
         try {
             $equipes = Equipe::all();
             return view('backend.pages.equipe.index', compact('equipes'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -30,6 +32,8 @@ class EquipeController extends Controller
         //
         try {
             return view('backend.pages.equipe.create');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -65,6 +69,8 @@ class EquipeController extends Controller
             }
 
             return redirect()->route('equipes.index')->with('success', 'Equipe créée avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erreur lors de la création de l\'équipe : ' . $e->getMessage());
         }
@@ -87,6 +93,8 @@ class EquipeController extends Controller
         try {
             $equipe = Equipe::findOrFail($id);
             return view('backend.pages.equipe.edit', compact('equipe'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -123,6 +131,8 @@ class EquipeController extends Controller
             }
 
             return redirect()->route('equipes.index')->with('success', 'Equipe mise à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erreur lors de la mise à jour de l\'équipe : ' . $e->getMessage());
         }
@@ -139,6 +149,8 @@ class EquipeController extends Controller
             $equipe->clearMediaCollection('image');
             $equipe->delete();
             return response()->json(['success' => true, 'message' => 'Équipe supprimée avec succès.', 'status' => 200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erreur lors de la suppression de l\'équipe : ' . $e->getMessage());
         }

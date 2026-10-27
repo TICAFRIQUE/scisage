@@ -199,7 +199,6 @@
     <script>
         $(document).ready(function() {
             // Animation d'entrée
-            $('.card').hide().fadeIn(500);
         });
 
         // Gestion de l'aperçu de la nouvelle image

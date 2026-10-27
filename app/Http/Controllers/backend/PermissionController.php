@@ -81,6 +81,8 @@ class PermissionController extends Controller
 
             return redirect()->route('permission.index');
             return back();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
 
             return $e->getMessage();
@@ -107,6 +109,8 @@ class PermissionController extends Controller
 
             // Retourner la vue avec les données
             return view('backend.pages.role-permission.edit', compact('role', 'modules_with_permissions'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             Alert::error('Erreur', 'Une erreur est survenue lors de la récupération du rôle.');
             return back();
@@ -150,6 +154,8 @@ class PermissionController extends Controller
 
             Alert::success('Opération réussie', 'Le rôle et ses permissions ont été mis à jour avec succès.');
             return redirect()->route('permission.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             Alert::error('Erreur', 'Une erreur est survenue lors de la mise à jour du rôle et de ses permissions.');
             return back()->withInput();
@@ -185,6 +191,8 @@ class PermissionController extends Controller
 
             // Alert::success('Opération réussie', 'Le rôle et ses permissions ont été supprimés avec succès.');
             // return redirect()->route('permission.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             Alert::error('Erreur', 'Une erreur est survenue lors de la suppression du rôle et de ses permissions.');
             return back();

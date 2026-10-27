@@ -18,6 +18,8 @@ class ProjetController extends Controller
         try {
             $projets = Projet::all();
             return view('backend.pages.projet.index', compact('projets'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             # code...
         }
@@ -35,6 +37,8 @@ class ProjetController extends Controller
             $activites = Activite::active()->get();
 
             return view('backend.pages.projet.create', compact('activites'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             # code...
         }
@@ -81,6 +85,8 @@ class ProjetController extends Controller
             }
 
             return redirect()->route('projets.index')->with('success', 'Projet créé avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             # code...
         }
@@ -106,6 +112,8 @@ class ProjetController extends Controller
             //recuperer les activites actives
             $activites = Activite::active()->get();
             return view('backend.pages.projet.edit', compact('projet', 'activites'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue, veuillez réessayer plus tard.' . $e->getMessage());
         }
@@ -156,6 +164,8 @@ class ProjetController extends Controller
             }
 
             return redirect()->route('projets.index')->with('success', 'Projet mis à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             # code...
         }
@@ -172,6 +182,8 @@ class ProjetController extends Controller
             $projet->clearMediaCollection('image');
             $projet->delete();
             return response()->json(['success' => true, 'message' => 'Projet supprimé avec succès.' ,'status'=>200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             # code...
         }

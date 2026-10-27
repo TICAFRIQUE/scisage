@@ -17,6 +17,8 @@ class AproposController extends Controller
         try {
             $apropos = Apropos::all();
             return view('backend.pages.apropos.index', compact('apropos'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -30,6 +32,8 @@ class AproposController extends Controller
         //
         try {
             return view('backend.pages.apropos.create');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -57,6 +61,8 @@ class AproposController extends Controller
             }
 
             return redirect()->route('apropos.index')->with('success', 'Apropos créé avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -79,6 +85,8 @@ class AproposController extends Controller
         try {
             $apropos = Apropos::findOrFail($id);
             return view('backend.pages.apropos.edit', compact('apropos'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -107,6 +115,8 @@ class AproposController extends Controller
             }
 
             return redirect()->route('apropos.index')->with('success', 'Apropos mis à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }
@@ -123,6 +133,8 @@ class AproposController extends Controller
             $apropos->clearMediaCollection('image');
             $apropos->delete();
             return response()->json(['success' => 'Apropos supprimé avec succès.', 'status' => 200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
         }

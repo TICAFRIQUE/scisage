@@ -57,6 +57,8 @@ class StatistiqueController extends Controller
             }
 
             return redirect()->route('statistiques.index')->with('success', 'Statistique créée avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erreur lors de la création de la statistique : ' . $e->getMessage());
         }
@@ -79,6 +81,8 @@ class StatistiqueController extends Controller
         try {
             $statistique = Statistique::findOrFail($id);
             return view('backend.pages.statistique.edit', compact('statistique'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erreur lors de la récupération de la statistique : ' . $e->getMessage());
         }
@@ -117,6 +121,8 @@ class StatistiqueController extends Controller
             }
 
             return redirect()->route('statistiques.index')->with('success', 'Statistique mise à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erreur lors de la mise à jour de la statistique : ' . $e->getMessage());
         }
@@ -134,6 +140,8 @@ class StatistiqueController extends Controller
             $statistique->clearMediaCollection('image');
             $statistique->delete();
             return response()->json(['success' => 'Statistique supprimée avec succès.', 'status' => 200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return response()->json(['error' => 'Erreur lors de la suppression de la statistique : ' . $e->getMessage(), 'status' => 500]);
         }

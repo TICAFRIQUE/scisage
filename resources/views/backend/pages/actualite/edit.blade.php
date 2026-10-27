@@ -228,7 +228,6 @@
 
         $(document).ready(function() {
             // Animation d'entrée
-            $('.card').hide().fadeIn(500);
 
             // Initialiser le compteur avec les images existantes + nouvelles
             updateImageCount();

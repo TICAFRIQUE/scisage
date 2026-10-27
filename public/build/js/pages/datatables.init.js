@@ -67,21 +67,29 @@ function initializeTables() {
     let buttonsDataTables = new DataTable("#buttons-datatables", {
         dom: "Bfrtip",
         responsive: true,
+        pageLength: 25,
+        order: [],
+        // Traduction intégrée (évite un appel réseau et l'affichage en anglais au chargement)
         language: {
-            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json",
+            search: "",
+            searchPlaceholder: "Rechercher…",
+            info: "_START_ à _END_ sur _TOTAL_ éléments",
+            infoEmpty: "Aucun élément",
+            infoFiltered: "(filtré sur _MAX_)",
+            lengthMenu: "Afficher _MENU_ éléments",
+            zeroRecords: "Aucun résultat",
+            emptyTable: "Aucune donnée pour le moment",
+            loadingRecords: "Chargement…",
+            processing: "Traitement…",
+            paginate: { first: "«", last: "»", next: "›", previous: "‹" },
+            buttons: { copyTitle: "Copié", copySuccess: { _: "%d lignes copiées", 1: "1 ligne copiée" } },
         },
         buttons: [
-            { extend: "copy", text: '<i class="bi bi-clipboard"></i> Copier' },
-            { extend: "csv", text: '<i class="bi bi-filetype-csv"></i> CSV' },
-            {
-                extend: "excel",
-                text: '<i class="bi bi-file-earmark-excel"></i> Excel',
-            },
-            {
-                extend: "pdf",
-                text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
-            },
-            { extend: "print", text: '<i class="bi bi-printer"></i> Imprimer' },
+            { extend: "copy", text: '<i class="ri-file-copy-line"></i> Copier' },
+            { extend: "csv", text: '<i class="ri-file-text-line"></i> CSV' },
+            { extend: "excel", text: '<i class="ri-file-excel-2-line"></i> Excel' },
+            { extend: "pdf", text: '<i class="ri-file-pdf-line"></i> PDF' },
+            { extend: "print", text: '<i class="ri-printer-line"></i> Imprimer' },
         ],
         drawCallback: function (settings) {
             // Utilise la variable globale routeName définie dans la page

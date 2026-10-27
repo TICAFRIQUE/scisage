@@ -35,7 +35,7 @@ class PageController extends Controller
 
             //activites 
             $activites = Activite::with('media')->with('projets', function ($query) {
-                $query->orderBy('etape', 'asc');
+                $query->orderByRaw('CAST(etape AS UNSIGNED) ASC');
             })->active()->get();
 
             //statistique
@@ -50,7 +50,10 @@ class PageController extends Controller
             //faqs
             $faqs = Faq::active()->ordre()->get();
 
-            return view('frontend.index', compact('banniere', 'activites', 'statistiques', 'apropos', 'engagements', 'faqs'));
+            // dernières réalisations (aperçu du portfolio)
+            $realisations = Portfolio::with('media')->active()->latest()->take(6)->get();
+
+            return view('frontend.index', compact('banniere', 'activites', 'statistiques', 'apropos', 'engagements', 'faqs', 'realisations'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
         }
@@ -80,7 +83,7 @@ class PageController extends Controller
     {
         try {
             $activite = Activite::with('media')->with('projets', function ($query) {
-                $query->orderBy('etape', 'asc');
+                $query->orderByRaw('CAST(etape AS UNSIGNED) ASC');
             })->active()->where('slug', $slug)->first();
             if (!$activite) {
                 return redirect()->route('page.accueil')->with('error', 'Activité non trouvée.');

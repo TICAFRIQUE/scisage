@@ -155,7 +155,6 @@
 
         $(document).ready(function() {
             // Animation d'entrée
-            $('.card').hide().fadeIn(500);
         });
 
         // Fonction pour afficher une erreur sous un champ

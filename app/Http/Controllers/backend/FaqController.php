@@ -17,6 +17,8 @@ class FaqController extends Controller
         try {
             $faqs = Faq::ordre()->get();
             return view('backend.pages.faq.index', compact('faqs'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue, veuillez réessayer plus tard.' . $e->getMessage());
         }
@@ -30,6 +32,8 @@ class FaqController extends Controller
         //
         try {
             return view('backend.pages.faq.create');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue, veuillez réessayer plus tard.' . $e->getMessage());
         }
@@ -59,6 +63,8 @@ class FaqController extends Controller
             ]);
 
             return redirect()->route('faqs.index')->with('success', 'FAQ créée avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue, veuillez réessayer plus tard.' . $e->getMessage());
         }
@@ -81,6 +87,8 @@ class FaqController extends Controller
         try {
             $faq = Faq::findOrFail($id);
             return view('backend.pages.faq.edit', compact('faq'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue, veuillez réessayer plus tard.' . $e->getMessage());
         }
@@ -111,6 +119,8 @@ class FaqController extends Controller
             ]);
 
             return redirect()->route('faqs.index')->with('success', 'FAQ mise à jour avec succès.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue, veuillez réessayer plus tard.' . $e->getMessage());
         }
@@ -126,6 +136,8 @@ class FaqController extends Controller
             $faq = Faq::findOrFail($id);
             $faq->delete();
             return response()->json(['success' => true, 'message' => 'FAQ supprimée avec succès.' , 'status' => 200]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Une erreur est survenue, veuillez réessayer plus tard.' . $e->getMessage());
         }

@@ -86,8 +86,8 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="prix" class="form-label">Prix (FCFA)</label>
-                                            <input type="number" name="prix" class="form-control" id="prix"
-                                                placeholder="Ex: 75000000" value="{{ old('prix', $portfolio->prix) }}"
+                                            <input type="text" inputmode="numeric" autocomplete="off" name="prix" class="form-control" id="prix"
+                                                placeholder="Ex : 75 000 000" value="{{ old('prix', $portfolio->prix ? number_format($portfolio->prix, 0, ',', ' ') : '') }}"
                                                 min="0">
                                             @error('prix')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -311,7 +311,6 @@
 
         $(document).ready(function() {
             // Animation d'entrée
-            $('.card').hide().fadeIn(500);
 
             // Initialiser le compteur avec les images existantes + nouvelles
             updateImageCount();
