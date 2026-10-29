@@ -24,7 +24,7 @@
 
                 @include('backend.components.alertMessage')
 
-                <form action="{{ route('admin.login') }}" method="post" class="needs-validation" novalidate>
+                <form action="{{ route('admin.login.submit') }}" method="post" class="needs-validation" novalidate>
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">Adresse email</label>
