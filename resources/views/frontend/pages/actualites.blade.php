@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Actualités - Chantiers, livraisons et nouveautés | SCI SAGES')
+@section('title', 'Actualités - Chantiers, livraisons et nouveautés' . ($actualites->currentPage() > 1 ? ' - Page ' . $actualites->currentPage() : '') . ' | SCI SAGES')
 @section('description', 'Suivez l\'actualité de SCI SAGES : avancement des chantiers, livraisons de maisons, nouveaux programmes immobiliers et conseils en Côte d\'Ivoire.')
 @section('og_title', 'Actualités SCI SAGES')
 

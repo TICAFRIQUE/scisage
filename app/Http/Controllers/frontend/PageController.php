@@ -81,17 +81,12 @@ class PageController extends Controller
 
     public function activites($slug)
     {
-        try {
-            $activite = Activite::with('media')->with('projets', function ($query) {
-                $query->orderByRaw('CAST(etape AS UNSIGNED) ASC');
-            })->active()->where('slug', $slug)->first();
-            if (!$activite) {
-                return redirect()->route('page.accueil')->with('error', 'Activité non trouvée.');
-            }
-            return view('frontend.pages.activites', compact('activite'));
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
-        }
+        // Activité inexistante ou désactivée : vraie page 404
+        $activite = Activite::with('media')->with('projets', function ($query) {
+            $query->orderByRaw('CAST(etape AS UNSIGNED) ASC');
+        })->active()->where('slug', $slug)->firstOrFail();
+
+        return view('frontend.pages.activites', compact('activite'));
     }
 
     public function portfolios(Request $request)
@@ -180,15 +175,10 @@ class PageController extends Controller
     public function actualiteDetails($slug)
     {
 
-        try {
-            $actualite = Actualite::with('media')->active()->where('slug', $slug)->first();
-            if (!$actualite) {
-                return redirect()->route('page.actualites')->with('error', 'Actualité non trouvée.');
-            }
-            return view('frontend.pages.actualite-details', compact('actualite'));
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Une erreur est survenue: ' . $th->getMessage());
-        }
+        // Actualité inexistante ou dépubliée : vraie page 404
+        $actualite = Actualite::with('media')->active()->where('slug', $slug)->firstOrFail();
+
+        return view('frontend.pages.actualite-details', compact('actualite'));
     }
 
 

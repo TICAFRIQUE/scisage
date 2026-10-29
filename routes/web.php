@@ -5,6 +5,7 @@ use App\Http\Controllers\backend\FaqController;
 use App\Http\Controllers\backend\RoleController;
 use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\frontend\PageController;
+use App\Http\Controllers\frontend\SeoController;
 use App\Http\Controllers\backend\EquipeController;
 use App\Http\Controllers\backend\ModuleController;
 use App\Http\Controllers\backend\ProjetController;
@@ -21,9 +22,17 @@ use App\Http\Controllers\backend\StatistiqueController;
 
 
 
+// Page introuvable : vrai code 404 (indispensable pour le référencement)
 Route::fallback(function () {
-    return view('backend.utility.auth-404-basic');
+    if (request()->is('admin', 'admin/*')) {
+        return response()->view('backend.utility.auth-404-basic', [], 404);
+    }
+    return response()->view('errors.404', [], 404);
 });
+
+// SEO : plan du site et consignes pour les robots, générés automatiquement
+Route::get('sitemap.xml', [SeoController::class, 'sitemap'])->name('seo.sitemap');
+Route::get('robots.txt', [SeoController::class, 'robots'])->name('seo.robots');
 
 Route::middleware(['admin'])->prefix('admin')->group(function () {
 
@@ -220,6 +229,3 @@ Route::controller(PageController::class)->group(function () {
 });
 
 
-route::get('/welcome', function () {
-    return view('web');
-});

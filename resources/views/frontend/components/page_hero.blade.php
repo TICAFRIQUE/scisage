@@ -4,7 +4,28 @@
 --}}
 @php
     $heroImage = $image ?? null;
+
+    // Fil d'Ariane pour Google (BreadcrumbList) : Accueil > ... > page courante
+    $schemaItems = [['name' => 'Accueil', 'url' => route('page.accueil')]];
+    foreach ($crumbs ?? [] as $crumbLabel => $crumbUrl) {
+        $schemaItems[] = ['name' => $crumbLabel, 'url' => $crumbUrl ?: url()->current()];
+    }
 @endphp
+
+@push('schema')
+    <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => collect($schemaItems)->values()->map(fn($item, $i) => [
+            '@type' => 'ListItem',
+            'position' => $i + 1,
+            'name' => $item['name'],
+            'item' => $item['url'],
+        ])->all(),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
+    </script>
+@endpush
 <section class="page-hero">
     @if ($heroImage)
         <div class="page-hero__bg" aria-hidden="true">

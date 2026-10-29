@@ -1,4 +1,18 @@
 @if ($faqs && $faqs->count())
+    @push('schema')
+        <script type="application/ld+json">
+        {!! json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => $faqs->map(fn($f) => [
+                '@type' => 'Question',
+                'name' => $f->question,
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => strip_tags($f->reponse)],
+            ])->values()->all(),
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
+        </script>
+    @endpush
+
     <section id="faq" class="section faq">
         <div class="container">
             <div class="faq__grid">

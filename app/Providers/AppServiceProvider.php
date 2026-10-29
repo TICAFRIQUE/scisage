@@ -26,7 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Le plan du site (sitemap.xml) est régénéré dès qu'un contenu public change dans l'admin
+        foreach ([\App\Models\Portfolio::class, \App\Models\Actualite::class, Activite::class] as $model) {
+            $model::saved(fn () => \Illuminate\Support\Facades\Cache::forget('seo.sitemap'));
+            $model::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('seo.sitemap'));
+        }
 
         \Illuminate\Pagination\Paginator::useBootstrapFive();
 

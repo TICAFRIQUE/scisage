@@ -14,6 +14,29 @@
 @section('og_title', $actualite->libelle)
 @section('og_description', Str::limit($plain, 150))
 @section('og_image', $mainImage ?: asset('images/logo.png'))
+@section('og_type', 'article')
+
+@push('schema')
+    <script type="application/ld+json">
+    {!! json_encode(array_filter([
+        '@context' => 'https://schema.org',
+        '@type' => 'NewsArticle',
+        'headline' => Str::limit($actualite->libelle, 110, ''),
+        'description' => Str::limit($plain, 200),
+        'image' => $allImages->take(3)->values()->all() ?: null,
+        'datePublished' => $actualite->created_at?->toAtomString(),
+        'dateModified' => ($actualite->updated_at ?? $actualite->created_at)?->toAtomString(),
+        'inLanguage' => 'fr',
+        'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => url()->current()],
+        'author' => ['@type' => 'Organization', 'name' => 'SCI SAGES', 'url' => url('/')],
+        'publisher' => [
+            '@type' => 'Organization',
+            'name' => 'SCI SAGES',
+            'logo' => ['@type' => 'ImageObject', 'url' => asset('images/logo.png')],
+        ],
+    ]), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
+    </script>
+@endpush
 
 @section('content')
     @include('frontend.components.page_hero', [

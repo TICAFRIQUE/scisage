@@ -1,11 +1,5 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Portfolio - Nos réalisations et projets immobiliers | SCI SAGES')
-@section('description', 'Découvrez les réalisations de SCI SAGES : villas, duplex et appartements construits en Côte d\'Ivoire, conceptions architecturales et projets en cours.')
-@section('keywords', 'portfolio immobilier, réalisations maisons, villas construites, projets immobiliers Abidjan, références SCI SAGES')
-@section('og_title', 'Portfolio - Les réalisations SCI SAGES')
-@section('og_description', 'Villas, duplex et projets immobiliers réalisés par SCI SAGES en Côte d\'Ivoire.')
-
 @php
     $labels = ['tous' => 'Tous', 'realisations' => 'Réalisations', 'conceptions' => 'Conceptions', 'projets' => 'Projets en cours'];
     $label = fn($c) => $labels[$c] ?? ucfirst($c);
@@ -14,7 +8,31 @@
         'conceptions' => 'Études et plans architecturaux conçus par nos équipes.',
         'projets' => 'Chantiers en cours de construction et programmes à venir.',
     ];
+
+    // Titre et description uniques par catégorie et par page (évite le contenu dupliqué pour Google)
+    $seoTitles = [
+        'realisations' => 'Nos réalisations : villas et maisons livrées en Côte d\'Ivoire',
+        'conceptions' => 'Conceptions architecturales et plans de maisons',
+        'projets' => 'Projets immobiliers en cours à Abidjan',
+    ];
+    $seoDescriptions = [
+        'realisations' => 'Villas, duplex et maisons construits et livrés par SCI SAGES à Abidjan et en Côte d\'Ivoire. Photos et caractéristiques de nos chantiers terminés.',
+        'conceptions' => 'Découvrez les plans et conceptions architecturales de SCI SAGES : villas modernes, duplex et résidences pensés par nos équipes.',
+        'projets' => 'Suivez les programmes immobiliers en cours de construction par SCI SAGES en Côte d\'Ivoire : résidences, villas et appartements.',
+    ];
+    $pageSuffix = $portfolios->currentPage() > 1 ? ' - Page ' . $portfolios->currentPage() : '';
+    $seoTitle = ($seoTitles[$categorie] ?? 'Portfolio : nos réalisations et projets immobiliers') . $pageSuffix . ' | SCI SAGES';
+    $seoDescription = $seoDescriptions[$categorie] ?? 'Découvrez les réalisations de SCI SAGES : villas, duplex et appartements construits en Côte d\'Ivoire, conceptions architecturales et projets en cours.';
 @endphp
+
+@section('title', $seoTitle)
+@section('description', $seoDescription)
+@section('keywords', 'portfolio immobilier, réalisations maisons, villas construites, projets immobiliers Abidjan, références SCI SAGES')
+@section('og_title', $seoTitle)
+@section('og_description', $seoDescription)
+@if ($portfolios->first()?->getFirstMediaUrl('image_principale'))
+    @section('og_image', $portfolios->first()->getFirstMediaUrl('image_principale'))
+@endif
 
 @section('content')
     @include('frontend.components.page_hero', [

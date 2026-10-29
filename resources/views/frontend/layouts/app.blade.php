@@ -13,6 +13,13 @@
         'x-twitter' => $parametre?->lien_twitter,
     ])->filter();
     $isHome = request()->routeIs('page.accueil');
+
+    // URL canonique : on garde seulement les paramètres qui changent vraiment le contenu
+    // (catégorie du portfolio, numéro de page), pour éviter les doublons dans Google.
+    $canonicalQuery = collect(request()->only(['categorie', 'page']))
+        ->reject(fn($v, $k) => ($k === 'categorie' && $v === 'tous') || ($k === 'page' && (int) $v <= 1) || $v === null || $v === '')
+        ->all();
+    $canonicalUrl = url()->current() . ($canonicalQuery ? '?' . http_build_query($canonicalQuery) : '');
 @endphp
 <!DOCTYPE html>
 <html lang="fr">
@@ -28,12 +35,13 @@
     <meta name="description" content="@yield('description', 'SCI SAGES, promoteur immobilier et constructeur en Côte d\'Ivoire. Maisons clé en main, construction sur mesure et suivi de chantier à Abidjan.')">
     <meta name="keywords" content="@yield('keywords', 'promoteur immobilier, construction maison, BTP Côte d\'Ivoire, villa moderne, construction sur mesure, SCI SAGES, immobilier Abidjan')">
     <meta name="author" content="SCI SAGES">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="@yield('canonical', url()->current())">
+    <meta name="robots" content="@yield('robots', 'index, follow, max-image-preview:large')">
+    <link rel="canonical" href="@yield('canonical', $canonicalUrl)">
+    <link rel="sitemap" type="application/xml" href="{{ route('seo.sitemap') }}">
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="@yield('canonical', $canonicalUrl)">
     <meta property="og:title" content="@yield('og_title', 'SCI SAGES - Promoteur immobilier & construction')">
     <meta property="og:description" content="@yield('og_description', 'Construction et vente de maisons modernes en Côte d\'Ivoire.')">
     <meta property="og:image" content="@yield('og_image', asset('images/logo.png'))">
@@ -52,21 +60,44 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}">
 
-    <!-- Schema.org -->
+    <!-- Données structurées (Schema.org) : fiche entreprise -->
     <script type="application/ld+json">
-    {!! json_encode([
+    {!! json_encode(array_filter([
         '@context' => 'https://schema.org',
         '@type' => 'HomeAndConstructionBusiness',
+        '@id' => url('/') . '#entreprise',
         'name' => 'SCI SAGES',
-        'description' => 'Promoteur immobilier et constructeur de maisons modernes en Côte d\'Ivoire',
+        'alternateName' => 'Société Civile Immobilière SAGES',
+        'slogan' => 'Nous bâtissons votre rêve',
+        'description' => 'Promoteur immobilier et constructeur de maisons modernes en Côte d\'Ivoire : maisons clé en main, construction sur mesure et suivi de chantier.',
         'url' => url('/'),
         'logo' => asset('images/logo.png'),
+        'image' => $logoUrl,
         'telephone' => $phones->first(),
         'email' => $emails->first(),
-        'address' => ['@type' => 'PostalAddress', 'addressCountry' => 'CI', 'addressLocality' => 'Abidjan', 'streetAddress' => $parametre?->localisation],
-        'sameAs' => $socials->values()->all(),
-    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
+        'address' => array_filter(['@type' => 'PostalAddress', 'addressCountry' => 'CI', 'addressLocality' => 'Abidjan', 'streetAddress' => $parametre?->localisation]),
+        'areaServed' => ['@type' => 'Country', 'name' => 'Côte d\'Ivoire'],
+        'foundingDate' => '2014',
+        'openingHoursSpecification' => [
+            ['@type' => 'OpeningHoursSpecification', 'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], 'opens' => '08:00', 'closes' => '18:00'],
+            ['@type' => 'OpeningHoursSpecification', 'dayOfWeek' => 'Saturday', 'opens' => '09:00', 'closes' => '16:00'],
+        ],
+        'sameAs' => $socials->values()->all() ?: null,
+    ]), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
     </script>
+    @if ($isHome)
+        <script type="application/ld+json">
+        {!! json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => 'SCI SAGES',
+            'url' => url('/'),
+            'inLanguage' => 'fr-CI',
+            'publisher' => ['@id' => url('/') . '#entreprise'],
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
+        </script>
+    @endif
+    @stack('schema')
 
     <!-- Connexions anticipées (réduit la latence des ressources externes) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -2119,3 +2119,63 @@
 .was-validated .form-select:invalid {
     border-color: #C0392B;
 }
+
+/* ---- Page 404 ---- */
+.error-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.error-page__inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.error-page__code {
+    font-family: var(--font-heading);
+    font-size: clamp(6rem, 22vw, 11rem);
+    font-weight: 800;
+    line-height: .9;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--gold-500);
+    margin-bottom: 1rem;
+}
+
+.error-page__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.error-page__links {
+    list-style: none;
+    padding: 0;
+    margin: 2.5rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+}
+
+.error-page__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .55rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(226, 196, 107, .3);
+    color: rgba(255, 255, 255, .8);
+    text-decoration: none;
+    transition: border-color .2s, color .2s;
+}
+
+.error-page__links a:hover {
+    border-color: var(--gold-400);
+    color: var(--gold-300);
+}
+
+.error-page__links i {
+    color: var(--gold-400);
+}
